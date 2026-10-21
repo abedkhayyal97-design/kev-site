@@ -14,7 +14,8 @@ KEV.cart={get(){try{return JSON.parse(store.get('kev-cart')||'[]').filter(i=>KEV
  add(s,p){const c=this.get(),f=c.find(i=>i.s===s&&i.p===p);f?f.q=Math.min(9,(f.q||1)+1):c.push({s,p,q:1});this.set(c)},
  total(){return this.get().reduce((t,i)=>t+KEV.pkg(i.s,i.p).price*i.q,0)}};
 KEV.badge=()=>{const n=KEV.cart.get().reduce((t,i)=>t+i.q,0);$$('.cartcount').forEach(b=>{b.textContent=n;b.hidden=!n})};
-KEV.exBadge=()=>C.examplePrices?`<span class="badge">${KEV.lang==='ar'?'سعر تجريبي':'Example price'}</span>`:'';
+KEV.exBadge=()=>'';
+KEV.filled=v=>!!v&&!/FILL_ME/.test(v);
 /* language */
 function setLang(l){KEV.lang=l;root.lang=l;root.dir=l==='ar'?'rtl':'ltr';store.set('kev-lang',l);
  const b=$('#lang');if(b){b.textContent=l==='ar'?'EN':'ع';b.setAttribute('aria-label',l==='ar'?'Switch to English':'التبديل إلى العربية')}
@@ -41,6 +42,6 @@ document.addEventListener('DOMContentLoaded',()=>{
  const st=store.get('kev-theme');if(st)setTheme(st);
  const sl=store.get('kev-lang');setLang(sl||(navigator.language&&!/^ar/i.test(navigator.language)?'en':'ar'));
  KEV.badge();
- $$('[data-email]').forEach(a=>{a.href='mailto:'+C.email;a.textContent=C.email});
+ $$('[data-email]').forEach(a=>{if(!KEV.filled(C.email)){(a.closest('.direct,p,li')||a).hidden=true;return}a.href='mailto:'+C.email;a.textContent=C.email});
 });
 })();

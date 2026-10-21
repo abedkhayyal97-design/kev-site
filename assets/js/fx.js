@@ -7,12 +7,12 @@ function features(){const el=document.getElementById('features');if(!el||!K)retu
  return `<div class="svc rv"><div class="box big"><span class="num">0${i+1}</span><h3>${esc(L(s.name))}</h3><p>${esc(L(s.desc))}</p>
  <ul class="pills" aria-label="${T('يتضمن','Includes')}">${p.items.map(x=>`<li>${esc(L(x))}</li>`).join('')}</ul>
  <div class="row"><a class="btn sm" href="service-${s.id}.html">${T('الباقات والأسعار','Packages & prices')}<span class="sr"> — ${esc(L(s.name))}</span></a><span class="badge">${T('يبدأ من','From')} $${min}</span></div></div>
- <div class="media" role="img" aria-label="${T('مكان عيّنة عمل','Work sample placeholder')}"><div>${T('مكان عيّنة عمل','Work sample placeholder')}<small>${T('استبدلها بصورة أو مقطع حقيقي','Replace with a real image or clip')}</small></div><svg viewBox="0 0 410 100" preserveAspectRatio="none" aria-hidden="true">${bars}</svg></div></div>`}).join('');observe()}
+ <div class="media" aria-hidden="true"><svg viewBox="0 0 410 100" preserveAspectRatio="none" aria-hidden="true">${bars}</svg></div></div>`}).join('');observe()}
 let counted=false;
 function stats(){const el=document.getElementById('stats');if(!el||!K)return;const S=K.C.stats||[];el.closest('section').hidden=!S.length;
  el.innerHTML=S.map((s,i)=>{const n=String(s.n),m=n.match(/^([^0-9]*)([0-9][0-9,.]*)(.*)$/);const pre=m?m[1]:'',num=m?m[2]:n,post=(m?m[3]:'');
   return `<div class="stat rv" style="--i:${i}"><b>${K.esc(pre)}<span class="cn" style="min-width:${num.length}ch" data-to="${K.esc(num)}">${K.esc(num)}</span>${K.esc(post)}<em>${K.esc(s.suf)}</em></b><span>${K.esc(K.L(s.l))}</span></div>`}).join('');
- const n=document.getElementById('stats-note');if(n)n.hidden=!K.C.statsAreExamples;observe();count(el)}
+ observe();count(el)}
 function count(box){const cs=[...box.querySelectorAll('.cn')];if(!cs.length||counted||still||!('IntersectionObserver' in window))return;
  cs.forEach(c=>c.textContent=fmt(c.dataset.to,0));
  const o=new IntersectionObserver(es=>{if(!es.some(e=>e.isIntersecting))return;o.disconnect();counted=true;const t0=performance.now(),D=1800;

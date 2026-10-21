@@ -5,5 +5,6 @@ $('#cf').addEventListener('submit',async e=>{e.preventDefault();const n=$('#kn')
  if(r.includes(false)){document.querySelector('#cf [aria-invalid="true"]').focus();return}
  const body=`${m.value.trim()}\n\n— ${n.value.trim()} <${em.value.trim()}>`;let ok=false;
  if(K.C.formEndpoint){try{ok=(await fetch(K.C.formEndpoint,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({email:em.value.trim(),name:n.value.trim(),message:body})})).ok}catch(x){}}
+ if(!ok&&!K.filled(K.C.email)){$('#k-st').textContent=T('تعذّر الإرسال حالياً. حاول لاحقاً.','Sending is unavailable right now. Please try again later.');return}
  if(!ok)location.href=`mailto:${K.C.email}?subject=${encodeURIComponent('KEV — '+n.value.trim())}&body=${encodeURIComponent(body)}`;
  $('#k-st').textContent=ok?T('أُرسلت رسالتك. شكراً!','Message sent. Thank you!'):T('فُتح تطبيق البريد، اضغط إرسال هناك.','Your mail app opened. Press send there.')})});

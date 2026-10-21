@@ -11,14 +11,12 @@ function summary(items){const t=items.reduce((a,i)=>a+K.pkg(i.s,i.p).price*i.q,0
  return {t,dep,html:`<table class="t"><caption class="sr">${T('ملخص الطلب','Order summary')}</caption><tbody>${items.map(i=>{const s=K.svc(i.s),p=K.pkg(i.s,i.p);return `<tr><td>${esc(L(s.name))} — ${esc(L(p.name))} × ${i.q}</td><td class="num">$${p.price*i.q}</td></tr>`}).join('')}</tbody>
  <tfoot><tr><th>${T('المجموع','Total')}</th><th class="num">${K.money(t)}</th></tr>${P.depositPercent<100?`<tr><th>${T('الدفعة المقدّمة الآن','Deposit due now')} (${P.depositPercent}%)</th><th class="num">${K.money(dep)}</th></tr>`:''}</tfoot></table>${K.exBadge()}`}}
 function step(n){$$('.steps li').forEach((li,i)=>i===n-1?li.setAttribute('aria-current','step'):li.removeAttribute('aria-current'));['#s1','#s2','#s3'].forEach((x,i)=>$(x).hidden=i!==n-1)}
-function cfgWarn(){const miss=[];if(!filled(C.email))miss.push('email');if(!filled(P.binancePayId))miss.push('binancePayId');if(!filled(P.usdtTrc20))miss.push('usdtTrc20');if(!filled(P.usdtBep20))miss.push('usdtBep20');
- $('#cfgwarn').hidden=!miss.length;$('#cfgmiss').textContent=miss.join(', ')}
-function render(){cfgWarn();const items=order&&order.stage>1?order.items:K.cart.get();
+function render(){const items=order&&order.stage>1?order.items:K.cart.get();
  if(!items.length){$('#co').innerHTML=`<div class="panel"><p>${T('سلتك فارغة.','Your cart is empty.')}</p><p><a class="btn" href="services.html">${T('تصفّح الخدمات','Browse services')}</a></p></div>`;return}
  const s=summary(items);$$('.sum').forEach(e=>e.innerHTML=s.html);
  if(order&&order.stage>=2){fillPay();step(order.stage)}else step(1)}
 function fillPay(){const m=METHODS[order.method];$('#p-ref').textContent=order.ref;$('#p-amt').textContent=K.money(order.dep);$('#p-method').textContent=L(m.n);$('#p-net').textContent=L(m.net);
- const v=m.v();$('#p-addr').textContent=filled(v)?v:T('⚠ لم تُضبط بعد في config.js','⚠ Not set yet in config.js');$('#p-qr').src=m.qr();$('#p-qr').alt=T('رمز QR لـ ','QR code for ')+L(m.n);
+ const v=m.v(),live=filled(v);order.later=!live;$('#p-live').hidden=!live;$('#p-later').hidden=live;$('#txwrap').hidden=!live;$$('.m-paid').forEach(e=>e.hidden=!live);$$('.m-later').forEach(e=>e.hidden=live);$('#p-addr').textContent=live?v:'';$('#f2btn').hidden=!C.formEndpoint&&!filled(C.email);$('#p-qr').src=m.qr();$('#p-qr').alt=T('رمز QR لـ ','QR code for ')+L(m.n);
  $('#p-idlabel').textContent=order.method==='binance'?T('Binance Pay ID','Binance Pay ID'):T('عنوان المحفظة','Wallet address');
  $('#txlabel').textContent=order.method==='binance'?T('رقم عملية Binance Pay (Order ID)','Binance Pay order ID'):T('رقم المعاملة TxID / Hash','Transaction ID (TxID / hash)')}
 function err(el,ok,msg){el.setAttribute('aria-invalid',!ok);$('#'+el.id+'-e').textContent=ok?'':msg;return ok}
@@ -31,13 +29,14 @@ document.addEventListener('DOMContentLoaded',()=>{
   store.set('kev-order',JSON.stringify(order));fillPay();step(2);$('#s2 h2').focus()});
  $('#back').addEventListener('click',()=>{order.stage=1;store.set('kev-order',JSON.stringify(order));order=null;store.set('kev-order','null');step(1)});
  $$('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{const t=$(b.dataset.copy).textContent;try{await navigator.clipboard.writeText(t);$('#copy-st').textContent=T('تم النسخ.','Copied.')}catch(e){$('#copy-st').textContent=T('انسخ يدوياً.','Copy manually.')}}));
- $('#f2').addEventListener('submit',async e=>{e.preventDefault();const tx=$('#tx');if(!err(tx,tx.value.trim().length>=8,T('أدخل رقم المعاملة كاملاً.','Enter the full transaction ID.'))){tx.focus();return}
-  order.txid=tx.value.trim();order.stage=3;const it=lines(order);
+ $('#f2').addEventListener('submit',async e=>{e.preventDefault();const tx=$('#tx');if(!order.later&&!err(tx,tx.value.trim().length>=8,T('أدخل رقم المعاملة كاملاً.','Enter the full transaction ID.'))){tx.focus();return}
+  order.txid=order.later?'(payment details requested)':tx.value.trim();order.stage=3;const it=lines(order);
   const body=[`Order: ${order.ref}`,`Date: ${order.date}`,`Name: ${order.name}`,`Email: ${order.email}`,`Contact: ${order.contact||'-'}`,'',...it.map(i=>`- ${i.name} x${i.q}: $${i.price}`),'',`Total: ${order.total} USDT`,`Paid now (deposit ${P.depositPercent}%): ${order.dep} USDT`,`Method: ${METHODS[order.method].n[1]}`,`TxID / Binance order ID: ${order.txid}`,'',`Notes: ${order.notes||'-'}`].join('\n');
   const st=$('#send-st');st.textContent=T('جارٍ الإرسال…','Sending…');let sent=false;
   if(C.formEndpoint){try{const r=await fetch(C.formEndpoint,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({_subject:`New order ${order.ref}`,email:order.email,ref:order.ref,message:body})});sent=r.ok}catch(x){}}
-  if(!sent){location.href=`mailto:${C.email}?subject=${encodeURIComponent('KEV order '+order.ref)}&body=${encodeURIComponent(body)}`}
-  store.set('kev-order',JSON.stringify(order));K.cart.set([]);$('#d-ref').textContent=order.ref;$('#d-mode').textContent=sent?T('أُرسل طلبك إلينا.','Your order was sent to us.'):T('فُتح تطبيق البريد برسالة جاهزة، اضغط «إرسال» هناك لإكمال الطلب.','Your mail app opened with the order ready. Press send there to complete it.');
+  if(!sent&&!filled(C.email)){st.textContent=T('تعذّر إرسال الطلب حالياً. حاول لاحقاً.','We couldn’t send your order right now. Please try again later.');return}
+  if(!sent&&filled(C.email)){location.href=`mailto:${C.email}?subject=${encodeURIComponent('KEV order '+order.ref)}&body=${encodeURIComponent(body)}`}
+  store.set('kev-order',JSON.stringify(order));K.cart.set([]);$('#d-ref').textContent=order.ref;$('#d-mode').textContent=sent?T('أُرسل طلبك إلينا.','Your order was sent to us.'):filled(C.email)?T('فُتح تطبيق البريد برسالة جاهزة، اضغط «إرسال» هناك لإكمال الطلب.','Your mail app opened with the order ready. Press send there to complete it.'):'';
   st.textContent='';step(3);$('#s3 h2').focus()});
  $('#neworder').addEventListener('click',()=>{store.set('kev-order','null');order=null;location.href='services.html'});
 });
