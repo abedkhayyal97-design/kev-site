@@ -75,19 +75,32 @@ main:focus{outline:none}
 .hero .wrap{position:relative;z-index:2;display:grid;gap:28px}
 .glow{position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(60% 50% at 80% 20%,rgba(37,139,255,.20),transparent 70%),radial-gradient(45% 45% at 10% 90%,rgba(18,217,232,.14),transparent 70%)}
 :root[dir="rtl"] .glow{transform:scaleX(-1)}
-.motif{position:absolute;inset-block:0;inset-inline-end:-4vw;width:min(56vw,760px);z-index:1;display:grid;place-items:center;opacity:.55;pointer-events:none}
-.motif svg{width:100%;height:auto;will-change:transform}
-.motif .bar-a{transform-origin:center;animation:echo 3.6s var(--ease) infinite alternate}
-.motif .bar-a:nth-child(2){animation-delay:.4s}.motif .bar-a:nth-child(3){animation-delay:.8s}.motif .bar-a:nth-child(4){animation-delay:1.2s}.motif .bar-a:nth-child(5){animation-delay:1.6s}
-@keyframes echo{from{transform:scaleY(.55)}to{transform:scaleY(1)}}
-.motif .ring{animation:spin 60s linear infinite;transform-origin:50% 50%}
-@keyframes spin{to{transform:rotate(360deg)}}
+.motif{position:absolute;inset-block:0;inset-inline-end:-9vw;width:min(54vw,740px);z-index:1;display:grid;place-items:center;opacity:.3;pointer-events:none}
+.motif svg{width:100%;height:auto;overflow:visible}
+.k-tilt{position:relative;width:70%;margin-inline-start:8%;transform:perspective(900px) rotateX(var(--ry,0deg)) rotateY(var(--rx,0deg));transition:transform .6s var(--ease)}
+.k-halo{position:absolute;inset:8% 10% 22%;border-radius:50%;background:radial-gradient(closest-side,rgba(18,217,232,.32),rgba(119,57,247,.16) 60%,transparent);filter:blur(30px);animation:kHalo 7s ease-in-out 2.6s infinite;opacity:.6}
+@keyframes kHalo{0%,100%{opacity:.45;transform:scale(.94)}50%{opacity:.85;transform:scale(1.04)}}
+.k-ring{stroke-dasharray:1;stroke-dashoffset:1;animation:kDraw 2s cubic-bezier(.65,0,.35,1) .2s forwards}
+@keyframes kDraw{to{stroke-dashoffset:0}}
+.k-blades path{opacity:0;transform-box:fill-box;transform-origin:center;animation:kIn .9s var(--ease) forwards}
+.k-blades path:nth-child(1){animation-delay:.9s}.k-blades path:nth-child(2){animation-delay:1s}.k-blades path:nth-child(3){animation-delay:1.1s}.k-blades path:nth-child(4){animation-delay:1.2s}.k-blades path:nth-child(5){animation-delay:1.3s}.k-blades path:nth-child(6){animation-delay:1.4s}
+@keyframes kIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+.k-let path{opacity:0;animation:kUp .9s var(--ease) forwards}
+.k-let path:nth-child(1){animation-delay:1.2s}.k-let path:nth-child(2){animation-delay:1.35s}.k-let path:nth-child(3){animation-delay:1.5s}
+@keyframes kUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.k-bar{transform-box:fill-box;transform-origin:center;transform:scaleY(0);animation:kRise .7s var(--ease) forwards,kLvl 2.8s ease-in-out infinite alternate}
+.k-b1{animation-delay:1.7s,2.4s}.k-b2{animation-delay:1.85s,2.9s;animation-duration:.7s,3.3s}.k-b3{animation-delay:2s,2.6s;animation-duration:.7s,2.4s}
+@keyframes kRise{to{transform:scaleY(1)}}
+@keyframes kLvl{0%{transform:scaleY(1)}100%{transform:scaleY(.62)}}
+.k-word{opacity:0;animation:kFade 1.2s ease 2.2s forwards}
+@keyframes kFade{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.motif *{animation:none!important;transition:none!important}.k-ring{stroke-dashoffset:0}.k-blades path,.k-let path,.k-word{opacity:1}.k-bar{transform:none}.k-tilt{transform:none}}
 .cue{position:absolute;bottom:26px;inset-inline-start:50%;transform:translateX(-50%);z-index:2;display:grid;justify-items:center;gap:8px;font:600 .72rem var(--f-en);letter-spacing:.24em;text-transform:uppercase;color:var(--mute);text-decoration:none}
 :root[dir="rtl"] .cue{transform:translateX(50%)}
 .cue i{width:24px;height:38px;border:1.5px solid currentColor;border-radius:14px;position:relative}
 .cue i::after{content:"";position:absolute;top:7px;left:50%;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:var(--acc);animation:cue 1.8s infinite}
 @keyframes cue{0%{opacity:0;transform:translateY(0)}40%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
-@media (max-width:760px){.motif{opacity:.22;width:120vw;inset-inline-end:-40vw}}
+@media (max-width:760px){.motif{opacity:.2;width:115vw;inset-inline-end:-38vw}}
 /* page hero (inner pages) */
 .page-hero{padding-block:clamp(130px,16vw,190px) clamp(56px,8vw,96px);overflow:hidden}
 .page-hero .wrap{position:relative;z-index:2;display:grid;gap:16px}

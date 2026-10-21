@@ -25,3 +25,5 @@ addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(onScrol
 document.addEventListener('kev:lang',()=>{features();stats();onScroll()});
 document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('[data-stagger]').forEach(g=>[...g.children].forEach((c,i)=>{c.classList.add('rv');c.style.setProperty('--i',i)}));observe();onScroll()});
 })();
+
+(()=>{const t=document.querySelector('.k-tilt');if(!t||matchMedia('(prefers-reduced-motion: reduce)').matches||!matchMedia('(pointer:fine)').matches)return;let r=0;addEventListener('pointermove',e=>{if(r)return;r=requestAnimationFrame(()=>{r=0;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;t.style.setProperty('--rx',(x*8).toFixed(2)+'deg');t.style.setProperty('--ry',(-y*6).toFixed(2)+'deg')})},{passive:true})})();

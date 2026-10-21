@@ -33,7 +33,12 @@ def hero(ar,en,par,pen,crumb=True):
     c=f'<p class="crumbs"><a href="index.html">{B("الرئيسية","Home")}</a> / {B(ar,en)}</p>' if crumb else ''
     return f'<div class="band page-hero dark" data-band="dark"><div class="glow" aria-hidden="true"></div><div class="wrap" data-stagger>{c}<h1>{B(ar,en)}<span class="hl">.</span></h1><p>{B(par,pen)}</p></div></div>'
 # ---------- home ----------
-MOTIF='<div class="motif" aria-hidden="true" data-parallax="-.12"><svg viewBox="0 0 600 600"><g class="ring" fill="none" stroke="#12D9E8" stroke-opacity=".35"><circle cx="300" cy="300" r="250" stroke-width="2" stroke-dasharray="2 14"/><circle cx="300" cy="300" r="200" stroke-width="1.5"/><path d="M300 50a250 250 0 0 1 216 125" stroke-width="6" stroke-linecap="round" stroke-opacity=".8"/></g><g fill="#12D9E8">'+"".join(f'<rect class="bar-a" x="{210+i*36}" y="{300-h/2}" width="18" height="{h}" rx="9" opacity="{.35+i*.12:.2f}"/>' for i,h in enumerate([90,150,210,150,90]))+'</g></svg></div>'
+_L=open(__import__('os').path.join(__import__('os').path.dirname(__file__) or '.','assets/img/kev-logo-vertical.svg')).read()
+_L=re.sub(r'<svg[^>]*>','<svg viewBox="0 0 760 651" class="kl" focusable="false">',_L,count=1).replace('kev-gradient','kevhg')
+_L=_L.replace('id="ring"','id="ring" class="k-ring" pathLength="1"').replace('<g id="aperture-blades"','<g id="aperture-blades" class="k-blades"').replace('<g id="letters-KEV"','<g id="letters-KEV" class="k-let"').replace('<g id="wordmark"','<g id="wordmark" class="k-word"')
+for i in (1,2,3): _L=_L.replace(f'id="bar-{i}"',f'id="hb-{i}" class="k-bar k-b{i}"')
+_L=re.sub(r' id="(?!kevhg)[^"]*"','',_L)
+MOTIF='<div class="motif" aria-hidden="true" data-parallax="-.12"><div class="k-tilt"><span class="k-halo"></span>'+_L+'</div></div>'
 W=[('صوت','Sound'),('صورة','Vision'),('فن','Art'),('برمجة','Code')]
 mq=''.join(f'<span><b class="{"o" if i%2 else "s"}">{a}</b><i class="d"></i><b class="{"s" if i%2 else "o"}">{e}</b><i class="d"></i></span>' for i,(a,e) in enumerate(W))
 def H(ar,arh,en,enh):return B(f'{ar} <span class="hl">{arh}</span>',f'{en} <span class="hl">{enh}</span>')
