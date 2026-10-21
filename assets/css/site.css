@@ -223,3 +223,11 @@ footer .fb{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;bo
 .rv.in{opacity:1;transform:none;filter:none}
 .no-js .rv{opacity:1;transform:none;filter:none}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none;filter:none}.marquee .track,.logos .track{transform:none}}
+/* scroll stage: hero stays pinned, next band slides over it */
+@media (prefers-reduced-motion:no-preference){
+.js-stage .hero{position:sticky;top:0;z-index:0}
+.js-stage .hero>.wrap,.js-stage .hero>.motif{will-change:transform,opacity}
+.js-stage .hero~section,.js-stage .hero~*{position:relative;z-index:1}
+.js-stage .hero+section{border-radius:clamp(22px,3vw,40px) clamp(22px,3vw,40px) 0 0;box-shadow:0 -24px 60px rgba(4,8,26,.35);margin-top:-1px}
+.js-stage .hero::after{content:"";position:absolute;inset:0;background:#04071a;opacity:var(--dim,0);pointer-events:none;z-index:3}
+}
