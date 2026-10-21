@@ -78,7 +78,7 @@ main:focus{outline:none}
 .motif{position:absolute;inset-block:0;inset-inline-end:-9vw;width:min(54vw,740px);z-index:1;display:grid;place-items:center;opacity:.3;pointer-events:none}
 .motif svg{width:100%;height:auto;overflow:visible}
 .k-tilt{position:relative;width:70%;margin-inline-start:8%;transform:perspective(900px) rotateX(var(--ry,0deg)) rotateY(var(--rx,0deg));transition:transform .6s var(--ease)}
-.k-halo{position:absolute;inset:8% 10% 22%;border-radius:50%;background:radial-gradient(closest-side,rgba(18,217,232,.32),rgba(119,57,247,.16) 60%,transparent);filter:blur(30px);animation:kHalo 7s ease-in-out 2.6s infinite;opacity:.6}
+.k-halo{position:absolute;inset:8% 10% 22%;border-radius:50%;background:radial-gradient(closest-side,rgba(18,217,232,.26),rgba(119,57,247,.12) 55%,transparent 100%);animation:kHalo 7s ease-in-out 2.6s infinite;opacity:.6}
 @keyframes kHalo{0%,100%{opacity:.45;transform:scale(.94)}50%{opacity:.85;transform:scale(1.04)}}
 .k-ring{stroke-dasharray:1;stroke-dashoffset:1;animation:kDraw 2s cubic-bezier(.65,0,.35,1) .2s forwards}
 @keyframes kDraw{to{stroke-dashoffset:0}}
@@ -108,16 +108,28 @@ main:focus{outline:none}
 .page-hero p{color:var(--mute);max-width:40em;font-size:1.12rem}
 .crumbs{font-size:.9rem;color:var(--mute)}.crumbs a{color:var(--mute)}
 /* ===== slogan ===== */
-.slogan{background:var(--bg);color:var(--ink);padding-block:clamp(56px,9vw,120px);border-bottom:1px solid var(--line)}
-.slogan .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:clamp(16px,3vw,40px)}
-.sl-txt{margin:0;text-align:center;font:700 clamp(1.9rem,5.2vw,4.2rem)/1.2 var(--f);letter-spacing:-.01em}
-:root[lang="ar"] .sl-txt{font-family:var(--f-ar);letter-spacing:0;line-height:1.45}
-.sl-txt em{font-style:normal;color:var(--hl)}
-.sl-line{height:1px;background:linear-gradient(90deg,transparent,var(--acc));opacity:.7;transform:scaleX(0);transform-origin:right;transition:transform 1.4s var(--ease) .3s}
-.sl-line:last-child{background:linear-gradient(90deg,var(--acc),transparent);transform-origin:left}
-.slogan:has(.sl-txt.in) .sl-line{transform:none}
-@media (max-width:760px){.slogan .wrap{grid-template-columns:1fr}.sl-line{width:56px;justify-self:center}}
-@media (prefers-reduced-motion:reduce){.sl-line{transform:none}}
+.slogan{background:var(--bg);color:var(--ink);padding-block:clamp(44px,6vw,80px)}
+.slogan .wrap{display:flex;justify-content:center}
+.sl-card{position:relative;display:inline-block;max-width:min(720px,100%);padding:clamp(18px,2.4vw,26px) clamp(26px,4vw,52px);border-radius:20px;background:var(--surface);box-shadow:0 10px 40px rgba(18,217,232,.10),0 2px 10px rgba(8,13,40,.06);isolation:isolate}
+.sl-ring{position:absolute;inset:0;border-radius:inherit;padding:1.6px;overflow:hidden;pointer-events:none;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.sl-ring::before{content:"";position:absolute;left:50%;top:50%;width:160%;aspect-ratio:1;translate:-50% -50%;background:conic-gradient(from 0deg,transparent 0 55%,rgba(18,217,232,.15) 62%,#12D9E8 74%,#7739F7 82%,transparent 90%);animation:slSpin 7s linear infinite;will-change:transform}
+.sl-card::after{content:"";position:absolute;inset:0;border-radius:inherit;border:1px solid var(--line);z-index:-1}
+@keyframes slSpin{to{transform:rotate(360deg)}}
+.sl-txt{position:relative;margin:0;text-align:center;font:800 clamp(1.35rem,3.2vw,2.3rem)/1.3 var(--f-en);letter-spacing:-.01em;overflow:hidden;padding-block:.08em}
+:root[lang="ar"] .sl-txt{font-family:var(--f-ar);letter-spacing:0;line-height:1.55}
+.sl-txt .w{display:inline-block;opacity:0;transform:translateY(.6em);transition:opacity .7s var(--ease),transform .8s var(--ease);transition-delay:calc(.25s + var(--i)*.14s)}
+.sl-txt .hl{color:var(--hl)}
+.sl-card.in .w{opacity:1;transform:none}
+.sl-shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);mix-blend-mode:soft-light;transform:translateX(-120%);will-change:transform}
+.sl-card.in .sl-shine{animation:slShine 6s ease-in-out 1.4s infinite}
+@keyframes slShine{0%{transform:translateX(-120%)}35%,100%{transform:translateX(120%)}}
+.sl-boxi{position:absolute;top:-22px;inset-inline-end:-18px;width:44px;height:44px;color:var(--hl);background:var(--surface);border-radius:12px;padding:4px;box-shadow:0 4px 14px rgba(8,13,40,.12)}
+.sl-boxi .spark{transform-box:fill-box;transform-origin:center;animation:slPop 3.2s cubic-bezier(.34,1.56,.64,1) infinite}
+.sl-boxi .lid{transform-box:view-box;transform-origin:24px 20px;animation:slLid 3.2s ease-in-out infinite}
+@keyframes slPop{0%,15%{transform:translateY(14px) scale(.4);opacity:0}35%{transform:translateY(-6px) scale(1);opacity:1}70%{transform:translateY(-4px) scale(1);opacity:1}100%{transform:translateY(-14px) scale(.6);opacity:0}}
+@keyframes slLid{0%,10%,90%,100%{transform:scaleY(.6)}30%,70%{transform:none}}
+@media (max-width:760px){.sl-card{border-radius:16px}.sl-boxi{width:36px;height:36px;top:-16px;inset-inline-end:-10px}}
+@media (prefers-reduced-motion:reduce){.sl-txt .w{opacity:1;transform:none}.sl-ring::before,.sl-shine,.sl-boxi *{animation:none!important}.sl-shine{display:none}}
 @keyframes mq{to{transform:translateX(-50%)}}
 /* ===== stats ===== */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
@@ -222,15 +234,13 @@ footer .ft img{height:52px;width:auto}
 footer .links{display:flex;gap:18px;flex-wrap:wrap}footer a{color:#DDE2FF}
 footer .fb{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid #232C5C;padding-top:20px;font-size:.9rem}
 /* ===== motion ===== */
-.rv{opacity:0;transform:translateY(28px);filter:blur(8px);transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease);transition-delay:calc(var(--i,0) * 90ms)}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--i,0) * 90ms)}
 .rv.in{opacity:1;transform:none;filter:none}
 .no-js .rv{opacity:1;transform:none;filter:none}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none;filter:none}.logos .track{transform:none}}
-/* scroll stage: hero stays pinned, next band slides over it */
-@media (prefers-reduced-motion:no-preference){
-.js-stage .hero{position:sticky;top:0;z-index:0}
-.js-stage .hero>.wrap,.js-stage .hero>.motif{will-change:transform,opacity}
-.js-stage .hero~section,.js-stage .hero~*{position:relative;z-index:1}
-.js-stage .hero+section{border-radius:clamp(22px,3vw,40px) clamp(22px,3vw,40px) 0 0;box-shadow:0 -24px 60px rgba(4,8,26,.35);margin-top:-1px}
-.js-stage .hero::after{content:"";position:absolute;inset:0;background:#04071a;opacity:var(--dim,0);pointer-events:none;z-index:3}
-}
+/* hero scroll-out + background drift */
+.hero>.wrap,.hero>.motif,.hero .cue{will-change:translate,opacity}
+.glow{animation:kenb 26s ease-in-out infinite alternate;will-change:transform}
+@keyframes kenb{from{transform:scale(1)}to{transform:scale(1.12)}}
+:root[dir="rtl"] .glow{animation-name:kenbr}
+@keyframes kenbr{from{transform:scaleX(-1)}to{transform:scale(-1.12,1.12)}}

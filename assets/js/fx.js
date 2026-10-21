@@ -28,27 +28,13 @@ document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('[da
 
 (()=>{const t=document.querySelector('.k-tilt');if(!t||matchMedia('(prefers-reduced-motion: reduce)').matches||!matchMedia('(pointer:fine)').matches)return;let r=0;addEventListener('pointermove',e=>{if(r)return;r=requestAnimationFrame(()=>{r=0;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;t.style.setProperty('--rx',(x*8).toFixed(2)+'deg');t.style.setProperty('--ry',(-y*6).toFixed(2)+'deg')})},{passive:true})})();
 
-/* scroll stage: pinned hero fade/scale, inertia wheel, cue scroll */
-(()=>{const still=matchMedia('(prefers-reduced-motion: reduce)').matches;if(still)return;
-const R=document.documentElement,hero=document.querySelector('.hero');
-const fine=matchMedia('(pointer:fine) and (min-width:761px)').matches;
-const ease=t=>1-Math.pow(1-t,3);
-let tgt=scrollY,cur=scrollY,run=false,own=false,anim=null;
-function to(y){y=Math.max(0,Math.min(y,R.scrollHeight-innerHeight));own=true;R.style.scrollBehavior='auto';scrollTo(0,y)}
-function loop(){cur+=(tgt-cur)*.11;if(Math.abs(tgt-cur)<.5){cur=tgt;run=false}to(cur);if(run)requestAnimationFrame(loop)}
-function glide(y,d){anim&&cancelAnimationFrame(anim);run=false;const s=scrollY,t0=performance.now();d=d||1100;
- const st=n=>{const k=Math.min(1,(n-t0)/d);to(s+(y-s)*ease(k));if(k<1)anim=requestAnimationFrame(st);else{anim=null;tgt=cur=scrollY;R.style.scrollBehavior=''}};anim=requestAnimationFrame(st)}
-if(fine){addEventListener('wheel',e=>{if(e.ctrlKey||e.defaultPrevented)return;
- for(let n=e.target;n&&n!==document.body;n=n.parentElement){const cs=getComputedStyle(n);if(/(auto|scroll)/.test(cs.overflowY)&&n.scrollHeight>n.clientHeight)return}
- e.preventDefault();if(anim){cancelAnimationFrame(anim);anim=null}if(!run){tgt=cur=scrollY}
- tgt=Math.max(0,Math.min(tgt+e.deltaY*(e.deltaMode===1?40:1),R.scrollHeight-innerHeight));if(!run){run=true;requestAnimationFrame(loop)}},{passive:false});
- addEventListener('scroll',()=>{if(own){own=false;return}if(!run&&!anim){tgt=cur=scrollY}},{passive:true});}
-document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a||a.classList.contains('skip')||a.getAttribute('href').length<2)return;const el=document.getElementById(a.getAttribute('href').slice(1));if(!el)return;
- e.preventDefault();const off=a.classList.contains('cue')?0:90;glide(el.getBoundingClientRect().top+scrollY-off);history.replaceState(null,'',a.getAttribute('href'))});
-if(!hero)return;R.classList.add('js-stage');
-const w=hero.querySelector(':scope>.wrap'),m=hero.querySelector('.k-tilt'),c=hero.querySelector('.cue');
-let tk=false;function upd(){tk=false;const h=hero.offsetHeight||innerHeight,p=Math.max(0,Math.min(1,scrollY/h));
- if(w){w.style.transform=`translate3d(0,${(-p*(fine?90:40)).toFixed(1)}px,0) scale(${(1-p*.06).toFixed(4)})`;w.style.opacity=(1-p*1.15).toFixed(3);w.style.filter=fine&&p>0?`blur(${(p*6).toFixed(1)}px)`:''}
- if(m)m.style.opacity=(1-p*.9).toFixed(3);if(c)c.style.opacity=(1-p*3).toFixed(3);hero.style.setProperty('--dim',(p*.55).toFixed(3))}
-addEventListener('scroll',()=>{if(!tk){tk=true;requestAnimationFrame(upd)}},{passive:true});addEventListener('resize',upd);upd();
+/* hero scroll-out (native scroll): content y 0->320px over 0..1000px, opacity 1->.05 over 0..850px, linear+clamped */
+(()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+const hero=document.querySelector('.hero');if(!hero)return;
+const els=[hero.querySelector(':scope>.wrap'),hero.querySelector(':scope>.motif'),hero.querySelector('.cue')].filter(Boolean);
+const cl=(v,a,b)=>v<a?a:v>b?b:v;let tk=false,last=-1;
+function upd(){tk=false;const y=scrollY;if(y===last)return;last=y;if(y>1400)return;
+ const ty=(cl(y/1000,0,1)*320).toFixed(1),op=(1-cl(y/850,0,1)*.95).toFixed(3);
+ for(const e of els){e.style.translate=`0 ${ty}px`;e.style.opacity=op}}
+addEventListener('scroll',()=>{if(!tk){tk=true;requestAnimationFrame(upd)}},{passive:true});upd();
 })();
