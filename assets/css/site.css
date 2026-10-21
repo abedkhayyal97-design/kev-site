@@ -75,10 +75,11 @@ main:focus{outline:none}
 .hero .wrap{position:relative;z-index:2;display:grid;gap:28px}
 .glow{position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(60% 50% at 80% 20%,rgba(37,139,255,.20),transparent 70%),radial-gradient(45% 45% at 10% 90%,rgba(18,217,232,.14),transparent 70%)}
 :root[dir="rtl"] .glow{transform:scaleX(-1)}
-.motif{position:absolute;inset-block:0;inset-inline-end:-9vw;width:min(54vw,740px);z-index:1;display:grid;place-items:center;opacity:.3;pointer-events:none}
+.motif{--o:.85;position:absolute;inset-block:0;inset-inline-end:max(2vw,calc((100vw - 1280px)/2));width:min(36vw,520px);z-index:1;display:grid;place-items:center;opacity:calc(var(--o)*var(--fade,1));pointer-events:none}
+@media (min-width:761px){.hero .wrap>*{max-width:58%}.hero .display{font-size:clamp(2.6rem,5.4vw,5.2rem)}}
 .motif svg{width:100%;height:auto;overflow:visible}
-.k-tilt{position:relative;width:70%;margin-inline-start:8%;transform:perspective(900px) rotateX(var(--ry,0deg)) rotateY(var(--rx,0deg));transition:transform .6s var(--ease)}
-.k-halo{position:absolute;inset:8% 10% 22%;border-radius:50%;background:radial-gradient(closest-side,rgba(18,217,232,.26),rgba(119,57,247,.12) 55%,transparent 100%);animation:kHalo 7s ease-in-out 2.6s infinite;opacity:.6}
+.k-tilt{position:relative;width:100%;transform:perspective(900px) rotateX(var(--ry,0deg)) rotateY(var(--rx,0deg));transition:transform .6s var(--ease)}
+.k-halo{position:absolute;inset:-14% -12% 4%;border-radius:50%;background:radial-gradient(closest-side,rgba(18,217,232,.30),rgba(37,139,255,.16) 45%,rgba(119,57,247,.08) 70%,transparent 100%);animation:kHalo 7s ease-in-out 2.6s infinite;opacity:.8;will-change:transform,opacity}
 @keyframes kHalo{0%,100%{opacity:.45;transform:scale(.94)}50%{opacity:.85;transform:scale(1.04)}}
 .k-ring{stroke-dasharray:1;stroke-dashoffset:1;animation:kDraw 2s cubic-bezier(.65,0,.35,1) .2s forwards}
 @keyframes kDraw{to{stroke-dashoffset:0}}
@@ -100,7 +101,7 @@ main:focus{outline:none}
 .cue i{width:24px;height:38px;border:1.5px solid currentColor;border-radius:14px;position:relative}
 .cue i::after{content:"";position:absolute;top:7px;left:50%;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:var(--acc);animation:cue 1.8s infinite}
 @keyframes cue{0%{opacity:0;transform:translateY(0)}40%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
-@media (max-width:760px){.motif{opacity:.2;width:115vw;inset-inline-end:-38vw}}
+@media (max-width:760px){.hero{align-content:center}.motif{--o:.9;position:relative;inset:auto;width:min(62vw,260px);margin:0 auto 8px;justify-self:center}}
 /* page hero (inner pages) */
 .page-hero{padding-block:clamp(130px,16vw,190px) clamp(56px,8vw,96px);overflow:hidden}
 .page-hero .wrap{position:relative;z-index:2;display:grid;gap:16px}

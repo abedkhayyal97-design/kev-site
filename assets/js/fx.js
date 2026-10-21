@@ -31,10 +31,10 @@ document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('[da
 /* hero scroll-out (native scroll): content y 0->320px over 0..1000px, opacity 1->.05 over 0..850px, linear+clamped */
 (()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 const hero=document.querySelector('.hero');if(!hero)return;
-const els=[hero.querySelector(':scope>.wrap'),hero.querySelector(':scope>.motif'),hero.querySelector('.cue')].filter(Boolean);
+const mo=hero.querySelector(':scope>.motif');const els=[hero.querySelector(':scope>.wrap'),hero.querySelector('.cue')].filter(Boolean);
 const cl=(v,a,b)=>v<a?a:v>b?b:v;let tk=false,last=-1;
 function upd(){tk=false;const y=scrollY;if(y===last)return;last=y;if(y>1400)return;
  const ty=(cl(y/1000,0,1)*320).toFixed(1),op=(1-cl(y/850,0,1)*.95).toFixed(3);
- for(const e of els){e.style.translate=`0 ${ty}px`;e.style.opacity=op}}
+ for(const e of els){e.style.translate=`0 ${ty}px`;e.style.opacity=op}if(mo){mo.style.translate=`0 ${ty}px`;mo.style.setProperty('--fade',op)}}
 addEventListener('scroll',()=>{if(!tk){tk=true;requestAnimationFrame(upd)}},{passive:true});upd();
 })();
