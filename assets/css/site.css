@@ -15,7 +15,7 @@ body{margin:0;background:var(--off);color:var(--ink);font:400 1.0625rem/1.75 var
 h1,h2,h3{margin:0;line-height:1.08;font-weight:800;letter-spacing:-.01em}
 :root[lang="en"] h1,:root[lang="en"] h2{letter-spacing:-.035em}
 p{margin:0}a{color:inherit}img{max-width:100%}
-:focus-visible{outline:3px solid var(--acc);outline-offset:3px;border-radius:6px}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
 .wrap{max-width:var(--w);margin-inline:auto;padding-inline:clamp(18px,4vw,40px)}
 .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 [hidden]{display:none!important}
@@ -279,3 +279,13 @@ footer .fb{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;bo
 @keyframes kenb{from{transform:scale(1)}to{transform:scale(1.12)}}
 :root[dir="rtl"] .glow{animation-name:kenbr}
 @keyframes kenbr{from{transform:scaleX(-1)}to{transform:scale(-1.12,1.12)}}
+/* ===== press feedback (no tap box) ===== */
+html,a,button,input,select,textarea,label,summary,[role="button"],[role="switch"]{-webkit-tap-highlight-color:transparent}
+:focus:not(:focus-visible){outline:none}
+a,button,summary,.chip,.btn,.card,.pkg,.svc .box,.seg,.tsw{transition:box-shadow .25s ease,filter .25s ease,transform .18s ease,text-shadow .25s ease,background .25s,border-color .25s,color .25s,opacity .25s}
+.btn:active,.chip:active,.seg:active,.tsw:active,.card:active:not(:has(a:active,button:active)),.pkg:active:not(:has(a:active,button:active)),.svc .box:active:not(:has(a:active,button:active)),.dr-nav a:active,nav a:active,button:active{box-shadow:0 0 0 1px rgba(18,217,232,.55),0 0 22px rgba(18,217,232,.35);filter:brightness(1.08);transform:scale(.98)}
+.chip:active,.dr-x:active,.menu:active,.cartlink:active{background:radial-gradient(circle,rgba(18,217,232,.28),rgba(18,217,232,.06) 70%,transparent)}
+a:not(.btn):not(.chip):not(.brand):not([class*="dr-"]):active{text-shadow:0 0 12px rgba(18,217,232,.65);box-shadow:none;transform:none}
+nav a:active,.dr-nav a:active{text-shadow:0 0 12px rgba(18,217,232,.5)}
+.brand:active{filter:drop-shadow(0 0 10px rgba(18,217,232,.5))}
+@media (prefers-reduced-motion:reduce){*:active{transform:none!important}}
