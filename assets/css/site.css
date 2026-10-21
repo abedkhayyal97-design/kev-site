@@ -311,3 +311,4 @@ a,button,summary,.chip,.btn,.card,.pkg,.svc .box,.seg,.tsw{transition:box-shadow
 :root:not(.is-dark) .media,:root:not(.is-dark) .ph{background:radial-gradient(70% 60% at 30% 30%,rgba(18,217,232,.18),transparent 70%),#E6F2F4;color:#3F4766}
 :root:not(.is-dark) .sl-card{box-shadow:0 10px 40px rgba(10,115,129,.12),0 2px 10px rgba(8,13,40,.06)}
 :root:not(.is-dark) footer .ft img{content:url(../brand/kev_horizontal_light.svg)}
+.scrub-on>*{will-change:transform;transition:box-shadow .25s,border-color .25s!important}.scrub-on>*>*{will-change:opacity,filter}

@@ -47,3 +47,18 @@ function upd(){tk=false;const y=scrollY;if(y===last)return;last=y;if(y>1400)retu
  for(const e of els){e.style.translate=`0 ${ty}px`;e.style.opacity=op}if(mo){mo.style.translate=`0 ${ty}px`;mo.style.setProperty('--fade',op)}}
 addEventListener('scroll',()=>{if(!tk){tk=true;requestAnimationFrame(upd)}},{passive:true});upd();
 })();
+
+/* principles: scroll-linked blur/fade + parallax per card (reversible) */
+(()=>{const g=document.querySelector('[data-scrub]');if(!g||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+const cards=[...g.children],rates=[1,1.4,.75,1.2,.9,1.5],mob=matchMedia('(max-width:760px)');
+g.classList.add('scrub-on');const cl=(v,a,b)=>v<a?a:v>b?b:v;let tk=false;
+function upd(){tk=false;const vh=innerHeight,small=mob.matches;
+ for(let i=0;i<cards.length;i++){const c=cards[i],r=c.getBoundingClientRect();
+  if(r.bottom<-200||r.top>vh+200)continue;
+  const p=cl((vh-r.top)/(vh+r.height),0,1),q=cl((vh-r.top)/(vh*.55),0,1),k=rates[i%rates.length]*(small?.6:1);
+  const y=(p<.5?60*(1-p/.5):-30*((p-.5)/.5))*k,s=.96+.04*q;
+  c.style.transform=`translate3d(0,${y.toFixed(1)}px,0) scale(${s.toFixed(4)})`;
+  const o=(.15+.85*q).toFixed(3),b=small?0:(8*(1-q));
+  for(const ch of c.children){ch.style.opacity=o;ch.style.filter=b>.05?`blur(${b.toFixed(2)}px)`:'none'}}}
+addEventListener('scroll',()=>{if(!tk){tk=true;requestAnimationFrame(upd)}},{passive:true});addEventListener('resize',upd);upd();
+})();
