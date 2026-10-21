@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-title-ar="الرئيسية · KEV خيال" data-title-en="Home · KEV Khayyal">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>الرئيسية · KEV خيال</title><meta name="description" content="KEV (خيال) استوديو للصوت والصورة والفن والبرمجة. KEV studio for sound, video, art and software.">
+<meta name="theme-color" content="#080D28"><link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" href="assets/brand/kev_icon-tile.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="assets/brand/apple-touch-icon-180.png"><link rel="manifest" href="site.webmanifest">
+<link rel="preload" href="assets/fonts/cairo.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="assets/css/site.css"><script defer src="assets/js/config.js"></script><script defer src="assets/js/common.js"></script><script defer src="assets/js/store.js"></script><script defer src="assets/js/home.js"></script></head>
+<body><a class="skip" href="#main"><span class="ar" lang="ar">تخطَّ إلى المحتوى</span><span class="en" lang="en">Skip to content</span></a>
+<header class="top"><div class="wrap bar">
+ <a class="brand" href="index.html" aria-label="KEV · Khayyal Echo Vision — Home"><img class="lk-light" src="assets/brand/kev_horizontal_light.svg" alt="KEV · Khayyal Echo Vision" width="117" height="40"><img class="lk-dark" src="assets/brand/kev_horizontal_color.svg" alt="KEV · Khayyal Echo Vision" width="117" height="40"></a>
+ <nav id="nav" aria-label="Main"><a href="index.html" aria-current="page"><span class="ar" lang="ar">الرئيسية</span><span class="en" lang="en">Home</span></a><a href="services.html"><span class="ar" lang="ar">الخدمات والمتجر</span><span class="en" lang="en">Services & store</span></a><a href="portfolio.html"><span class="ar" lang="ar">الأعمال</span><span class="en" lang="en">Portfolio</span></a><a href="process.html"><span class="ar" lang="ar">طريقة العمل</span><span class="en" lang="en">Process</span></a><a href="about.html"><span class="ar" lang="ar">من نحن</span><span class="en" lang="en">About</span></a><a href="faq.html"><span class="ar" lang="ar">أسئلة شائعة</span><span class="en" lang="en">FAQ</span></a><a href="contact.html"><span class="ar" lang="ar">تواصل</span><span class="en" lang="en">Contact</span></a></nav>
+ <div class="tools">
+  <a class="chip cartlink" href="cart.html" style="display:grid;place-items:center" aria-label="Cart / السلة"><span aria-hidden="true">🛒</span><b class="cartcount" hidden>0</b></a>
+  <button class="chip" id="lang" type="button">EN</button>
+  <button class="chip" id="theme" type="button" aria-label="Theme / المظهر">◐</button>
+  <button class="chip menu" id="menu" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu / القائمة">☰</button>
+ </div></div></header>
+<main id="main" tabindex="-1">
+<div class="hero" id="top">
+ <div class="wrap">
+  <h1 data-i="h1">صوت. صورة. فن. برمجة.</h1>
+  <p class="lead" data-i="lead">KEV (خيال) استوديو إنتاج رقمي متكامل. نصمّم الصوت والفيديو والهوية، ونبني البرمجيات التي تشغّلها، من فريق واحد.</p>
+  <div class="modes" role="group" aria-label="Disciplines">
+   <button type="button" data-mode="sound" aria-pressed="true" data-i="m1">صوت</button>
+   <button type="button" data-mode="vision" aria-pressed="false" data-i="m2">صورة</button>
+   <button type="button" data-mode="art" aria-pressed="false" data-i="m3">فن</button>
+   <button type="button" data-mode="code" aria-pressed="false" data-i="m4">برمجة</button>
+  </div>
+  <div class="stage">
+   <canvas id="cv" role="img" aria-label="Interactive signal"></canvas>
+   <div class="cap"><span id="cap1">mode: sound</span><span id="cap2">x 0.50 · y 0.50</span></div>
+  </div>
+  <div class="row">
+   <a class="btn" href="services.html" data-i="cta1">تصفّح الخدمات</a>
+   <a class="btn ghost" href="#work" data-i="cta2">شاهد الأعمال</a>
+   <button class="btn ghost" id="tone" type="button" aria-pressed="false" data-i="tone">تشغيل النغمة</button>
+  </div>
+ </div>
+</div>
+
+<section id="studio"><div class="wrap">
+ <div class="head"><h2 data-i="s1">أربع مهارات، فريق واحد</h2><p data-i="s1p">لا نسلّم ملفاً لجهة وننتقل لأخرى. الصوت والصورة والتصميم والكود يُبنون معاً، فيصل المنتج متماسكاً.</p></div>
+ <div class="pillars">
+  <article class="pillar"><h3 data-i="p1">صوت</h3><p data-i="p1p">من الفكرة إلى الماستر النهائي.</p><ul><li data-i="p1a">بودكاست وتعليق صوتي</li><li data-i="p1b">هوية صوتية وموسيقى</li><li data-i="p1c">مزج وتصميم صوت</li></ul></article>
+  <article class="pillar"><h3 data-i="p2">صورة</h3><p data-i="p2p">فيديو يُشاهَد حتى النهاية.</p><ul><li data-i="p2a">إعلانات ووثائقيات</li><li data-i="p2b">مونتاج وموشن</li><li data-i="p2c">تصوير وتلوين</li></ul></article>
+  <article class="pillar"><h3 data-i="p3">فن</h3><p data-i="p3p">هوية ترى نفسها في كل نقطة تماس.</p><ul><li data-i="p3a">هوية بصرية</li><li data-i="p3b">تصميم واجهات</li><li data-i="p3c">رسوم توضيحية</li></ul></article>
+  <article class="pillar"><h3 data-i="p4">برمجة</h3><p data-i="p4p">برمجيات سريعة، آمنة، قابلة للصيانة.</p><ul><li data-i="p4a">مواقع وتطبيقات</li><li data-i="p4b">أدوات إنتاج داخلية</li><li data-i="p4c">أنظمة وتكاملات</li></ul></article>
+ </div>
+</div></section>
+
+<section id="work" style="background:var(--surface)"><div class="wrap">
+ <div class="head"><h2 data-i="w1">أعمال مختارة</h2><p data-i="w1p">أمثلة توضيحية. استبدلها بمشاريعكم الحقيقية.</p></div>
+ <div class="filters" role="group" aria-label="Filter">
+  <button type="button" data-f="all" aria-pressed="true" data-i="fa">الكل</button>
+  <button type="button" data-f="sound" aria-pressed="false" data-i="m1">صوت</button>
+  <button type="button" data-f="vision" aria-pressed="false" data-i="m2">صورة</button>
+  <button type="button" data-f="art" aria-pressed="false" data-i="m3">فن</button>
+  <button type="button" data-f="code" aria-pressed="false" data-i="m4">برمجة</button>
+ </div>
+ <ul class="works" id="works"></ul>
+</div></section>
+
+<section id="process"><div class="wrap">
+ <div class="head"><h2 data-i="r1">كيف نعمل</h2></div>
+ <ol class="flow">
+  <li><h3 data-i="r2">نفهم</h3><p data-i="r2p">جلسة واحدة نحدد فيها الهدف والجمهور ومعيار النجاح.</p></li>
+  <li><h3 data-i="r3">نصمّم</h3><p data-i="r3p">مسودات قابلة للحكم عليها بالعين والأذن، لا وصف نظري.</p></li>
+  <li><h3 data-i="r4">نبني</h3><p data-i="r4p">إنتاج وبرمجة بمراجعات أسبوعية وروابط معاينة حيّة.</p></li>
+  <li><h3 data-i="r5">نسلّم</h3><p data-i="r5p">ملفات نظيفة وتوثيق وتدريب، ودعم بعد الإطلاق.</p></li>
+ </ol>
+</div></section>
+
+<section id="engineering" style="background:var(--surface)"><div class="wrap">
+ <div class="head"><h2 data-i="e1">نبرمج كما ننتج: بدقة</h2><p data-i="e1p">هذا الموقع نفسه مثال على معيارنا: بلا أطر ولا مكتبات ولا تتبّع.</p></div>
+ <div class="eng">
+  <pre class="code" aria-label="Code sample"><span class="c">// every disciplined build starts with a contract</span>
+<span class="k">export async function</span> render(job) {
+  <span class="k">const</span> { audio, video, ui } = <span class="k">await</span> Promise.all([
+    mix(job.stems),      <span class="c">// loudness: -14 LUFS</span>
+    grade(job.footage),  <span class="c">// colour-managed</span>
+    build(job.design)    <span class="c">// typed, tested</span>
+  ]);
+  <span class="k">return</span> ship({ audio, video, ui }, {
+    a11y: <span class="s">"WCAG 2.2 AA"</span>,
+    rtl: <span class="k">true</span>,
+    budget: <span class="s">"&lt; 100 KB JS"</span>
+  });
+}</pre>
+  <ul class="facts">
+   <li><b data-i="f1">وصول للجميع</b><span data-i="f1p">تنقّل كامل بلوحة المفاتيح، وتباين مدروس، واحترام لإعداد تقليل الحركة.</span></li>
+   <li><b data-i="f2">عربي وإنجليزي أصلاً</b><span data-i="f2p">اتجاه الصفحة والخطوط والمسافات تتبدّل بالكامل، لا ترجمة سطحية.</span></li>
+   <li><b data-i="f3">خفيف وسريع</b><span data-i="f3p">لا اعتماديات. الرسم يتوقف حين تغادر الصفحة أو يختفي التبويب.</span></li>
+   <li><b data-i="f4">يتكيّف مع الجهاز</b><span data-i="f4p">فاتح وداكن حسب النظام، وجوال وشاشات كبيرة بنفس الجودة.</span></li>
+  </ul>
+ </div>
+</div></section>
+
+<section id="shop"><div class="wrap"><div class="head"><h2><span class="ar" lang="ar">اطلب خدمتك أونلاين</span><span class="en" lang="en">Order a service online</span></h2><p><span class="ar" lang="ar">باقات واضحة بأسعار ومدة تسليم محددة، والدفع عبر Binance Pay أو USDT.</span><span class="en" lang="en">Clear packages with set prices and delivery times. Pay with Binance Pay or USDT.</span></p></div><ul class="cards" id="catalogue"></ul><p style="margin-top:22px"><a class="btn" href="services.html"><span class="ar" lang="ar">كل الخدمات</span><span class="en" lang="en">All services</span></a></p></div></section>
+<section id="contact" class="contact"><div class="wrap cgrid">
+ <div class="head" style="margin:0"><h2 data-i="c1">لنبنِ شيئاً معاً</h2><p data-i="c1p">أخبرنا بما تريد إنجازه. نرد خلال يوم عمل واحد.</p></div>
+ <form id="form" novalidate>
+  <label><span data-i="l1">الاسم</span><input id="fn" name="name" autocomplete="name" required><span class="err" id="e1"></span></label>
+  <label><span data-i="l2">البريد الإلكتروني</span><input id="fe" name="email" type="email" autocomplete="email" required dir="ltr"><span class="err" id="e2"></span></label>
+  <label><span data-i="l3">نوع المشروع</span><select id="ft"><option value="Sound" data-i="m1">صوت</option><option value="Video" data-i="m2">صورة</option><option value="Art" data-i="m3">فن</option><option value="Software" data-i="m4">برمجة</option></select></label>
+  <label><span data-i="l4">التفاصيل</span><textarea id="fm" required></textarea><span class="err" id="e3"></span></label>
+  <button class="btn" type="submit" data-i="send">أرسل الرسالة</button>
+  <div id="status" role="status" aria-live="polite"></div>
+ </form>
+</div></section>
+</main>
+<footer><div class="wrap"><span>© <span id="yr"></span> KEV · Khayyal Echo Vision</span>
+<span class="links"><a href="terms.html"><span class="ar" lang="ar">الشروط</span><span class="en" lang="en">Terms</span></a><a href="refund.html"><span class="ar" lang="ar">الاسترجاع</span><span class="en" lang="en">Refunds</span></a><a href="privacy.html"><span class="ar" lang="ar">الخصوصية</span><span class="en" lang="en">Privacy</span></a><a href="contact.html"><span class="ar" lang="ar">تواصل</span><span class="en" lang="en">Contact</span></a></span>
+<span><span class="ar" lang="ar">بلا تتبّع. بلا ملفات تعريف ارتباط.</span><span class="en" lang="en">No tracking. No cookies.</span></span></div></footer></body></html>
