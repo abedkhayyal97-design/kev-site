@@ -283,9 +283,9 @@ footer .fb{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;bo
 html,a,button,input,select,textarea,label,summary,[role="button"],[role="switch"]{-webkit-tap-highlight-color:transparent}
 :focus:not(:focus-visible){outline:none}
 a,button,summary,.chip,.btn,.card,.pkg,.svc .box,.seg,.tsw{transition:box-shadow .25s ease,filter .25s ease,transform .18s ease,text-shadow .25s ease,background .25s,border-color .25s,color .25s,opacity .25s}
-.btn:active,.chip:active,.seg:active,.tsw:active,.card:active:not(:has(a:active,button:active)),.pkg:active:not(:has(a:active,button:active)),.svc .box:active:not(:has(a:active,button:active)),.dr-nav a:active,nav a:active,button:active{box-shadow:0 0 0 1px rgba(18,217,232,.55),0 0 22px rgba(18,217,232,.35);filter:brightness(1.08);transform:scale(.98)}
-.chip:active,.dr-x:active,.menu:active,.cartlink:active{background:radial-gradient(circle,rgba(18,217,232,.28),rgba(18,217,232,.06) 70%,transparent)}
-a:not(.btn):not(.chip):not(.brand):not([class*="dr-"]):active{text-shadow:0 0 12px rgba(18,217,232,.65);box-shadow:none;transform:none}
-nav a:active,.dr-nav a:active{text-shadow:0 0 12px rgba(18,217,232,.5)}
-.brand:active{filter:drop-shadow(0 0 10px rgba(18,217,232,.5))}
+:root .btn:active,:root .chip:active,:root .seg:active,:root .tsw:active,:root .card:active:not(:has(a:active,button:active)),:root .pkg:active:not(:has(a:active,button:active)),:root .svc .box:active:not(:has(a:active,button:active)),:root .dr-nav a:active,:root nav a:active,:root button:active{box-shadow:0 0 0 1px rgba(18,217,232,.55),0 0 22px rgba(18,217,232,.35);filter:brightness(1.08);transform:scale(.98)}
+:root .chip:active,:root .dr-x:active,:root .menu:active,:root .cartlink:active{background:radial-gradient(circle,rgba(18,217,232,.28),rgba(18,217,232,.06) 70%,transparent)}
+:root a:not(.btn):not(.chip):not(.brand):not([class*="dr-"]):active{text-shadow:0 0 12px rgba(18,217,232,.65);box-shadow:none;transform:none}
+:root nav a:active,:root .dr-nav a:active{text-shadow:0 0 12px rgba(18,217,232,.5)}
+:root .brand:active{filter:drop-shadow(0 0 10px rgba(18,217,232,.5))}
 @media (prefers-reduced-motion:reduce){*:active{transform:none!important}}
