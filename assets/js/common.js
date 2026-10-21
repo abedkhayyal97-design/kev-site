@@ -23,7 +23,9 @@ function setLang(l){KEV.lang=l;root.lang=l;root.dir=l==='ar'?'rtl':'ltr';store.s
 KEV.setLang=setLang;
 /* theme */
 const curDark=()=>root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;
-function setTheme(t){root.dataset.theme=t;const s=$('#themeSw');if(s)s.setAttribute('aria-checked',t==='dark');document.dispatchEvent(new Event('kev:theme'))}
+function syncDark(){root.classList.toggle('is-dark',curDark())}
+function setTheme(t){root.dataset.theme=t;syncDark();const s=$('#themeSw');if(s)s.setAttribute('aria-checked',t==='dark');document.dispatchEvent(new Event('kev:theme'))}
+syncDark();matchMedia('(prefers-color-scheme:dark)').addEventListener?.('change',syncDark);
 document.addEventListener('DOMContentLoaded',()=>{
  const y=$('#yr');if(y)y.textContent=new Date().getFullYear();
  $('#lang')?.addEventListener('click',()=>setLang(KEV.lang==='ar'?'en':'ar'));
