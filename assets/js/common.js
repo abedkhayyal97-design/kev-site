@@ -23,12 +23,19 @@ function setLang(l){KEV.lang=l;root.lang=l;root.dir=l==='ar'?'rtl':'ltr';store.s
 KEV.setLang=setLang;
 /* theme */
 const curDark=()=>root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;
-function setTheme(t){root.dataset.theme=t;document.dispatchEvent(new Event('kev:theme'))}
+function setTheme(t){root.dataset.theme=t;const s=$('#themeSw');if(s)s.setAttribute('aria-checked',t==='dark');document.dispatchEvent(new Event('kev:theme'))}
 document.addEventListener('DOMContentLoaded',()=>{
  const y=$('#yr');if(y)y.textContent=new Date().getFullYear();
  $('#lang')?.addEventListener('click',()=>setLang(KEV.lang==='ar'?'en':'ar'));
- $('#theme')?.addEventListener('click',()=>{const t=curDark()?'light':'dark';setTheme(t);store.set('kev-theme',t)});
- const m=$('#menu'),nav=$('#nav');m?.addEventListener('click',()=>{const o=nav.classList.toggle('open');m.setAttribute('aria-expanded',o)});
+ $('#lang2')?.addEventListener('click',()=>setLang(KEV.lang==='ar'?'en':'ar'));
+ const sw=$('#themeSw');if(sw){sw.setAttribute('aria-checked',curDark());sw.addEventListener('click',()=>{const t=curDark()?'light':'dark';setTheme(t);store.set('kev-theme',t)})}
+ const m=$('#menu'),dr=$('#drawer'),bk=$('#drback');let last=null;
+ const open=()=>{last=document.activeElement;dr.hidden=bk.hidden=false;requestAnimationFrame(()=>requestAnimationFrame(()=>{dr.classList.add('on');bk.classList.add('on')}));m.setAttribute('aria-expanded','true');document.body.style.overflow='hidden';setTimeout(()=>$('#drclose').focus(),60)};
+ const close=()=>{dr.classList.remove('on');bk.classList.remove('on');m.setAttribute('aria-expanded','false');document.body.style.overflow='';const done=()=>{if(!dr.classList.contains('on'))dr.hidden=bk.hidden=true};matchMedia('(prefers-reduced-motion: reduce)').matches?done():setTimeout(done,460);last&&last.focus()};
+ if(m&&dr){m.addEventListener('click',open);$('#drclose').addEventListener('click',close);bk.addEventListener('click',close);
+  dr.addEventListener('click',e=>{if(e.target.closest('.dr-nav a'))close()});
+  document.addEventListener('keydown',e=>{if(dr.hidden)return;if(e.key==='Escape'){close();return}
+   if(e.key==='Tab'){const f=[...dr.querySelectorAll('a,button')].filter(x=>x.offsetParent);const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}})}
  const st=store.get('kev-theme');if(st)setTheme(st);
  const sl=store.get('kev-lang');setLang(sl||(navigator.language&&!/^ar/i.test(navigator.language)?'en':'ar'));
  KEV.badge();

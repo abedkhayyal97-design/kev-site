@@ -13,9 +13,18 @@ def header(cur):
  <div class="tools">
   <a class="chip cartlink" href="cart.html" style="display:grid;place-items:center" aria-label="Cart / السلة"><span aria-hidden="true">🛒</span><b class="cartcount" hidden>0</b></a>
   <button class="chip" id="lang" type="button">EN</button>
-  <button class="chip" id="theme" type="button" aria-label="Theme / المظهر">◐</button>
-  <button class="chip menu" id="menu" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu / القائمة">☰</button>
- </div></div></header>'''
+  <button class="chip menu" id="menu" type="button" aria-expanded="false" aria-controls="drawer" aria-label="Menu / القائمة"><span class="burg" aria-hidden="true"><i></i><i></i><i></i></span></button>
+ </div></div></header>
+<div class="dr-back" id="drback" hidden></div>
+<aside class="drawer" id="drawer" aria-label="Menu / القائمة" hidden><div class="dr-in">
+ <div class="dr-head"><img src="assets/brand/kev_horizontal_color.svg" alt="" width="117" height="40"><button class="chip dr-x" id="drclose" type="button" aria-label="Close / إغلاق"><span aria-hidden="true">✕</span></button></div>
+ <nav class="dr-nav" aria-label="Side menu / القائمة الجانبية">{nav}</nav>
+ <div class="dr-opts">
+  <div class="dr-row"><span class="dr-lbl">{B("اللغة","Language")}</span><button class="seg" id="lang2" type="button"><span lang="ar">عربي</span><span lang="en">English</span></button></div>
+  <div class="dr-row"><span class="dr-lbl" id="thlbl">{B("المظهر","Appearance")}</span>
+   <button class="tsw" id="themeSw" type="button" role="switch" aria-checked="false">{B("الوضع الداكن","Dark mode","span","sr")}<span class="tsw-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><mask id="moonm"><rect width="24" height="24" fill="#fff"/><circle class="tsw-bite" cx="24" cy="4" r="7" fill="#000"/></mask></defs><circle class="tsw-core" cx="12" cy="12" r="5" fill="currentColor" mask="url(#moonm)"/><g class="tsw-rays" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1.5v2.5M12 20v2.5M1.5 12H4M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></g></svg></span></button>
+   <span class="tsw-st" aria-hidden="true">{B("فاتح","Light","span","st-l")}{B("داكن","Dark","span","st-d")}</span></div>
+ </div></div></aside>'''
 FOOT=f'''<footer><div class="wrap"><div class="ft"><img src="assets/brand/kev_horizontal_color.svg" alt="KEV · Khayyal Echo Vision" width="152" height="52"><span class="links">{''.join(f'<a href="{h}">{B(x,y)}</a>' for h,x,y in NAV[1:])}</span></div><div class="fb"><span>© <span id="yr"></span> KEV · Khayyal Echo Vision</span><span class="links"><a href="terms.html">{B('الشروط','Terms')}</a><a href="refund.html">{B('الاسترجاع','Refunds')}</a><a href="privacy.html">{B('الخصوصية','Privacy')}</a></span><span>{B('بلا تتبّع. بلا ملفات تعريف ارتباط.','No tracking. No cookies.')}</span></div></div></footer>'''
 def page(fn,tar,ten,desc,body,cur=None,js=()):
     scripts=''.join(f'<script defer src="assets/js/{j}.js"></script>' for j in ('config','common')+tuple(js)+('fx',))
