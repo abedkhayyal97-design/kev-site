@@ -7,8 +7,8 @@
    ===================================================================== */
 window.KEV_CONFIG = {
   brand: "KEV · Khayyal Echo Vision",
-  email: "FILL_ME@example.com",          // your email | بريدك
-  whatsapp: "",                          // optional, e.g. "+963..." | اختياري
+  email: "abed.khayyal97@gmail.com",     // founder email: contact + orders (mailto) | بريد المؤسس
+  whatsapp: ["+963995404257", "+352681595993"], // shown as call + WhatsApp links (hard-coded in build.py PHONES)
   telegram: "",                          // optional, e.g. "kev_studio"
 
   // Order submission. Leave formEndpoint empty to use email (mailto).
@@ -17,9 +17,9 @@ window.KEV_CONFIG = {
 
   payment: {
     currency: "USDT",                    // prices are shown as USD = USDT (1:1)
-    binancePayId: "FILL_ME_BINANCE_PAY_ID",
-    usdtTrc20: "FILL_ME_TRC20_ADDRESS",  // TRON network address (starts with T)
-    usdtBep20: "FILL_ME_BEP20_ADDRESS",  // BNB Smart Chain address (starts with 0x)
+    binancePayId: "",   // intentionally empty: payment details are sent per order
+    usdtTrc20: "",  // TRON network address (starts with T)
+    usdtBep20: "",  // BNB Smart Chain address (starts with 0x)
     qr: { binance: "assets/pay/qr-binance.png", trc20: "assets/pay/qr-trc20.png", bep20: "assets/pay/qr-bep20.png" },
     depositPercent: 50                   // % paid upfront; rest on delivery | نسبة الدفعة المقدمة
   },
