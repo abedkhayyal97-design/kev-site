@@ -27,6 +27,15 @@ window.KEV_CONFIG = {
   // true = show "example prices" badge everywhere. Set false once prices are final.
   examplePrices: true,
 
+  // Home stats band — EXAMPLE NUMBERS, edit or set to [] to hide | أرقام تجريبية للتعديل
+  statsAreExamples: true,
+  stats: [
+    { n:"120", suf:"+", l:["مشروع مُسلَّم","Projects delivered"] },
+    { n:"6",   suf:"",  l:["تخصصات تحت سقف واحد","Disciplines, one roof"] },
+    { n:"2",   suf:"",  l:["لغتان بنفس المستوى","Languages, one standard"] },
+    { n:"24",  suf:"h", l:["أقصى مدة للرد","Max reply time"] }
+  ],
+
   /* ---------------- Services & packages (prices in USD/USDT) ---------------- */
   services: [
     { id:"voice-over", icon:"🎙", cat:"sound",
