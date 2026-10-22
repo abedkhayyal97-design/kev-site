@@ -6,8 +6,8 @@ function pkgCard(s,p){return `<article class="pkg${p.hl?' hl':''}"><div class="r
  <dl><dt>${T('مدة التسليم','Delivery')}</dt><dd>${p.days} ${T(p.days>10?'يوم':'أيام','days')}</dd><dt>${T('التعديلات','Revisions')}</dt><dd>${p.rev}</dd></dl>
  <button class="btn" type="button" data-add="${s.id}|${p.id}">${T('أضف إلى السلة','Add to cart')}</button></article>`}
 function catalogue(){const el=$('#catalogue');if(!el)return;
- el.innerHTML=C.services.map(s=>{const min=Math.min(...s.packages.map(p=>p.price));return `<li class="card"><div class="cthumb" aria-hidden="true"><picture><source type="image/webp" srcset="assets/img/work/svc_${s.id}-640.webp"><img src="assets/img/work/svc_${s.id}-640.jpg" width="640" height="360" loading="lazy" decoding="async" alt=""></picture></div><h2>${esc(L(s.name))}</h2><p>${esc(L(s.desc))}</p>
- <p class="from">${T('يبدأ من','From')} <span dir="ltr">$${min} / ${min} USDT</span> ${K.exBadge()}</p><a class="btn ghost" href="service-${s.id}.html">${T('عرض الباقات','View packages')} <span class="sr">${esc(L(s.name))}</span></a></li>`}).join('')}
+ el.innerHTML=C.services.map(s=>{const min=Math.min(...s.packages.map(p=>p.price));return `<li class="card"><div class="cthumb${s.id==='video-motion'?' cthumb-v':''}" aria-hidden="true"><picture><source type="image/webp" srcset="assets/img/work/svc_${s.id}-640.webp"><img src="assets/img/work/svc_${s.id}-640.jpg" width="640" height="360" loading="lazy" decoding="async" alt=""></picture></div><h2>${esc(L(s.name))}</h2><p>${esc(L(s.desc))}</p>
+ <p class="from">${T('يبدأ من','From')} <span dir="ltr">$${min} / ${min} USDT</span> ${K.exBadge()}</p><a class="btn ghost" href="service-${s.id}.html">${T('عرض الباقات','View packages')} <span class="sr">${esc(L(s.name))}</span></a></li>`}).join('');el.querySelectorAll('.cthumb-v').forEach(t=>K.kvCard&&K.kvCard(t))}
 function detail(){const el=$('#detail');if(!el)return;const s=K.svc(el.dataset.service);
  $('#svc-title').textContent=L(s.name);document.title=L(s.name)+' · KEV';$('#svc-desc').textContent=L(s.desc);$('#svc-crumb').textContent=L(s.name);
  el.innerHTML=s.packages.map(p=>pkgCard(s,p)).join('')}

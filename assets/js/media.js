@@ -4,7 +4,7 @@ const T=(a,e)=>K.lang==='ar'?a:e,BI=(a,e)=>`<span class="ar" lang="ar">${a}</spa
 const RM=matchMedia('(prefers-reduced-motion: reduce)'),COARSE=matchMedia('(hover: none)');
 const P='assets/img/work/';
 const pic=(n,w,h,sizes,ar,en,cls='')=>`<picture class="pic ${cls}"><source type="image/webp" srcset="${P}${n}-640.webp 640w, ${P}${n}.webp ${w}w" sizes="${sizes}"><img src="${P}${n}.jpg" srcset="${P}${n}-640.jpg 640w, ${P}${n}.jpg ${w}w" sizes="${sizes}" width="${w}" height="${h}" loading="lazy" decoding="async" alt="${T(ar,en)}" data-alt-ar="${ar}" data-alt-en="${en}"></picture>`;
-const KIND={'voice-over':'wp','sound-engineering':'wp',photography:'ba','video-motion':'mg','web-app':'code',branding:'brand'};
+const KIND={'voice-over':'wp','sound-engineering':'wp',photography:'ba','video-motion':'vid','web-app':'code',branding:'brand'};
 const AUD={'voice-over':['vo-concept','موسيقى خلفية هادئة لتعليق صوتي','Ambient bed for a voice-over'],'sound-engineering':['mix-concept','مزج إيقاع وباص وخلفية','Beat, bass and pad mix']};
 const VF='<svg class="vf" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M3 14V3h11M86 3h11v11M97 86v11H86M14 97H3V86" vector-effect="non-scaling-stroke"/><path d="M47 50h6M50 47v6" vector-effect="non-scaling-stroke"/></svg>';
 const PLAY='<svg viewBox="0 0 24 24" class="i-play" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg><svg viewBox="0 0 24 24" class="i-pause" aria-hidden="true"><path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z" fill="currentColor"/></svg>';
@@ -24,11 +24,12 @@ function render(el){const d=el.dataset,k=d.kind||KIND[d.sid];if(!k||el.dataset.k
  else if(k==='dev'){el.innerHTML=`<div class="dev" role="img"><div class="dev-lap"><div class="dev-scr"><img src="${P}${d.lap||'ui_laptop'}.webp" width="1000" height="${d.lapH||1289}" loading="lazy" decoding="async" alt=""></div><i class="dev-base"></i></div>
   <div class="dev-ph"><div class="dev-scr"><img src="${P}${d.ph||'ui_phone'}.webp" width="600" height="${d.phH||4003}" loading="lazy" decoding="async" alt=""></div></div></div>`;
   dev(el.querySelector('.dev'),ar,en)}
+ else if(k==='vid'){el.innerHTML=vidHTML(true);vid(el,true)}
  else if(k==='mg'){el.innerHTML=`<canvas class="mg" role="img"></canvas>`;const c=el.querySelector('canvas');c.setAttribute('aria-label',T(ar,en));mg(el,c)}
  else if(k==='code'){el.innerHTML=`<div class="cd" role="img"><div class="dev-lap cd-lap"><div class="dev-scr cd-scr"><div class="cd-bar" aria-hidden="true"><i></i><i></i><i></i><span>index.html — KEV</span></div><div class="cd-body" aria-hidden="true"><pre class="cd-pre"><code></code></pre></div><div class="cd-ui" aria-hidden="true"><img src="${P}site_laptop-640.webp" width="640" height="1500" loading="lazy" decoding="async" alt=""></div></div><i class="dev-base"></i></div></div>`;code(el)}
  else if(k==='brand'){el.innerHTML=brandBoard();}
  else{el.innerHTML=pic(d.img,+d.w,+d.h,sz,ar,en)+(k==='vf'?VF:'')}
- if(d.tag!=='0'&&k!=='brand')el.insertAdjacentHTML('beforeend',`<span class="ctag">${BI('تصوّر','Concept')}</span>`);
+ if(d.tag!=='0'&&k!=='brand'&&k!=='vid')el.insertAdjacentHTML('beforeend',`<span class="ctag">${BI('تصوّر','Concept')}</span>`);
  if(k==='brand'){const b=el.querySelector('.bb');b.setAttribute('aria-label',T(ar||'هوية KEV: الشعار والألوان والتطبيقات',en||'KEV identity: logo, palette and applications'))}
  vis(el);labels(el)}
 /* ---------- waveform player ---------- */
@@ -86,6 +87,24 @@ let visIO=null;
 function vis(el){if(!('IntersectionObserver' in window)){el.classList.add('live');el._live=true;return}
  visIO=visIO||new IntersectionObserver(es=>es.forEach(e=>{const t=e.target;t._live=e.isIntersecting&&!document.hidden;t.classList.toggle('live',t._live);if(t._live&&t._wake)t._wake()}),{rootMargin:'80px'});visIO.observe(el)}
 document.addEventListener('visibilitychange',()=>document.querySelectorAll('.km').forEach(k=>{if(document.hidden){k._was=k._live;k._live=false;k.classList.remove('live')}else if(k._was){k._live=true;k.classList.add('live');k._wake&&k._wake()}}));
+/* ---------- promo video (video & motion) ---------- */
+const VS='assets/video/kev-promo',SPK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path class="s-on" d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="s-off" d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+function vidHTML(ctl){return `<div class="kv${ctl?' kv-ctl':''}"><i class="kv-bg" aria-hidden="true"></i><div class="kv-fr"><video class="kv-v" muted loop playsinline preload="none" poster="${VS}-poster.jpg" width="720" height="1280" disablepictureinpicture></video>${ctl?`<button class="kv-snd" type="button">${SPK}</button><button class="kv-full" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg><span>${BI('شاهد مع الصوت','Watch with sound')}</span></button>`:''}</div></div>`}
+let vidIO=null;const vids=new Set();
+function vid(host,ctl){const w=host.querySelector('.kv'),v=w.querySelector('video');let loaded=false;
+ const load=()=>{if(loaded)return;loaded=true;v.innerHTML=`<source src="${VS}.webm" type="video/webm"><source src="${VS}.mp4" type="video/mp4">`;v.preload='auto';v.load()};
+ const go=()=>{if(RM.matches&&v.muted)return;load();v.play().then(()=>w.classList.add('on')).catch(()=>{})};
+ w._in=false;w._go=go;w._stop=()=>{v.pause();w.classList.remove('on')};vids.add(w);
+ const sync=()=>{w.classList.toggle('sound',!v.muted);w._lab&&w._lab()};
+ w._lab=()=>{v.setAttribute('aria-label',T('فيديو موشن جرافيك لهوية KEV','KEV motion-graphics promo video'));const sb=w.querySelector('.kv-snd');if(sb){sb.setAttribute('aria-label',v.muted?T('تشغيل الصوت','Turn sound on'):T('كتم الصوت','Mute'));sb.setAttribute('aria-pressed',!v.muted)}};
+ if(ctl){const unmute=full=>{vids.forEach(o=>{if(o!==w){const ov=o.querySelector('video');ov.muted=true;o.classList.remove('sound')}});if(cur)cur.pause();if(full){v.currentTime=0}v.muted=false;load();v.play().then(()=>w.classList.add('on')).catch(()=>{});sync()};
+  w.querySelector('.kv-snd').addEventListener('click',e=>{e.stopPropagation();if(v.muted)unmute(false);else{v.muted=true;sync()}});
+  w.querySelector('.kv-full').addEventListener('click',e=>{e.stopPropagation();unmute(true)});
+  v.addEventListener('click',()=>{if(v.muted)unmute(true);else if(v.paused)go();else{v.pause();w.classList.remove('on')}})}
+ if(!('IntersectionObserver' in window)){go();sync();return}
+ vidIO=vidIO||new IntersectionObserver(es=>es.forEach(e=>{const t=e.target;t._in=e.isIntersecting;if(t._in&&!document.hidden)t._go();else t._stop()}),{threshold:.35});vidIO.observe(w);sync()}
+document.addEventListener('visibilitychange',()=>vids.forEach(w=>{if(!w.isConnected){vids.delete(w);return}if(document.hidden)w._stop();else if(w._in)w._go()}));
+K.kvCard=el=>{el.innerHTML=vidHTML(false);vid(el,false)};
 /* ---------- motion graphics canvas (video & motion) ---------- */
 function mg(host,c){const x=c.getContext('2d');let W=0,H=0,raf=0,t0=performance.now(),tp=0;
  const size=()=>{const r=c.getBoundingClientRect(),dp=Math.min(1.5,devicePixelRatio||1);W=r.width;H=r.height;c.width=Math.max(1,W*dp|0);c.height=Math.max(1,H*dp|0);x.setTransform(dp,0,0,dp,0,0)};
@@ -149,9 +168,9 @@ function brandBoard(){const sw=[['#080D28','Deep Navy'],['#7739F7','Electric Vio
  <div class="bb-sw" aria-hidden="true">${sw.map(([h,n],i)=>`<div style="--c:${h};--i:${i}"><i></i><b>${n}</b><span>${h}</span></div>`).join('')}</div>
  <div class="bb-mk" aria-hidden="true">${['kev_cards','kev_sign','kev_hoodie'].map((m,i)=>`<picture style="--i:${i}"><source type="image/webp" srcset="${P}${m}-640.webp"><img src="${P}${m}-640.jpg" width="640" height="360" alt="" loading="lazy" decoding="async"></picture>`).join('')}</div>
  <div class="bb-type" aria-hidden="true"><b>Aa</b><span>Montserrat · Cairo</span></div></div>`}
-function labels(r){(r||document).querySelectorAll('.wp,.ba,.dev').forEach(x=>x._lab&&x._lab());(r||document).querySelectorAll('.km img[data-alt-ar]').forEach(i=>i.alt=K.lang==='ar'?i.dataset.altAr:i.dataset.altEn)}
+function labels(r){(r||document).querySelectorAll('.wp,.ba,.dev,.kv').forEach(x=>x._lab&&x._lab());(r||document).querySelectorAll('.km img[data-alt-ar]').forEach(i=>i.alt=K.lang==='ar'?i.dataset.altAr:i.dataset.altEn)}
 K.kmInit=(r=document)=>r.querySelectorAll('.km:not([data-km-on])').forEach(render);
 document.addEventListener('kev:lang',()=>{if(cur)cur.pause();labels()});
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&cur)cur.pause()});
-document.addEventListener('DOMContentLoaded',()=>K.kmInit());
+document.addEventListener('DOMContentLoaded',()=>{K.kmInit();document.querySelectorAll('.cthumb-v:not(:has(.kv))').forEach(K.kvCard)});
 })();
