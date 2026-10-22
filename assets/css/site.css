@@ -549,3 +549,4 @@ html.is-dark{background:#070B20;color-scheme:dark}
 .km.an .mtr i::after{animation:none!important;transform:scaleY(calc(1 - var(--lv,0)));transition:transform 60ms linear}
 .cthumb-a{position:relative}.cthumb-a>.km{position:absolute;inset:0}
 .cthumb-a .wp{inset-inline:8px;bottom:8px;padding:6px 10px 6px 6px;gap:8px}.cthumb-a .wp-btn{width:38px;height:38px}.cthumb-a .wp-lbl{font-size:.66rem}.cthumb-a .wp-wave{height:24px}
+.km.an .eqz i{animation:none!important;opacity:.9;transform:scaleY(calc(.12 + var(--lv,0) * .88));transition:transform 60ms linear}
