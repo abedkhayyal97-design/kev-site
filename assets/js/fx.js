@@ -36,17 +36,6 @@ document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('[da
 
 (()=>{const t=document.querySelector('.k-tilt');if(!t||matchMedia('(prefers-reduced-motion: reduce)').matches||!matchMedia('(pointer:fine)').matches)return;let r=0;addEventListener('pointermove',e=>{if(r)return;r=requestAnimationFrame(()=>{r=0;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;t.style.setProperty('--rx',(x*8).toFixed(2)+'deg');t.style.setProperty('--ry',(-y*6).toFixed(2)+'deg')})},{passive:true})})();
 
-/* hero scroll-out (native scroll): content y 0->320px over 0..1000px, opacity 1->.05 over 0..850px, linear+clamped */
-(()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-const hero=document.querySelector('.hero');if(!hero)return;
-const mo=hero.querySelector(':scope>.motif');const els=[hero.querySelector(':scope>.wrap'),hero.querySelector('.cue')].filter(Boolean);
-const cl=(v,a,b)=>v<a?a:v>b?b:v;let tk=false,last=-1;
-function upd(){tk=false;const y=scrollY;if(y===last)return;last=y;if(y>1400)return;
- const ty=(cl(y/1000,0,1)*320).toFixed(1),op=(1-cl(y/850,0,1)*.95).toFixed(3);
- for(const e of els){e.style.translate=`0 ${ty}px`;e.style.opacity=op}if(mo){mo.style.translate=`0 ${ty}px`;mo.style.setProperty('--fade',op)}}
-addEventListener('scroll',()=>{if(!tk){tk=true;requestAnimationFrame(upd)}},{passive:true});upd();
-})();
-
 /* principles: scroll-linked blur/fade + parallax per card (reversible) */
 (()=>{const g=document.querySelector('[data-scrub]');if(!g||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 const cards=[...g.children],rates=[1,1.4,.75,1.2,.9,1.5],mob=matchMedia('(max-width:760px)');
@@ -61,14 +50,3 @@ function upd(){tk=false;const vh=innerHeight,small=mob.matches;
   for(const ch of c.children){ch.style.opacity=o;ch.style.filter=b>.05?`blur(${b.toFixed(2)}px)`:'none'}}}
 addEventListener('scroll',()=>{if(!tk){tk=true;requestAnimationFrame(upd)}},{passive:true});addEventListener('resize',upd);upd();
 })();
-/* P1 hero reel: poster + video load only after page load; autoplay muted loop when visible; respects reduced motion & save-data; pause control (WCAG 2.2.2) */
-(()=>{const f=document.querySelector('.reel');if(!f)return;const v=f.querySelector('video'),po=f.querySelector('.reel-po'),b=f.querySelector('.reel-p');
-const lbl=()=>{const ar=document.documentElement.lang==='ar',p=v.paused;b.setAttribute('aria-pressed',String(p));b.setAttribute('aria-label',p?(ar?'تشغيل الفيديو':'Play video'):(ar?'إيقاف الفيديو مؤقتاً':'Pause video'));f.classList.toggle('paused',p)};
-const still=matchMedia('(prefers-reduced-motion: reduce)').matches,save=navigator.connection&&navigator.connection.saveData;let loaded=false,user=false;
-const load=()=>{if(loaded)return;loaded=true;v.querySelectorAll('source').forEach(s=>s.src=s.dataset.src);v.load()};
-const go=()=>{po.src=po.dataset.src;po.onload=()=>f.classList.add('po-in');if(still||save){f.classList.add('paused');lbl();return}
- const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){load();if(!user)v.play().catch(()=>{})}else v.pause()}),{threshold:.25});io.observe(f)};
-v.addEventListener('playing',()=>{f.classList.add('live');lbl()});v.addEventListener('pause',lbl);
-b.addEventListener('click',()=>{user=true;if(v.paused){load();v.play().catch(()=>{})}else v.pause();lbl()});
-document.addEventListener('kev:lang',lbl);new MutationObserver(lbl).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
-if(document.readyState==='complete')setTimeout(go,300);else addEventListener('load',()=>setTimeout(go,300),{once:true})})();

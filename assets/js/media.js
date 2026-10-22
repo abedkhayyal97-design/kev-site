@@ -92,18 +92,19 @@ function vis(el){if(!('IntersectionObserver' in window)){el.classList.add('live'
 document.addEventListener('visibilitychange',()=>document.querySelectorAll('.km').forEach(k=>{if(document.hidden){k._was=k._live;k._live=false;k.classList.remove('live')}else if(k._was){k._live=true;k.classList.add('live');k._wake&&k._wake()}}));
 /* ---------- promo video (video & motion) ---------- */
 const VS='assets/video/kev-promo',SPK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path class="s-on" d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="s-off" d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
-function vidHTML(ctl){return `<div class="kv${ctl?' kv-ctl':''}"><i class="kv-bg" aria-hidden="true"></i><div class="kv-fr"><video class="kv-v" muted loop playsinline preload="none" poster="${VS}-poster.jpg" width="720" height="1280" disablepictureinpicture></video>${ctl?`<button class="kv-snd" type="button">${SPK}</button><button class="kv-full" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg><span>${BI('شاهد مع الصوت','Watch with sound')}</span></button>`:''}</div></div>`}
+function vidHTML(ctl){return `<div class="kv${ctl?' kv-ctl':''}"><i class="kv-bg" aria-hidden="true"></i><div class="kv-fr"><video class="kv-v" muted loop playsinline preload="none" poster="${VS}-poster.webp" width="720" height="1280" disablepictureinpicture></video><button class="kv-play" type="button" aria-label="Play video / تشغيل الفيديو"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></button>${ctl?`<button class="kv-snd" type="button">${SPK}</button><button class="kv-full" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg><span>${BI('شاهد مع الصوت','Watch with sound')}</span></button>`:''}</div></div>`}
 let vidIO=null;const vids=new Set();
 function vid(host,ctl){const w=host.querySelector('.kv'),v=w.querySelector('video');let loaded=false;
  const load=()=>{if(loaded)return;loaded=true;v.innerHTML=`<source src="${VS}.webm" type="video/webm"><source src="${VS}.mp4" type="video/mp4">`;v.preload='auto';v.load()};
- const go=()=>{if(RM.matches&&v.muted)return;load();v.play().then(()=>w.classList.add('on')).catch(()=>{})};
+ let ok=false;w.querySelector('.kv-play').addEventListener('click',e=>{e.stopPropagation();ok=true;v.muted=!ctl?true:v.muted;load();v.play().then(()=>w.classList.add('on')).catch(()=>{})});
+ const go=()=>{if(!ok||(RM.matches&&v.muted))return;load();v.play().then(()=>w.classList.add('on')).catch(()=>{})};
  w._in=false;w._go=go;w._stop=()=>{v.pause();w.classList.remove('on')};vids.add(w);
  const sync=()=>{w.classList.toggle('sound',!v.muted);w._lab&&w._lab()};
  w._lab=()=>{v.setAttribute('aria-label',T('فيديو موشن جرافيك لهوية KEV','KEV motion-graphics promo video'));const sb=w.querySelector('.kv-snd');if(sb){sb.setAttribute('aria-label',v.muted?T('تشغيل الصوت','Turn sound on'):T('كتم الصوت','Mute'));sb.setAttribute('aria-pressed',!v.muted)}};
- if(ctl){const unmute=full=>{vids.forEach(o=>{if(o!==w){const ov=o.querySelector('video');ov.muted=true;o.classList.remove('sound')}});if(cur)cur.pause();if(full){v.currentTime=0}v.muted=false;load();v.play().then(()=>w.classList.add('on')).catch(()=>{});sync()};
+ if(ctl){const unmute=full=>{vids.forEach(o=>{if(o!==w){const ov=o.querySelector('video');ov.muted=true;o.classList.remove('sound')}});if(cur)cur.pause();ok=true;if(full){v.currentTime=0}v.muted=false;load();v.play().then(()=>w.classList.add('on')).catch(()=>{});sync()};
   w.querySelector('.kv-snd').addEventListener('click',e=>{e.stopPropagation();if(v.muted)unmute(false);else{v.muted=true;sync()}});
   w.querySelector('.kv-full').addEventListener('click',e=>{e.stopPropagation();unmute(true)});
-  v.addEventListener('click',()=>{if(v.muted)unmute(true);else if(v.paused)go();else{v.pause();w.classList.remove('on')}})}
+  v.addEventListener('click',()=>{if(v.muted)unmute(true);else if(v.paused){ok=true;go()}else{v.pause();w.classList.remove('on')}})}
  if(!('IntersectionObserver' in window)){go();sync();return}
  vidIO=vidIO||new IntersectionObserver(es=>es.forEach(e=>{const t=e.target;t._in=e.isIntersecting;if(t._in&&!document.hidden)t._go();else t._stop()}),{threshold:.35});vidIO.observe(w);sync()}
 document.addEventListener('visibilitychange',()=>vids.forEach(w=>{if(!w.isConnected){vids.delete(w);return}if(document.hidden)w._stop();else if(w._in)w._go()}));

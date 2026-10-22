@@ -1,6 +1,6 @@
 # Static page builder for the KEV site. Run: python3 build.py
 import re
-ASSET_V="20261023d"  # bump to bust browser/CDN caches
+ASSET_V="20261023e"  # bump to bust browser/CDN caches
 def B(ar,en,tag='span',cls=''):
     c=(' '+cls) if cls else ''
     return f'<{tag} class="ar{c}" lang="ar">{ar}</{tag}><{tag} class="en{c}" lang="en">{en}</{tag}>'
@@ -82,7 +82,7 @@ def WAVE(src,peaks,ar,en,lab_ar,lab_en):
             f'<div class="wf-bars" role="slider" tabindex="0" aria-label="{en}" aria-valuemin="0" aria-valuemax="{int(dur)}" aria-valuenow="0">{bars}</div></div>'
             f'<span class="wf-t" dir="ltr"><b>0:00</b> / {int(dur)//60}:{int(dur)%60:02d}</span></div>')
 VID=(f'<div class="pf-vid"><img class="pf-vbg" src="assets/video/kev-promo-bg.jpg" alt="" width="320" height="180" loading="lazy" decoding="async" aria-hidden="true">'
-     f'<video controls playsinline preload="none" poster="assets/video/kev-promo-poster.jpg" width="1080" height="1920" aria-label="KEV promo video / فيديو KEV الترويجي"><source src="assets/video/kev-promo.webm" type="video/webm"><source src="assets/video/kev-promo.mp4" type="video/mp4"></video></div>')
+     f'<video controls playsinline preload="none" poster="assets/video/kev-promo-poster.webp" width="1080" height="1920" aria-label="KEV promo video / فيديو KEV الترويجي"><source src="assets/video/kev-promo.webm" type="video/webm"><source src="assets/video/kev-promo.mp4" type="video/mp4"></video></div>')
 WORKS=[
  (KM('branding','kev_logo',1280,720,'شعار KEV بالألوان على الكحلي','KEV logo in full colour on navy','ph',SZ,False,kind='ba',before='kev_logo_mono',b_alt_ar='شعار KEV بنسخة أحادية اللون',b_alt_en='KEV logo, one-colour version',a_alt_ar='شعار KEV بالألوان الكاملة',a_alt_en='KEV logo, full colour',b_ar='أحادي',b_en='Mono',a_ar='ملوّن',a_en='Colour',cmp_ar='مقارنة الشعار الأحادي والملوّن',cmp_en='Mono vs colour logo comparison'),
   'هوية بصرية','Brand identity','شعار KEV','The KEV logo','رمز دائري يجمع عدسة الكاميرا وموجة الصوت، بنسخ ملوّنة وأحادية وأفقية ومقاسات صغيرة.','A circular mark joining a camera lens and a sound wave, in colour, mono, horizontal and small-size versions.'),
@@ -134,18 +134,12 @@ BEL=''.join(f'<article class="box"><span class="num">0{i+1}</span><h3>{B(a,e)}</
 import re as _r
 _cfg=open('assets/js/config.js',encoding='utf-8').read()
 STATS=''.join(f'<div class="stat"><b>{n}<em>{suf}</em></b><span>{B(a,e)}</span></div>' for n,suf,a,e in _r.findall(r'\{\s*n:"([^"]*)",\s*suf:"([^"]*)",\s*l:\["([^"]*)","([^"]*)"\]',_cfg))
-REEL=(f'<figure class="reel" aria-labelledby="reel-cap"><div class="reel-scr"><img class="reel-po" data-src="assets/video/kev-promo-poster.jpg" alt="" width="1080" height="1920" decoding="async" aria-hidden="true">'
- f'<video class="reel-v" muted loop playsinline preload="none" width="1080" height="1920" aria-hidden="true" tabindex="-1"><source data-src="assets/video/kev-promo.webm" type="video/webm"><source data-src="assets/video/kev-promo.mp4" type="video/mp4"></video>'
- f'<span class="vf-c" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="rec" aria-hidden="true" dir="ltr"><b></b>REC</span><span class="tc" aria-hidden="true" dir="ltr">1080P · 60</span>'
- f'<button class="reel-p" type="button" aria-pressed="false" data-l-ar="إيقاف الفيديو مؤقتاً" data-l-en="Pause video" aria-label="Pause video"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path class="i-pa" d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/><path class="i-pl" d="M8 5l11 7-11 7z" fill="currentColor"/></svg></button></div>'
- f'<figcaption id="reel-cap">{B("من أعمالنا: فيديو KEV الترويجي","From our work: the KEV promo film")}</figcaption></figure>')
 WAVEBAR='<svg class="h-wave" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="'+' '.join(f'M{x} {30-h} V{30+h}' for x,h in ((i*12+6,int(4+22*abs(__import__("math").sin(i*.37)*__import__("math").cos(i*.11)))) for i in range(100)))+'" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'
-home=f'''<section class="band hero dark" data-band="dark" id="top"><div class="glow" aria-hidden="true"></div><div class="h-grid wrap">
-<div class="h-copy" data-stagger><span class="eyebrow">{B('KEV · خيال — استوديو إنتاج','KEV · Khayyal — production studio')}</span>
-<h1 class="display">{H('صوت. صورة.','خيال.','Sound. Vision.','Imagination.')}</h1>
-<p class="lead">{B('استوديو واحد للتعليق الصوتي وهندسة الصوت والتصوير والفيديو والهوية والبرمجة. نصنع أعمالاً تُسمَع وتُرى وتُتذكَّر.','One studio for voice-over, sound engineering, photography, video, identity and code. We make work that is heard, seen and remembered.')}</p>
-<div class="row"><a class="btn" href="services.html">{B('تصفّح الخدمات','Browse services')}</a><a class="btn ghost" href="#contact">{B('ابدأ مشروعاً','Start a project')}</a></div></div>{REEL}</div>{WAVEBAR}
-<a class="cue" href="#about-band"><i aria-hidden="true"></i>{B('مرّر','Scroll')}</a></section>
+home=f'''<section class="band hero dark" data-band="dark" id="top"><div class="h-amb" aria-hidden="true"></div><span class="h-vf" aria-hidden="true"><i></i><i></i><i></i><i></i></span><div class="h-copy wrap">
+<span class="eyebrow h-in">{B('KEV · خيال — استوديو إنتاج','KEV · Khayyal — production studio')}</span>
+<h1 class="display h-in">{H('صوت. صورة.','خيال.','Sound. Vision.','Imagination.')}</h1>
+<p class="lead h-in">{B('استوديو واحد للتعليق الصوتي وهندسة الصوت والتصوير والفيديو والهوية والبرمجة. نصنع أعمالاً تُسمَع وتُرى وتُتذكَّر.','One studio for voice-over, sound engineering, photography, video, identity and code. We make work that is heard, seen and remembered.')}</p>
+<div class="row h-in h-cta"><a class="btn" href="#contact">{CHAT}{B('تواصل معنا','Contact us')}</a><a class="btn ghost" href="#work">{B('شوف أعمالنا','See our work')}</a></div></div>{WAVEBAR}</section>
 <section class="slogan" data-band="light"><div class="wrap"><div class="sl-card rv"><span class="sl-ring" aria-hidden="true"></span><svg class="sl-boxi" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 20h32v20H8z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path class="lid" d="M8 20l-4-8h16l4 8M40 20l4-8H28l-4 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><circle class="spark" cx="24" cy="12" r="3.2" fill="#12D9E8"/></svg><p class="sl-txt"><span class="ar" lang="ar"><span class="w" style="--i:0">نفكّر</span> <span class="w hl" style="--i:1">خارج</span> <span class="w hl" style="--i:2">الصندوق</span></span><span class="en" lang="en"><span class="w" style="--i:0">We</span> <span class="w" style="--i:1">think</span> <span class="w hl" style="--i:2">outside</span> <span class="w hl" style="--i:3">the</span> <span class="w hl" style="--i:4">box</span></span><span class="sl-shine" aria-hidden="true"></span></p></div></div></section>
 <section class="band" data-band="light" id="about-band"><div class="wrap"><div class="head" data-stagger><span class="eyebrow">{B('لماذا KEV','Why KEV')}</span><h2 class="h2">{H('ست مهارات،','فريق واحد.','Six skills,','one team.')}</h2><p class="lead">{B('لا نسلّم ملفاً لجهة وننتقل لأخرى. الصوت والصورة والتصميم والكود يُبنون معاً، فيصل المنتج متماسكاً.','We never hand a file to one vendor and move on to the next. Sound, picture, design and code are built together, so the result holds up.')}</p></div>
 <div class="grid2" data-stagger><article class="box big"><span class="num">{B('الرسالة','MISSION')}</span><h3>{H('نحوّل الفكرة إلى','أثر.','We turn ideas into','impact.')}</h3><p>{B('إنتاج صوتي ومرئي وبرمجي بمعايير عالمية، بأسعار وخطوات واضحة.','Audio, visual and software production to international standards, with clear prices and steps.')}</p></article>

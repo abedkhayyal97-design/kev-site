@@ -286,10 +286,7 @@ footer .fb{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;bo
 .no-js .rv{opacity:1;transform:none;filter:none}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none;filter:none}.logos .track{transform:none}}
 /* hero scroll-out + background drift */
-.hero>.wrap,.hero>.motif,.hero .cue{will-change:translate,opacity}
-.glow{animation:kenb 26s ease-in-out infinite alternate;will-change:transform}
 @keyframes kenb{from{transform:scale(1)}to{transform:scale(1.12)}}
-:root[dir="rtl"] .glow{animation-name:kenbr}
 @keyframes kenbr{from{transform:scaleX(-1)}to{transform:scale(-1.12,1.12)}}
 /* ===== press feedback (no tap box) ===== */
 html,a,button,input,select,textarea,label,summary,[role="button"],[role="switch"]{-webkit-tap-highlight-color:transparent}
@@ -634,31 +631,11 @@ body{font-size:var(--fs-md);line-height:var(--lh-body)}
 :root.is-dark .hero{background:radial-gradient(70% 55% at 75% 30%,rgba(37,139,255,.16),transparent 70%),radial-gradient(50% 50% at 15% 85%,rgba(119,57,247,.14),transparent 70%),linear-gradient(180deg,#060A20 0%,var(--c-navy) 60%,#0A1030 100%)}
 .hero .h-grid{display:grid;gap:clamp(36px,6vw,72px);align-items:center;grid-template-columns:1fr}
 .hero .h-copy{display:grid;gap:var(--sp-5);max-width:40em}
-.reel{margin:0;display:grid;gap:var(--sp-3);justify-items:center;width:min(100%,300px);margin-inline:auto}
-.reel-scr{position:relative;width:100%;aspect-ratio:9/16;border-radius:22px;overflow:hidden;background:#05081A url(../video/kev-promo-bg.jpg) center/cover;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 40px 80px -30px rgba(0,0,0,.75),0 0 0 10px #0B1027,0 0 0 11px rgba(255,255,255,.07)}
-:root:not(.is-dark) .reel-scr{box-shadow:0 0 0 1px rgba(8,13,40,.1),0 30px 70px -30px rgba(8,13,40,.45),0 0 0 10px #0E1538,0 0 0 11px rgba(8,13,40,.12)}
-.reel-po,.reel-v{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s ease}
-.reel.po-in .reel-po{opacity:1}.reel.live .reel-v{opacity:1}
-.vf-c i{position:absolute;width:22px;height:22px;border:2px solid rgba(255,255,255,.75);z-index:2}
-.vf-c i:nth-child(1){inset-block-start:12px;inset-inline-start:12px;border-inline-end:0;border-block-end:0}
-.vf-c i:nth-child(2){inset-block-start:12px;inset-inline-end:12px;border-inline-start:0;border-block-end:0}
-.vf-c i:nth-child(3){inset-block-end:12px;inset-inline-start:12px;border-inline-end:0;border-block-start:0}
-.vf-c i:nth-child(4){inset-block-end:12px;inset-inline-end:12px;border-inline-start:0;border-block-start:0}
-.rec,.tc{position:absolute;z-index:2;inset-block-start:16px;font:700 .7rem/1 var(--f-en);letter-spacing:.14em;color:#fff;background:rgba(5,8,26,.55);padding:5px 8px;border-radius:6px}
-.rec{left:44px;display:flex;gap:6px;align-items:center}.tc{right:44px}
-.rec b{width:7px;height:7px;border-radius:50%;background:#FF4D5E;animation:recb 1.6s steps(1) infinite}
-.reel.paused .rec b{animation:none;opacity:.4}
 @keyframes recb{50%{opacity:.2}}
-.reel-p{position:absolute;z-index:3;inset-block-end:18px;inset-inline-end:18px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(5,8,26,.6);color:#fff;display:grid;place-items:center;cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-.reel-p:hover{background:rgba(5,8,26,.85)}
-.reel-p .i-pl{display:none}.reel.paused .reel-p .i-pa{display:none}.reel.paused .reel-p .i-pl{display:block}
-.reel figcaption{font-size:var(--fs-xs);color:var(--mute)}
 .h-wave{position:absolute;inset-inline:0;inset-block-end:0;width:100%;height:56px;color:var(--c-cyan);opacity:.12;z-index:1;pointer-events:none;-webkit-mask:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent);mask:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent)}
 :root:not(.is-dark) .h-wave{color:var(--c-cyan-d);opacity:.14}
 .hero .cue{display:none}
-@media (min-width:820px){.hero .h-grid{grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr)}.reel{width:min(100%,320px)}.hero .cue{display:grid}}
-@media (min-width:1200px){.reel{width:340px}}
-@media (max-width:819px){.reel{width:min(72vw,280px)}}
+
 /* soft ambient light on dark bands (cinema hall); light bands stay clean */
 :root.is-dark [data-band="dark"].band:not(.hero)::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 40% at 50% 0%,rgba(37,139,255,.07),transparent 70%)}
 /* KEV logo stays crisp: no halo/glow */
@@ -667,7 +644,27 @@ body{font-size:var(--fs-md);line-height:var(--lh-body)}
 /* RTL: mirror directional glyphs */
 :root[dir="rtl"] .dir-i,:root[dir="rtl"] .arrow{transform:scaleX(-1)}
 .hp{position:absolute!important;inset-inline-start:-9999px;width:1px;height:1px;overflow:hidden}
-@media (prefers-reduced-motion:reduce){.reel-po,.reel-v{transition:none}.box:hover,.tst:hover{transform:none}}
+@media (prefers-reduced-motion:reduce){.box:hover,.tst:hover{transform:none}}
 .hero{min-height:min(100svh,940px)}
 @media (min-width:820px){.hero .display{font-size:clamp(2.8rem,6vw,5.8rem)}:root[lang="en"] .hero .display{font-size:clamp(2.6rem,5.4vw,5.2rem)}}
-@media (max-width:1099px){.tc{display:none}}
+
+/* ---------- P1b lightweight hero: CSS-only motif, one entrance, no loops ---------- */
+.hero{position:relative;text-align:center;place-items:center}
+.hero .h-copy{display:grid;gap:var(--sp-5);max-width:46em;justify-items:center;position:relative;z-index:2}
+.hero .h-copy .lead{max-width:36em;margin-inline:auto}
+.hero .h-cta{justify-content:center;flex-wrap:wrap;gap:12px}
+.h-amb{position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(55% 45% at 50% 38%,rgba(37,139,255,.14),transparent 70%),radial-gradient(40% 35% at 50% 80%,rgba(18,217,232,.07),transparent 70%)}
+:root:not(.is-dark) .h-amb{background:radial-gradient(55% 45% at 50% 38%,rgba(18,217,232,.12),transparent 70%)}
+.h-vf{position:absolute;z-index:1;pointer-events:none;inset:clamp(84px,11vw,120px) clamp(16px,5vw,72px) clamp(64px,8vw,96px)}
+.h-vf i{position:absolute;width:clamp(28px,4vw,54px);height:clamp(28px,4vw,54px);border:1.5px solid currentColor;color:var(--c-cyan);opacity:.22}
+:root:not(.is-dark) .h-vf i{color:var(--c-cyan-d);opacity:.3}
+.h-vf i:nth-child(1){top:0;inset-inline-start:0;border-inline-end:0;border-block-end:0}
+.h-vf i:nth-child(2){top:0;inset-inline-end:0;border-inline-start:0;border-block-end:0}
+.h-vf i:nth-child(3){bottom:0;inset-inline-start:0;border-inline-end:0;border-block-start:0}
+.h-vf i:nth-child(4){bottom:0;inset-inline-end:0;border-inline-start:0;border-block-start:0}
+.hero .h-wave{opacity:.09;height:48px}
+.hero .h-in{animation:hIn .6s cubic-bezier(.2,.7,.2,1) both}
+.hero .h-in:nth-child(2){animation-delay:.06s}.hero .h-in:nth-child(3){animation-delay:.12s}.hero .h-in:nth-child(4){animation-delay:.18s}
+@keyframes hIn{from{opacity:.01;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.hero .h-in{animation:none}}
+.kv-play{position:absolute;inset:0;margin:auto;z-index:3;width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(5,8,26,.6);color:#fff;display:grid;place-items:center;cursor:pointer}.kv-play svg{width:26px;height:26px}.kv.on .kv-play{display:none}
