@@ -26,7 +26,7 @@ function render(el){const d=el.dataset,k=d.kind||KIND[d.sid];if(!k||el.dataset.k
   dev(el.querySelector('.dev'),ar,en)}
  else if(k==='vid'){el.innerHTML=vidHTML(true);vid(el,true)}
  else if(k==='mg'){el.innerHTML=`<canvas class="mg" role="img"></canvas>`;const c=el.querySelector('canvas');c.setAttribute('aria-label',T(ar,en));mg(el,c)}
- else if(k==='code'){el.innerHTML=`<div class="cd" role="img"><div class="dev-lap cd-lap"><div class="dev-scr cd-scr"><div class="cd-bar" aria-hidden="true"><i></i><i></i><i></i><span>index.html — KEV</span></div><div class="cd-body" aria-hidden="true"><pre class="cd-pre"><code></code></pre></div><div class="cd-ui" aria-hidden="true"><img src="${P}site_laptop-640.webp" width="640" height="1500" loading="lazy" decoding="async" alt=""></div></div><i class="dev-base"></i></div></div>`;code(el)}
+ else if(k==='code'){el.innerHTML=`<div class="cd" role="img" aria-label="${document.documentElement.lang==='ar'?'محرّر كود يكتب موقع KEV':'Code editor writing the KEV website'}"><div class="dev-lap cd-lap"><div class="dev-scr cd-scr"><div class="cd-bar" aria-hidden="true"><i></i><i></i><i></i><span>index.html — KEV</span></div><div class="cd-body" aria-hidden="true"><pre class="cd-pre"><code></code></pre></div><div class="cd-ui" aria-hidden="true"><img src="${P}site_laptop-640.webp" width="640" height="1500" loading="lazy" decoding="async" alt=""></div></div><i class="dev-base"></i></div></div>`;code(el)}
  else if(k==='brand'){el.innerHTML=brandBoard();}
  else{el.innerHTML=pic(d.img,+d.w,+d.h,sz,ar,en)+(k==='vf'?VF:'')}
  if(d.tag!=='0'&&k!=='brand'&&k!=='vid'&&d.sid!=='sound-engineering'&&d.sid!=='voice-over')el.insertAdjacentHTML('beforeend',`<span class="ctag">${BI('تصوّر','Concept')}</span>`);
