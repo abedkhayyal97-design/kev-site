@@ -51,7 +51,7 @@ def page(fn,tar,ten,desc,body,cur=None,js=()):
     scripts=''.join(f'<script defer src="assets/js/{j}.js"></script>' for j in ('config','common')+tuple(js)+('media','fx'))
     html=f'''<!DOCTYPE html>
 <html lang="ar" dir="rtl" class="no-js" data-title-ar="{tar} · KEV خيال" data-title-en="{ten} · KEV Khayyal">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<head><script>(function(){{var d=document.documentElement,t,l;try{{t=localStorage.getItem('kev-theme');l=localStorage.getItem('kev-lang')}}catch(e){{}}if(t==='dark'||t==='light')d.setAttribute('data-theme',t);if(t?t==='dark':!!(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches))d.classList.add('is-dark');if(l!=='ar'&&l!=='en')l=navigator.language&&!/^ar/i.test(navigator.language)?'en':'ar';d.lang=l;d.dir=l==='ar'?'rtl':'ltr'}})()</script><meta charset="utf-8"><meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{tar} · KEV خيال</title><meta name="description" content="{desc}">
 <meta name="theme-color" content="#080D28"><link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" href="assets/brand/kev_icon-tile.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="assets/brand/apple-touch-icon-180.png"><link rel="manifest" href="site.webmanifest">
 <link rel="preload" href="assets/fonts/cairo.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="assets/css/site.css">{scripts}</head>

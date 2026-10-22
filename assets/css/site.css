@@ -460,3 +460,7 @@ nav a{font-size:var(--fs-nav);font-weight:var(--fw-nav)}
 .badge{font-size:var(--fs-xs)}.pills li,.crumbs,.work p{font-size:var(--fs-sm)}.pkg dl{font-size:calc(var(--fs-sm) * 1.06)}
 .ba-tag,.wp-lbl.ar{font-size:var(--fs-xs)}:root[lang="ar"] .ctag{font-size:.78rem}
 .page-hero p{font-size:calc(var(--fs-body) * 1.06)}
+
+/* first paint matches theme (set by inline head script) */
+html{background:#F6F5F1;color-scheme:light}
+html.is-dark{background:#070B20;color-scheme:dark}
