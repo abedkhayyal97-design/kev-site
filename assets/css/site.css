@@ -668,3 +668,4 @@ body{font-size:var(--fs-md);line-height:var(--lh-body)}
 @keyframes hIn{from{opacity:.01;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.hero .h-in{animation:none}}
 .kv-play{position:absolute;inset:0;margin:auto;z-index:3;width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(5,8,26,.6);color:#fff;display:grid;place-items:center;cursor:pointer}.kv-play svg{width:26px;height:26px}.kv.on .kv-play{display:none}
+@media (max-width:560px){.hero .h-copy{padding-inline:26px}:root .hero .eyebrow{letter-spacing:.14em;font-size:.68rem}.hero .eyebrow::before{display:none}.hero .h-cta .btn{min-width:200px;justify-content:center}}
