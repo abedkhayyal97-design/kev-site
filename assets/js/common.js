@@ -23,12 +23,17 @@ function setLang(l){KEV.lang=l;root.lang=l;root.dir=l==='ar'?'rtl':'ltr';store.s
  const t=root.dataset['title'+(l==='ar'?'Ar':'En')];if(t)document.title=t;
  document.dispatchEvent(new CustomEvent('kev:lang',{detail:l}))}
 KEV.setLang=setLang;
+/* start at the top: no browser scroll restoration; honour a deliberate #anchor; smooth scrolling only after load */
+function toStart(){const h=window.__kevHash||'';let t=null;try{t=h&&document.getElementById(decodeURIComponent(h.slice(1)))}catch(e){}if(t)t.scrollIntoView({behavior:'instant',block:'start'});else window.scrollTo({top:0,left:0,behavior:'instant'})}
+addEventListener('load',()=>{toStart();requestAnimationFrame(()=>requestAnimationFrame(()=>root.classList.add('smooth')))});
+addEventListener('pageshow',e=>{if(e.persisted){window.__kevHash='';root.classList.remove('smooth');toStart();requestAnimationFrame(()=>root.classList.add('smooth'))}});
 /* theme */
 const curDark=()=>root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;
 function syncDark(){root.classList.toggle('is-dark',curDark())}
 function setTheme(t){root.dataset.theme=t;syncDark();const s=$('#themeSw');if(s)s.setAttribute('aria-checked',t==='dark');document.dispatchEvent(new Event('kev:theme'))}
 syncDark();matchMedia('(prefers-color-scheme:dark)').addEventListener?.('change',syncDark);
 document.addEventListener('DOMContentLoaded',()=>{
+ if(!window.__kevHash)window.scrollTo({top:0,left:0,behavior:'instant'});
  const y=$('#yr');if(y)y.textContent=new Date().getFullYear();
  $('#lang')?.addEventListener('click',()=>setLang(KEV.lang==='ar'?'en':'ar'));
  $('#lang2')?.addEventListener('click',()=>setLang(KEV.lang==='ar'?'en':'ar'));

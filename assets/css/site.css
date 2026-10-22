@@ -11,7 +11,7 @@
 :root[data-theme="dark"]{--off:#0C1233;--paper:#111940;--ink:#F1F3FF;--mute:#A9B1D6;--line:#232C5C;--hl:var(--acc);--bg:var(--off);--surface:var(--paper)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--off:#0C1233;--paper:#111940;--ink:#F1F3FF;--mute:#A9B1D6;--line:#232C5C;--hl:var(--acc);--bg:var(--off);--surface:var(--paper)}}
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:90px}
+html{scroll-padding-top:90px}html.smooth{scroll-behavior:smooth}
 body{margin:0;background:var(--off);color:var(--ink);font:400 1.0625rem/1.75 var(--f);-webkit-font-smoothing:antialiased;overflow-x:clip}
 h1,h2,h3{margin:0;line-height:1.08;font-weight:800;letter-spacing:-.01em}
 :root[lang="en"] h1,:root[lang="en"] h2{letter-spacing:-.035em}
