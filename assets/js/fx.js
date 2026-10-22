@@ -6,7 +6,7 @@ function features(){const el=document.getElementById('features');if(!el||!K)retu
   return `<div class="svc rv"><div class="box big"><span class="num">0${i+1}</span><h3>${esc(L(s.name))}</h3><p>${esc(L(s.desc))}</p>
  <ul class="pills" aria-label="${T('يتضمن','Includes')}">${p.items.map(x=>`<li>${esc(L(x))}</li>`).join('')}</ul>
  <div class="row"><a class="btn sm" href="service-${s.id}.html">${T('الباقات والأسعار','Packages & prices')}<span class="sr"> — ${esc(L(s.name))}</span></a><span class="badge">${T('يبدأ من','From')} $${min}</span></div></div>
- <div class="media"><picture class="pic"><source type="image/webp" srcset="assets/img/work/svc_${s.id}-640.webp 640w, assets/img/work/svc_${s.id}.webp 1280w" sizes="(max-width:760px) 100vw, 45vw"><img src="assets/img/work/svc_${s.id}.jpg" srcset="assets/img/work/svc_${s.id}-640.jpg 640w, assets/img/work/svc_${s.id}.jpg 1280w" sizes="(max-width:760px) 100vw, 45vw" width="1280" height="720" loading="lazy" decoding="async" alt="${esc(L(s.name))} — ${T('صورة توضيحية','illustrative image')}"></picture><span class="ctag">${T('تصوّر','Concept')}</span></div></div>`}).join('');observe()}
+ <div class="media km" data-sid="${s.id}" data-img="svc_${s.id}" data-w="1280" data-h="720" data-sizes="(max-width:860px) 100vw, 45vw" data-alt-ar="${esc(s.name[0])} — صورة توضيحية" data-alt-en="${esc(s.name[1])} — illustrative image"></div></div>`}).join('');if(K.kmInit)K.kmInit(el);observe()}
 let counted=false;
 function stats(){const el=document.getElementById('stats');if(!el||!K)return;const S=K.C.stats||[];el.closest('section').hidden=!S.length;
  el.innerHTML=S.map((s,i)=>{const n=String(s.n),m=n.match(/^([^0-9]*)([0-9][0-9,.]*)(.*)$/);const pre=m?m[1]:'',num=m?m[2]:n,post=(m?m[3]:'');
