@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('[da
 /* P1c motion: variety, visibility gating, tilt, marquee, magnetic buttons, parallax motifs */
 (()=>{const still=matchMedia('(prefers-reduced-motion: reduce)').matches,fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 function init(){
+ addEventListener('load',()=>setTimeout(()=>{const h=document.querySelector('.hero');h&&h.classList.add('ld')},2500));
  document.querySelectorAll('.work.rv').forEach((e,i)=>{if(i%2)e.classList.add('rv-l')});
  document.querySelectorAll('.tst.rv,.stat.rv').forEach(e=>e.classList.add('rv-s'));
  document.querySelectorAll('.flow li').forEach((e,i)=>{e.classList.add('rv','rv-l');e.style.setProperty('--i',i)});

@@ -731,3 +731,5 @@ body{font-size:var(--fs-md);line-height:var(--lh-body)}
 .head .h2.in::after,.no-js .head .h2::after{transform:scaleX(1)}
 @keyframes ulG{to{background-position:300% 0}}
 @media (prefers-reduced-motion:reduce){.marq .clients{animation:none;flex-wrap:wrap;width:auto}.head .h2::after{transform:none}.h-words .w{animation:none}}
+.hero:not(.ld) .wb,.hero:not(.ld) .h-sweep,.hero:not(.ld) .h-ap,.hero:not(.ld) .k-br{animation:none}
+.h-words .w{animation-duration:.6s;animation-delay:calc(.05s + var(--i)*.1s)}.hero .lead.h-in{animation-delay:.15s}.hero .h-cta.h-in{animation-delay:.25s}
