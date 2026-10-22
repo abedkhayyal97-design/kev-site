@@ -4,7 +4,7 @@ const T=(a,e)=>K.lang==='ar'?a:e,BI=(a,e)=>`<span class="ar" lang="ar">${a}</spa
 const RM=matchMedia('(prefers-reduced-motion: reduce)'),COARSE=matchMedia('(hover: none)');
 const P='assets/img/work/';
 const pic=(n,w,h,sizes,ar,en,cls='')=>`<picture class="pic ${cls}"><source type="image/webp" srcset="${P}${n}-640.webp 640w, ${P}${n}.webp ${w}w" sizes="${sizes}"><img src="${P}${n}.jpg" srcset="${P}${n}-640.jpg 640w, ${P}${n}.jpg ${w}w" sizes="${sizes}" width="${w}" height="${h}" loading="lazy" decoding="async" alt="${T(ar,en)}" data-alt-ar="${ar}" data-alt-en="${en}"></picture>`;
-const KIND={'voice-over':'wp','sound-engineering':'wp',photography:'ba','video-motion':'ba','web-app':'dev',branding:'vf'};
+const KIND={'voice-over':'wp','sound-engineering':'wp',photography:'ba','video-motion':'mg','web-app':'code',branding:'brand'};
 const AUD={'voice-over':['vo-concept','موسيقى خلفية هادئة لتعليق صوتي','Ambient bed for a voice-over'],'sound-engineering':['mix-concept','مزج إيقاع وباص وخلفية','Beat, bass and pad mix']};
 const VF='<svg class="vf" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M3 14V3h11M86 3h11v11M97 86v11H86M14 97H3V86" vector-effect="non-scaling-stroke"/><path d="M47 50h6M50 47v6" vector-effect="non-scaling-stroke"/></svg>';
 const PLAY='<svg viewBox="0 0 24 24" class="i-play" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg><svg viewBox="0 0 24 24" class="i-pause" aria-hidden="true"><path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z" fill="currentColor"/></svg>';
@@ -12,7 +12,7 @@ const PLAY='<svg viewBox="0 0 24 24" class="i-play" aria-hidden="true"><path d="
 function render(el){const d=el.dataset,k=d.kind||KIND[d.sid];if(!k||el.dataset.kmOn)return;el.dataset.kmOn='1';
  const sz=d.sizes||'(max-width:760px) 100vw, 50vw',ar=d.altAr||'',en=d.altEn||'';el.classList.add('km-'+k);
  if(k==='wp'){const[a,lar,len]=AUD[d.sid];
-  el.innerHTML=pic(d.img,+d.w,+d.h,sz,ar,en,'wp-bg')+`<div class="wp" data-src="assets/audio/${a}" data-name-ar="${lar}" data-name-en="${len}">
+  const meters=d.sid==='sound-engineering';el.innerHTML=pic(d.img,+d.w,+d.h,sz,ar,en,'wp-bg')+(meters?`<div class="mtr" aria-hidden="true">${Array.from({length:8},(_,i)=>`<i style="--d:${(-(i*.37)%1.3).toFixed(2)}s;--s:${(0.9+(i%3)*.25).toFixed(2)}s"><b></b></i>`).join('')}</div>`:`<div class="eqz" aria-hidden="true">${Array.from({length:32},(_,i)=>`<i style="--d:${(-(i*.173)%1.1).toFixed(2)}s;--s:${(0.75+((i*7)%5)*.12).toFixed(2)}s;--h:${(0.35+Math.abs(Math.sin(i*.6))*.65).toFixed(2)}"></i>`).join('')}</div>`)+`<div class="wp" data-src="assets/audio/${a}" data-name-ar="${lar}" data-name-en="${len}">
   <button class="wp-btn" type="button">${PLAY}</button>
   <div class="wp-main"><div class="wp-top"><span class="wp-lbl">${BI('عيّنة توضيحية','Concept demo')}</span><span class="wp-time" dir="ltr"><b>0:00</b> / <span class="wp-dur">0:18</span></span></div>
   <div class="wp-wave" dir="ltr" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="18" aria-valuenow="0"><svg class="wp-s0" preserveAspectRatio="none" aria-hidden="true"></svg><svg class="wp-s1" preserveAspectRatio="none" aria-hidden="true"></svg><i class="wp-head" aria-hidden="true"></i></div></div></div>`;
@@ -24,9 +24,13 @@ function render(el){const d=el.dataset,k=d.kind||KIND[d.sid];if(!k||el.dataset.k
  else if(k==='dev'){el.innerHTML=`<div class="dev" role="img"><div class="dev-lap"><div class="dev-scr"><img src="${P}${d.lap||'ui_laptop'}.webp" width="1000" height="${d.lapH||1289}" loading="lazy" decoding="async" alt=""></div><i class="dev-base"></i></div>
   <div class="dev-ph"><div class="dev-scr"><img src="${P}${d.ph||'ui_phone'}.webp" width="600" height="${d.phH||4003}" loading="lazy" decoding="async" alt=""></div></div></div>`;
   dev(el.querySelector('.dev'),ar,en)}
+ else if(k==='mg'){el.innerHTML=`<canvas class="mg" role="img"></canvas>`;const c=el.querySelector('canvas');c.setAttribute('aria-label',T(ar,en));mg(el,c)}
+ else if(k==='code'){el.innerHTML=`<div class="cd" role="img"><div class="dev-lap cd-lap"><div class="dev-scr cd-scr"><div class="cd-bar" aria-hidden="true"><i></i><i></i><i></i><span>index.html — KEV</span></div><div class="cd-body" aria-hidden="true"><pre class="cd-pre"><code></code></pre></div><div class="cd-ui" aria-hidden="true"><img src="${P}site_laptop-640.webp" width="640" height="1500" loading="lazy" decoding="async" alt=""></div></div><i class="dev-base"></i></div></div>`;code(el)}
+ else if(k==='brand'){el.innerHTML=brandBoard();}
  else{el.innerHTML=pic(d.img,+d.w,+d.h,sz,ar,en)+(k==='vf'?VF:'')}
- if(d.tag!=='0')el.insertAdjacentHTML('beforeend',`<span class="ctag">${BI('تصوّر','Concept')}</span>`);
- labels(el)}
+ if(d.tag!=='0'&&k!=='brand')el.insertAdjacentHTML('beforeend',`<span class="ctag">${BI('تصوّر','Concept')}</span>`);
+ if(k==='brand'){const b=el.querySelector('.bb');b.setAttribute('aria-label',T(ar||'هوية KEV: الشعار والألوان والتطبيقات',en||'KEV identity: logo, palette and applications'))}
+ vis(el);labels(el)}
 /* ---------- waveform player ---------- */
 let cur=null;const fmt=s=>{s=Math.max(0,Math.round(s||0));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
 const peaksCache={};
@@ -43,9 +47,9 @@ function wp(w){const src=w.dataset.src,wave=w.querySelector('.wp-wave'),btn=w.qu
    ready=fetch(src+'.mp3').then(r=>{if(!r.ok)throw 0;return r.blob()}).then(bl=>{au.src=URL.createObjectURL(bl)}).catch(()=>{au.src=src+'.mp3'})}
   return au};
  const loop=()=>{if(au&&pend===null)set(au.currentTime);raf=requestAnimationFrame(loop)};
- function stop(){w.classList.remove('on');cancelAnimationFrame(raf);if(cur===api)cur=null;lab()}
+ function stop(){w.classList.remove('on');w.closest('.km')?.classList.remove('playing');cancelAnimationFrame(raf);if(cur===api)cur=null;lab()}
  const api={pause(){if(au)au.pause();stop()}};w._api=api;
- function play(){if(cur&&cur!==api)cur.pause();cur=api;const a=get();ready.then(()=>a.play()).then(()=>{w.classList.add('on');cancelAnimationFrame(raf);loop();lab()}).catch(()=>stop())}
+ function play(){if(cur&&cur!==api)cur.pause();cur=api;const a=get();ready.then(()=>a.play()).then(()=>{w.classList.add('on');w.closest('.km')?.classList.add('playing');cancelAnimationFrame(raf);loop();lab()}).catch(()=>stop())}
  btn.addEventListener('click',()=>w.classList.contains('on')?api.pause():play());
  const seek=t=>{const a=get();t=Math.min(dur,Math.max(0,t));if(a.readyState>0){try{a.currentTime=t}catch(e){}}else pend=t;set(t)};
  const at=e=>{const r=wave.getBoundingClientRect();return (e.clientX-r.left)/r.width*dur};
@@ -76,6 +80,75 @@ function dev(d,ar,en){d._lab=()=>d.setAttribute('aria-label',T(ar,en));d._lab();
  d.querySelectorAll('img').forEach(i=>i.complete?meas():i.addEventListener('load',meas));addEventListener('resize',meas,{passive:true});
  if(COARSE.matches&&'IntersectionObserver' in window){devIO=devIO||new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('auto',e.isIntersecting&&!RM.matches)),{threshold:.5});devIO.observe(d)}
  if(!RM.matches&&!COARSE.matches){d.addEventListener('pointermove',e=>{const r=d.getBoundingClientRect();d.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*8+'deg');d.style.setProperty('--rx',(.5-(e.clientY-r.top)/r.height)*6+'deg')});d.addEventListener('pointerleave',()=>{d.style.setProperty('--ry','0deg');d.style.setProperty('--rx','0deg')})}}
+
+/* ---------- visibility: run animations only on screen ---------- */
+let visIO=null;
+function vis(el){if(!('IntersectionObserver' in window)){el.classList.add('live');el._live=true;return}
+ visIO=visIO||new IntersectionObserver(es=>es.forEach(e=>{const t=e.target;t._live=e.isIntersecting&&!document.hidden;t.classList.toggle('live',t._live);if(t._live&&t._wake)t._wake()}),{rootMargin:'80px'});visIO.observe(el)}
+document.addEventListener('visibilitychange',()=>document.querySelectorAll('.km').forEach(k=>{if(document.hidden){k._was=k._live;k._live=false;k.classList.remove('live')}else if(k._was){k._live=true;k.classList.add('live');k._wake&&k._wake()}}));
+/* ---------- motion graphics canvas (video & motion) ---------- */
+function mg(host,c){const x=c.getContext('2d');let W=0,H=0,raf=0,t0=performance.now(),tp=0;
+ const size=()=>{const r=c.getBoundingClientRect(),dp=Math.min(1.5,devicePixelRatio||1);W=r.width;H=r.height;c.width=Math.max(1,W*dp|0);c.height=Math.max(1,H*dp|0);x.setTransform(dp,0,0,dp,0,0)};
+ const E=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2,P=8;
+ function draw(t){const s=t%P,k=s/P;x.clearRect(0,0,W,H);
+  const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#060A1F');g.addColorStop(1,'#0B0F2E');x.fillStyle=g;x.fillRect(0,0,W,H);
+  const gl=x.createRadialGradient(W*.7,H*.3,0,W*.7,H*.3,W*.6);gl.addColorStop(0,'rgba(119,57,247,.28)');gl.addColorStop(1,'rgba(119,57,247,0)');x.fillStyle=gl;x.fillRect(0,0,W,H);
+  // perspective grid
+  x.strokeStyle='rgba(18,217,232,.10)';x.lineWidth=1;const hz=H*.62;
+  for(let i=-8;i<=8;i++){x.beginPath();x.moveTo(W/2+i*W*.02,hz);x.lineTo(W/2+i*W*.16,H);x.stroke()}
+  for(let i=0;i<7;i++){const yy=hz+Math.pow((i+(t*.6)%1)/7,2)*(H-hz);x.beginPath();x.moveTo(0,yy);x.lineTo(W,yy);x.stroke()}
+  // light trails
+  for(let j=0;j<5;j++){const ph=t*.55+j*1.3,amp=H*(.08+j*.025),y0=H*(.28+j*.07);
+   x.beginPath();for(let i=0;i<=40;i++){const u=i/40,xx=u*W,yy=y0+Math.sin(u*5+ph)*amp*Math.sin(u*Math.PI);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+   const lg=x.createLinearGradient(0,0,W,0);lg.addColorStop(0,'rgba(18,217,232,0)');lg.addColorStop(.5,j%2?'rgba(119,57,247,.9)':'rgba(18,217,232,.95)');lg.addColorStop(1,'rgba(37,139,255,0)');
+   x.setLineDash([W*.18,W*.5]);x.lineDashOffset=-t*W*.35-j*90;x.strokeStyle=lg;x.lineWidth=6;x.globalAlpha=.18;x.stroke();x.lineWidth=2;x.globalAlpha=.95;x.stroke();x.globalAlpha=1}
+  x.setLineDash([]);
+  // kinetic shapes
+  const sh=[[.22,.42,'#12D9E8',0],[.5,.5,'#7739F7',1],[.78,.4,'#258BFF',2]];
+  sh.forEach(([px,py,col,ty],i)=>{const q=E((k*3+i/3)%1),sc=(.5+Math.sin((k*3+i/3)%1*Math.PI)*.6)*Math.min(W,H)*.09;x.save();x.translate(W*px+Math.sin(t+i)*W*.03,H*py+Math.cos(t*.8+i)*H*.04);x.rotate(q*Math.PI*(ty===1?-1:1));
+   x.strokeStyle=col;x.lineWidth=2.5;x.fillStyle=col+'22';x.beginPath();
+   if(ty===0)x.rect(-sc,-sc,sc*2,sc*2);else if(ty===1)x.arc(0,0,sc,0,Math.PI*2);else{x.moveTo(0,-sc);x.lineTo(sc*.95,sc*.7);x.lineTo(-sc*.95,sc*.7);x.closePath()}
+   x.fill();x.stroke();x.restore()});
+  // frame transition wipe every half loop
+  const w=(s%(P/2))/(P/2);if(w>.82){const v=E((w-.82)/.18);x.fillStyle='rgba(18,217,232,.9)';for(let b=0;b<6;b++){const bw=W/6;x.fillRect(b*bw,0,bw*Math.max(0,Math.min(1,v*1.6-b*.12)),H)}}
+  // viewfinder + rec
+  x.strokeStyle='rgba(255,255,255,.55)';x.lineWidth=1.5;const m=Math.min(W,H)*.06,L=m*.9;
+  [[m,m+26,1,1],[W-m,m+26,-1,1],[m,H-m*2.6,1,-1],[W-m,H-m*2.6,-1,-1]].forEach(([a,b,sx,sy])=>{x.beginPath();x.moveTo(a,b+L*sy);x.lineTo(a,b);x.lineTo(a+L*sx,b);x.stroke()});
+  if((t%1.2)<.7){x.fillStyle='#FF4D5E';x.beginPath();x.arc(m+L*.45,m+26+L*.45,4,0,7);x.fill()}
+  // timeline with keyframes + playhead
+  const ty=H-m*1.5,tx0=m,tx1=W-m;x.fillStyle='rgba(255,255,255,.08)';x.fillRect(tx0,ty-9,tx1-tx0,18);
+  x.fillStyle='rgba(18,217,232,.35)';x.fillRect(tx0,ty-9,(tx1-tx0)*k,18);
+  [.08,.22,.37,.5,.64,.81,.93].forEach((u,i)=>{const kx=tx0+(tx1-tx0)*u,on=k>=u;x.save();x.translate(kx,ty);x.rotate(Math.PI/4);x.fillStyle=on?(i%2?'#7739F7':'#12D9E8'):'rgba(255,255,255,.35)';x.fillRect(-4.5,-4.5,9,9);x.restore()});
+  const px=tx0+(tx1-tx0)*k;x.fillStyle='#fff';x.fillRect(px-1,ty-16,2,32);x.beginPath();x.moveTo(px-6,ty-22);x.lineTo(px+6,ty-22);x.lineTo(px,ty-15);x.fill();
+  const f=Math.floor(s*25),tc='00:00:'+String(Math.floor(s)).padStart(2,'0')+':'+String(f%25).padStart(2,'0');
+  x.font='600 12px ui-monospace,Menlo,Consolas,monospace';x.fillStyle='rgba(234,246,255,.85)';x.textAlign='right';x.fillText(tc,tx1,ty-18);x.textAlign='left'}
+ const loop=n=>{if(!host._live){raf=0;return}tp=(n-t0)/1000;draw(tp);raf=requestAnimationFrame(loop)};
+ host._wake=()=>{if(RM.matches){size();draw(2.6);return}if(!raf){t0=performance.now()-tp*1000;raf=requestAnimationFrame(loop)}};
+ size();draw(2.6);if('ResizeObserver' in window)new ResizeObserver(()=>{size();draw(tp||2.6)}).observe(c)}
+/* ---------- live code typing (web & app) ---------- */
+const SRC=[['c','<!-- KEV · Khayyal Echo Vision -->\n'],['t','<section '],['a','class'],['p','='],['s','"hero"'],['t','>\n'],['t','  <h1>'],['x','Sound. Vision. '],['t','<span>'],['x','Imagination.'],['t','</span></h1>\n'],['t','  <a '],['a','class'],['p','='],['s','"btn"'],['t',' '],['a','href'],['p','='],['s','"#services"'],['t','>'],['x','Browse services'],['t','</a>\n</section>\n\n'],
+ ['k','.hero'],['p',' {\n  '],['a','display'],['p',': '],['s','grid'],['p',';\n  '],['a','background'],['p',': '],['s','#080D28'],['p',';\n  '],['a','color'],['p',': '],['s','#12D9E8'],['p',';\n}\n\n'],
+ ['k','const'],['p',' io = '],['k','new'],['f',' IntersectionObserver'],['p','(es =>\n  es.'],['f','forEach'],['p','(e => e.target.classList.'],['f','toggle'],['p','('],['s',"'in'"],['p',', e.isIntersecting)));\n'],
+ ['f','document'],['p','.'],['f','querySelectorAll'],['p','('],['s',"'.rv'"],['p',').'],['f','forEach'],['p','(el => io.'],['f','observe'],['p','(el));']];
+const escH=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function code(host){const cd=host.querySelector('.cd'),pre=host.querySelector('.cd-pre code'),body=host.querySelector('.cd-body'),ui=host.querySelector('.cd-ui');
+ const total=SRC.reduce((a,[,t])=>a+t.length,0);let n=0,phase=0,hold=0,raf=0,last=0;
+ const html=m=>{let o='',left=m;for(const[c,t]of SRC){if(left<=0)break;const part=t.slice(0,left);left-=part.length;o+=`<span class="k-${c}">${escH(part)}</span>`}return o+'<i class="cd-cur"></i>'};
+ const paint=()=>{pre.innerHTML=html(n);const over=pre.offsetHeight-body.clientHeight;pre.style.transform=over>0?`translateY(${-over}px)`:'none'};
+ const step=ts=>{if(!host._live){raf=0;return}const dt=Math.min(64,ts-(last||ts));last=ts;
+  if(phase===0){n=Math.min(total,n+Math.max(1,Math.round(dt*.16)));paint();if(n>=total){phase=1;hold=0}}
+  else if(phase===1){hold+=dt;if(hold>700){phase=2;hold=0;cd.classList.add('show')}}
+  else if(phase===2){hold+=dt;if(hold>2600){phase=3;hold=0;cd.classList.remove('show')}}
+  else{hold+=dt;if(hold>700){phase=0;n=0;paint()}}
+  raf=requestAnimationFrame(step)};
+ host._wake=()=>{if(RM.matches){n=total;paint();return}if(!raf){last=0;raf=requestAnimationFrame(step)}};
+ n=RM.matches?total:Math.round(total*.55);paint()}
+/* ---------- animated brand board (real KEV identity) ---------- */
+function brandBoard(){const sw=[['#080D28','Deep Navy'],['#7739F7','Electric Violet'],['#258BFF','Digital Blue'],['#12D9E8','Cyan'],['#FFFFFF','White']];
+ return `<div class="bb" role="img"><div class="bb-logo"><span class="bb-ring" aria-hidden="true"></span><img src="assets/brand/kev_primary-vertical_color.svg" width="300" height="300" alt="" loading="lazy" decoding="async"></div>
+ <div class="bb-sw" aria-hidden="true">${sw.map(([h,n],i)=>`<div style="--c:${h};--i:${i}"><i></i><b>${n}</b><span>${h}</span></div>`).join('')}</div>
+ <div class="bb-mk" aria-hidden="true">${['kev_cards','kev_sign','kev_hoodie'].map((m,i)=>`<picture style="--i:${i}"><source type="image/webp" srcset="${P}${m}-640.webp"><img src="${P}${m}-640.jpg" width="640" height="360" alt="" loading="lazy" decoding="async"></picture>`).join('')}</div>
+ <div class="bb-type" aria-hidden="true"><b>Aa</b><span>Montserrat · Cairo</span></div></div>`}
 function labels(r){(r||document).querySelectorAll('.wp,.ba,.dev').forEach(x=>x._lab&&x._lab());(r||document).querySelectorAll('.km img[data-alt-ar]').forEach(i=>i.alt=K.lang==='ar'?i.dataset.altAr:i.dataset.altEn)}
 K.kmInit=(r=document)=>r.querySelectorAll('.km:not([data-km-on])').forEach(render);
 document.addEventListener('kev:lang',()=>{if(cur)cur.pause();labels()});
