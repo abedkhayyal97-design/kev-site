@@ -668,4 +668,66 @@ body{font-size:var(--fs-md);line-height:var(--lh-body)}
 @keyframes hIn{from{opacity:.01;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.hero .h-in{animation:none}}
 .kv-play{position:absolute;inset:0;margin:auto;z-index:3;width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(5,8,26,.6);color:#fff;display:grid;place-items:center;cursor:pointer}.kv-play svg{width:26px;height:26px}.kv.on .kv-play{display:none}
-@media (max-width:560px){.hero .h-copy{padding-inline:26px}:root .hero .eyebrow{letter-spacing:.14em;font-size:.68rem}.hero .eyebrow::before{display:none}.hero .h-cta .btn{min-width:200px;justify-content:center}}
+
+/* ---------- P1c: production hero restored (faint KEV logo behind headline) + lightweight motion ---------- */
+.hero{text-align:start;place-items:center stretch}
+.hero .h-copy{justify-items:start;max-width:none;gap:28px}
+.hero .h-copy .lead{margin-inline:0}
+.hero .h-cta{justify-content:flex-start}
+.hero .h-vf{display:none}
+.hero .motif{z-index:1}
+.k-br{animation:kBreath 9s ease-in-out 2.6s infinite;transform-origin:50% 45%;will-change:transform}
+@keyframes kBreath{0%,100%{transform:scale(1) translate3d(0,0,0)}50%{transform:scale(1.035) translate3d(0,-6px,0)}}
+.h-ap{position:absolute;width:84%;aspect-ratio:1;left:8%;top:-3.5%;color:var(--c-cyan);opacity:.5;animation:apSpin 60s linear infinite;will-change:transform}
+@keyframes apSpin{to{transform:rotate(360deg)}}
+.h-sweep{position:absolute;inset:-20% auto -20% 0;width:38%;z-index:0;pointer-events:none;background:linear-gradient(100deg,transparent,rgba(120,200,255,.07) 45%,rgba(18,217,232,.09) 50%,transparent);transform:translate3d(-120%,0,0) skewX(-12deg);animation:hSweep 11s ease-in-out 1.5s infinite;will-change:transform}
+:root:not(.is-dark) .h-sweep{background:linear-gradient(100deg,transparent,rgba(255,255,255,.55) 50%,transparent)}
+@keyframes hSweep{0%{transform:translate3d(-120%,0,0) skewX(-12deg)}55%,100%{transform:translate3d(330%,0,0) skewX(-12deg)}}
+.hero .h-wave .wb{transform-box:fill-box;transform-origin:center;animation:wbB 1.6s ease-in-out infinite alternate}
+.wb1{animation-delay:-.3s!important;animation-duration:1.3s!important}.wb2{animation-delay:-.7s!important}.wb3{animation-delay:-1.1s!important;animation-duration:1.9s!important}.wb4{animation-delay:-.5s!important;animation-duration:1.45s!important}
+@keyframes wbB{from{transform:scaleY(.35)}to{transform:scaleY(1)}}
+.hero .h-wave{opacity:.14}
+.h-words .w{display:inline-block;animation:hW .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(.12s + var(--i)*.16s)}
+@keyframes hW{from{opacity:.01;transform:translate3d(0,.45em,0) scale(.96)}to{opacity:1;transform:none}}
+.hero .eyebrow.h-in{animation-delay:0s}.hero .lead.h-in{animation-delay:.55s}.hero .h-cta.h-in{animation-delay:.7s}
+/* play only while visible */
+.anim-off,.anim-off *{animation-play-state:paused!important}
+/* scroll reveal variety */
+.rv.rv-l{transform:translate3d(-48px,0,0)}:root[dir="rtl"] .rv.rv-l{transform:translate3d(48px,0,0)}
+.rv.rv-s{transform:scale(.92)}
+.rv.rv-l.in,.rv.rv-s.in{transform:none}
+/* card tilt */
+.tilt{transform-style:preserve-3d}
+.tilt.tilting{transform:perspective(900px) rotateX(var(--ty,0deg)) rotateY(var(--tx,0deg)) translateY(-3px)!important;transition:transform .12s linear!important}
+/* service icons */
+.sv-ico{width:44px;height:44px;color:var(--hl);display:block;margin-block-end:12px;overflow:visible}
+.sv-ico *{transform-box:fill-box;transform-origin:center}
+.i-mic .p{animation:icPulse 1.8s ease-out infinite}
+@keyframes icPulse{0%{transform:scale(.7);opacity:.8}100%{transform:scale(1.5);opacity:0}}
+.i-ap .bl{animation:icAp 3.2s ease-in-out infinite}
+@keyframes icAp{0%,100%{transform:rotate(0) scale(1)}50%{transform:rotate(60deg) scale(.55)}}
+.i-code .c{animation:icType 2.4s steps(1) infinite;opacity:0}.i-code .c2{animation-delay:.4s}.i-code .c3{animation-delay:.8s}
+@keyframes icType{0%{opacity:0}15%,80%{opacity:1}100%{opacity:0}}
+.i-film .f{animation:icRoll 1.6s linear infinite}
+@keyframes icRoll{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,-8px,0)}}
+.i-eq .e{animation:wbB .9s ease-in-out infinite alternate;transform-origin:bottom}.i-eq .e2{animation-delay:-.3s}.i-eq .e3{animation-delay:-.6s}.i-eq .e4{animation-delay:-.2s}
+.i-id .s{animation:apSpin 8s linear infinite}
+/* clients marquee */
+.marq{overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marq .clients{display:flex;width:max-content;grid-template-columns:none;animation:marq 32s linear infinite}
+.marq .clients .cl{width:200px;flex:none}
+.marq:hover .clients{animation-play-state:paused}
+@keyframes marq{to{transform:translate3d(-50%,0,0)}}
+:root[dir="rtl"] .marq .clients{animation-name:marqr}
+@keyframes marqr{to{transform:translate3d(50%,0,0)}}
+/* buttons: light sweep */
+.btn{position:relative;overflow:hidden;isolation:isolate}
+.btn::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translate3d(-110%,0,0);transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.btn:hover::after{transform:translate3d(110%,0,0)}
+.btn.mag{transition:translate .25s ease-out,transform var(--dur-2) var(--ease),box-shadow var(--dur-2),background var(--dur-2)}
+/* animated heading underline */
+.head .h2::after{background:linear-gradient(90deg,#7739F7,#258BFF,#12D9E8,#7739F7);background-size:300% 100%;transform-origin:var(--o-s,left);transform:scaleX(0);transition:transform .9s cubic-bezier(.2,.7,.2,1) .25s;animation:ulG 6s linear infinite}
+:root[dir="rtl"] .head .h2::after{--o-s:right}
+.head .h2.in::after,.no-js .head .h2::after{transform:scaleX(1)}
+@keyframes ulG{to{background-position:300% 0}}
+@media (prefers-reduced-motion:reduce){.marq .clients{animation:none;flex-wrap:wrap;width:auto}.head .h2::after{transform:none}.h-words .w{animation:none}}
