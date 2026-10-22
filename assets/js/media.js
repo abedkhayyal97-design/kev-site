@@ -5,7 +5,7 @@ const RM=matchMedia('(prefers-reduced-motion: reduce)'),COARSE=matchMedia('(hove
 const P='assets/img/work/';
 const pic=(n,w,h,sizes,ar,en,cls='')=>`<picture class="pic ${cls}"><source type="image/webp" srcset="${P}${n}-640.webp 640w, ${P}${n}.webp ${w}w" sizes="${sizes}"><img src="${P}${n}.jpg" srcset="${P}${n}-640.jpg 640w, ${P}${n}.jpg ${w}w" sizes="${sizes}" width="${w}" height="${h}" loading="lazy" decoding="async" alt="${T(ar,en)}" data-alt-ar="${ar}" data-alt-en="${en}"></picture>`;
 const KIND={'voice-over':'wp','sound-engineering':'wp',photography:'ba','video-motion':'vid','web-app':'code',branding:'brand'};
-const AUD={'voice-over':['vo-concept','موسيقى خلفية هادئة لتعليق صوتي','Ambient bed for a voice-over'],'sound-engineering':['mix-concept','مزج إيقاع وباص وخلفية','Beat, bass and pad mix']};
+const AUD={'voice-over':['vo-concept','موسيقى خلفية هادئة لتعليق صوتي','Ambient bed for a voice-over'],'sound-engineering':['kev-promo-mix','الموسيقى والمؤثرات — فيديو KEV','KEV Promo — Sound Design & Mix']};
 const VF='<svg class="vf" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M3 14V3h11M86 3h11v11M97 86v11H86M14 97H3V86" vector-effect="non-scaling-stroke"/><path d="M47 50h6M50 47v6" vector-effect="non-scaling-stroke"/></svg>';
 const PLAY='<svg viewBox="0 0 24 24" class="i-play" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg><svg viewBox="0 0 24 24" class="i-pause" aria-hidden="true"><path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z" fill="currentColor"/></svg>';
 /* render a component into a .km host. data: sid, img, w, h, sizes, alt-ar, alt-en */
@@ -14,7 +14,7 @@ function render(el){const d=el.dataset,k=d.kind||KIND[d.sid];if(!k||el.dataset.k
  if(k==='wp'){const[a,lar,len]=AUD[d.sid];
   const meters=d.sid==='sound-engineering';el.innerHTML=pic(d.img,+d.w,+d.h,sz,ar,en,'wp-bg')+(meters?`<div class="mtr" aria-hidden="true">${Array.from({length:8},(_,i)=>`<i style="--d:${(-(i*.37)%1.3).toFixed(2)}s;--s:${(0.9+(i%3)*.25).toFixed(2)}s"><b></b></i>`).join('')}</div>`:`<div class="eqz" aria-hidden="true">${Array.from({length:32},(_,i)=>`<i style="--d:${(-(i*.173)%1.1).toFixed(2)}s;--s:${(0.75+((i*7)%5)*.12).toFixed(2)}s;--h:${(0.35+Math.abs(Math.sin(i*.6))*.65).toFixed(2)}"></i>`).join('')}</div>`)+`<div class="wp" data-src="assets/audio/${a}" data-name-ar="${lar}" data-name-en="${len}">
   <button class="wp-btn" type="button">${PLAY}</button>
-  <div class="wp-main"><div class="wp-top"><span class="wp-lbl">${BI('عيّنة توضيحية','Concept demo')}</span><span class="wp-time" dir="ltr"><b>0:00</b> / <span class="wp-dur">0:18</span></span></div>
+  <div class="wp-main"><div class="wp-top"><span class="wp-lbl">${meters?BI(lar,len):BI('عيّنة توضيحية','Concept demo')}</span><span class="wp-time" dir="ltr"><b>0:00</b> / <span class="wp-dur">0:18</span></span></div>
   <div class="wp-wave" dir="ltr" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="18" aria-valuenow="0"><svg class="wp-s0" preserveAspectRatio="none" aria-hidden="true"></svg><svg class="wp-s1" preserveAspectRatio="none" aria-hidden="true"></svg><i class="wp-head" aria-hidden="true"></i></div></div></div>`;
   wp(el.querySelector('.wp'))}
  else if(k==='ba'){el.innerHTML=`<div class="ba" style="--x:50">${pic(d.img,+d.w,+d.h,sz,d.aAltAr||ar+' — بعد التلوين',d.aAltEn||en+' — after grading')}<div class="ba-before">${pic(d.before||d.img+'_before',+d.w,+d.h,sz,d.bAltAr||ar+' — قبل التلوين',d.bAltEn||en+' — before grading')}</div>
@@ -36,7 +36,7 @@ function render(el){const d=el.dataset,k=d.kind||KIND[d.sid];if(!k||el.dataset.k
 let cur=null;const fmt=s=>{s=Math.max(0,Math.round(s||0));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
 const peaksCache={};
 function wp(w){const src=w.dataset.src,wave=w.querySelector('.wp-wave'),btn=w.querySelector('.wp-btn'),s0=w.querySelector('.wp-s0'),s1=w.querySelector('.wp-s1'),tb=w.querySelector('.wp-time b');
- let au=null,dur=18,raf=0;
+ let au=null,dur=18,raf=0,an=null,fd=null;const host=w.closest('.km'),bars=host?[...host.querySelectorAll('.mtr i')]:[];
  const draw=pk=>{const n=pk.length,vb=`0 0 ${n*4} 40`;let r='';pk.forEach((v,i)=>{const h=Math.max(2,v*38);r+=`<rect x="${i*4+.6}" y="${20-h/2}" width="2.4" height="${h}" rx="1.2"/>`});s0.setAttribute('viewBox',vb);s1.setAttribute('viewBox',vb);s0.innerHTML=s1.innerHTML=r};
  (peaksCache[src]||(peaksCache[src]=fetch(src+'.json').then(r=>r.json()).catch(()=>({duration:18,peaks:Array(96).fill(.35)})))).then(j=>{dur=j.duration||18;w.querySelector('.wp-dur').textContent=fmt(dur);wave.setAttribute('aria-valuemax',Math.round(dur));draw(j.peaks);aria(0)});
  const set=t=>{const p=Math.min(1,Math.max(0,t/dur));wave.style.setProperty('--p',p);tb.textContent=fmt(t);aria(t)};
@@ -47,10 +47,13 @@ function wp(w){const src=w.dataset.src,wave=w.querySelector('.wp-wave'),btn=w.qu
    /* load as blob so seeking works even on hosts without HTTP range support */
    ready=fetch(src+'.mp3').then(r=>{if(!r.ok)throw 0;return r.blob()}).then(bl=>{au.src=URL.createObjectURL(bl)}).catch(()=>{au.src=src+'.mp3'})}
   return au};
- const loop=()=>{if(au&&pend===null)set(au.currentTime);raf=requestAnimationFrame(loop)};
- function stop(){w.classList.remove('on');w.closest('.km')?.classList.remove('playing');cancelAnimationFrame(raf);if(cur===api)cur=null;lab()}
+ const meter=()=>{if(!an||!bars.length)return;an.getByteFrequencyData(fd);const n=fd.length,B=bars.length;
+  for(let i=0;i<B;i++){const a=Math.floor(Math.pow(i/B,2)*n*.7)+1,b=Math.max(a+1,Math.floor(Math.pow((i+1)/B,2)*n*.7)+1);let m=0;for(let j=a;j<b;j++)m=Math.max(m,fd[j]);const v=Math.min(.97,Math.pow(m/255,2.4)*(1+i*.08));const o=+bars[i].dataset.v||0;const nv=v>o?v:o*.88+v*.12;bars[i].dataset.v=nv;bars[i].style.setProperty('--lv',nv.toFixed(3))}};
+ const graph=a=>{if(an||!bars.length)return;try{const AC=window.AudioContext||window.webkitAudioContext;const ctx=new AC(),src=ctx.createMediaElementSource(a);an=ctx.createAnalyser();an.fftSize=1024;an.smoothingTimeConstant=.6;fd=new Uint8Array(an.frequencyBinCount);src.connect(an);an.connect(ctx.destination);w._ctx=ctx}catch(e){an=null}};
+ const loop=()=>{if(au&&pend===null)set(au.currentTime);meter();raf=requestAnimationFrame(loop)};
+ function stop(){w.classList.remove('on');w.closest('.km')?.classList.remove('playing','an');cancelAnimationFrame(raf);if(cur===api)cur=null;lab()}
  const api={pause(){if(au)au.pause();stop()}};w._api=api;
- function play(){if(cur&&cur!==api)cur.pause();cur=api;const a=get();ready.then(()=>a.play()).then(()=>{w.classList.add('on');w.closest('.km')?.classList.add('playing');cancelAnimationFrame(raf);loop();lab()}).catch(()=>stop())}
+ function play(){if(cur&&cur!==api)cur.pause();cur=api;K.kvHush&&K.kvHush();const a=get();if(bars.length){a.crossOrigin='anonymous';graph(a);w._ctx&&w._ctx.state!=='running'&&w._ctx.resume()}ready.then(()=>a.play()).then(()=>{w.classList.add('on');w.closest('.km')?.classList.add('playing');an&&w.closest('.km')?.classList.add('an');cancelAnimationFrame(raf);loop();lab()}).catch(()=>stop())}
  btn.addEventListener('click',()=>w.classList.contains('on')?api.pause():play());
  const seek=t=>{const a=get();t=Math.min(dur,Math.max(0,t));if(a.readyState>0){try{a.currentTime=t}catch(e){}}else pend=t;set(t)};
  const at=e=>{const r=wave.getBoundingClientRect();return (e.clientX-r.left)/r.width*dur};
@@ -104,6 +107,7 @@ function vid(host,ctl){const w=host.querySelector('.kv'),v=w.querySelector('vide
  if(!('IntersectionObserver' in window)){go();sync();return}
  vidIO=vidIO||new IntersectionObserver(es=>es.forEach(e=>{const t=e.target;t._in=e.isIntersecting;if(t._in&&!document.hidden)t._go();else t._stop()}),{threshold:.35});vidIO.observe(w);sync()}
 document.addEventListener('visibilitychange',()=>vids.forEach(w=>{if(!w.isConnected){vids.delete(w);return}if(document.hidden)w._stop();else if(w._in)w._go()}));
+K.kvHush=()=>vids.forEach(o=>{const v=o.querySelector('video');if(v&&!v.muted){v.pause();v.muted=true;o.classList.remove('sound','on');o._lab&&o._lab()}});
 K.kvCard=el=>{el.innerHTML=vidHTML(false);vid(el,false)};
 /* ---------- motion graphics canvas (video & motion) ---------- */
 function mg(host,c){const x=c.getContext('2d');let W=0,H=0,raf=0,t0=performance.now(),tp=0;

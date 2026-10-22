@@ -545,3 +545,7 @@ html.is-dark{background:#070B20;color-scheme:dark}
 .kv-full svg{width:16px;height:16px;color:#00D2FF}.kv-full:hover{transform:scale(1.05)}
 .kv.sound .kv-full{opacity:0;pointer-events:none}
 @media (max-width:760px){.kv-fr{height:94%}.kv-full{font-size:.8rem;padding:8px 13px}}
+/* sound engineering: real-audio meters */
+.km.an .mtr i::after{animation:none!important;transform:scaleY(calc(1 - var(--lv,0)));transition:transform 60ms linear}
+.cthumb-a{position:relative}.cthumb-a>.km{position:absolute;inset:0}
+.cthumb-a .wp{inset-inline:8px;bottom:8px;padding:6px 10px 6px 6px;gap:8px}.cthumb-a .wp-btn{width:38px;height:38px}.cthumb-a .wp-lbl{font-size:.66rem}.cthumb-a .wp-wave{height:24px}
