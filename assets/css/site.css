@@ -1,10 +1,21 @@
 @font-face{font-family:"Cairo";src:url(../fonts/cairo.woff2) format("woff2");font-weight:200 1000;font-display:swap}
 @font-face{font-family:"Montserrat";src:url(../fonts/montserrat.woff2) format("woff2");font-weight:100 900;font-display:swap}
+/* ===== KEV design system tokens (P1) — see DESIGN_SYSTEM.md ===== */
+:root{--c-violet:#7739F7;--c-blue:#258BFF;--c-cyan:#12D9E8;--c-cyan-d:#0A7381;--c-navy:#080D28;--c-navy-2:#0E1538;--c-navy-3:#111940;--c-off:#F4F3EF;--c-white:#FFFFFF;
+ --grad-brand:linear-gradient(110deg,var(--c-violet) 0%,var(--c-blue) 50%,var(--c-cyan) 100%);
+ --fs-xs:.8125rem;--fs-sm:.9375rem;--fs-md:1.0625rem;--fs-lg:clamp(1.125rem,1.6vw,1.3rem);--fs-xl:clamp(1.4rem,2.4vw,1.75rem);--fs-2xl:clamp(2rem,5.2vw,4rem);--fs-3xl:clamp(2.6rem,8vw,6.6rem);
+ --lh-body:1.75;--lh-tight:1.12;
+ --sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:24px;--sp-6:32px;--sp-7:48px;--sp-8:64px;--sp-9:96px;
+ --r-xs:8px;--r-sm:12px;--r-md:18px;--r-lg:28px;--r-pill:999px;
+ --sh-1:0 1px 2px rgba(8,13,40,.06),0 8px 24px -12px rgba(8,13,40,.18);--sh-2:0 24px 60px -24px rgba(8,13,40,.35);
+ --focus-ring:0 0 0 3px var(--c-navy),0 0 0 5px var(--c-cyan);
+ --icon-sm:18px;--icon-md:24px;--icon-lg:34px;
+ --dur-1:.18s;--dur-2:.3s;--dur-3:.9s}
 /* ===== tokens: navy + one accent (cyan; deeper tone of same hue for text on light bands) ===== */
-:root{--navy:#080D28;--navy2:#0E1538;--off:#F4F3EF;--paper:#FFFFFF;--acc:#12D9E8;--acc-d:#0A7381;--on-acc:#080D28;
+:root{--navy:var(--c-navy);--navy2:var(--c-navy-2);--off:var(--c-off);--paper:var(--c-white);--acc:var(--c-cyan);--acc-d:var(--c-cyan-d);--on-acc:var(--c-navy);
  --bg:var(--off);--surface:var(--paper);--ink:#080D28;--mute:#4A5070;--line:#DAD8D0;--hl:var(--acc-d);
  --f-en:"Montserrat","Segoe UI",system-ui,sans-serif;--f-ar:"Cairo","Segoe UI",Tahoma,system-ui,sans-serif;--f:var(--f-ar);--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
- --r:18px;--r-s:12px;--pill:999px;--w:1200px;--ease:cubic-bezier(.2,.7,.2,1)}
+ --r:var(--r-md);--r-s:var(--r-sm);--pill:var(--r-pill);--w:1200px;--ease:cubic-bezier(.2,.7,.2,1)}
 :root[lang="en"]{--f:var(--f-en)}
 .dark,[data-band="dark"]{--bg:#E6F2F4;--surface:#FFFFFF;--ink:#080D28;--mute:#3F4766;--line:#CBDDE2;--hl:var(--acc-d)}
 :root.is-dark .dark,:root.is-dark [data-band="dark"]{--bg:var(--navy);--surface:var(--navy2);--ink:#F1F3FF;--mute:#A9B1D6;--line:#232C5C;--hl:var(--acc)}
@@ -16,7 +27,7 @@ body{margin:0;background:var(--off);color:var(--ink);font:400 1.0625rem/1.75 var
 h1,h2,h3{margin:0;line-height:1.08;font-weight:800;letter-spacing:-.01em}
 :root[lang="en"] h1,:root[lang="en"] h2{letter-spacing:-.035em}
 p{margin:0}a{color:inherit}img{max-width:100%}
-:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px;box-shadow:var(--focus-ring)}
 .wrap{max-width:var(--w);margin-inline:auto;padding-inline:clamp(18px,4vw,40px)}
 .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 [hidden]{display:none!important}
@@ -134,7 +145,7 @@ main:focus{outline:none}
 .cue{position:absolute;bottom:26px;inset-inline-start:50%;transform:translateX(-50%);z-index:2;display:grid;justify-items:center;gap:8px;font:600 .72rem var(--f-en);letter-spacing:.24em;text-transform:uppercase;color:var(--mute);text-decoration:none}
 :root[dir="rtl"] .cue{transform:translateX(50%)}
 .cue i{width:24px;height:38px;border:1.5px solid currentColor;border-radius:14px;position:relative}
-.cue i::after{content:"";position:absolute;top:7px;left:50%;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:var(--acc);animation:cue 1.8s infinite}
+.cue i::after{content:"";position:absolute;top:7px;inset-inline-start:calc(50% - 2px);width:4px;height:8px;border-radius:2px;background:var(--acc);animation:cue 1.8s infinite}
 @keyframes cue{0%{opacity:0;transform:translateY(0)}40%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
 @media (max-width:760px){.motif{--o:.2;width:115vw;inset-inline-end:-38vw}}
 /* page hero (inner pages) */
@@ -601,3 +612,62 @@ html.is-dark{background:#070B20;color-scheme:dark}
 header nav#nav a{white-space:nowrap;padding-inline:10px}
 header nav#nav a[href="contact.html"]{display:none} /* replaced by the sticky header CTA */
 @media (max-width:1280px){header nav#nav{display:none}.tools{margin-inline-start:auto}}
+/* ===================== P1 layer: studio home, buttons, type balance, RTL ===================== */
+/* type balance: Cairo renders taller than Montserrat at the same size — equalise optical size + shared line rhythm */
+body{font-size:var(--fs-md);line-height:var(--lh-body)}
+:root[lang="en"] body{font-size:calc(var(--fs-md) * .97)}
+:root[lang="ar"] h1,:root[lang="ar"] h2,:root[lang="ar"] h3{line-height:1.3;letter-spacing:0}
+:root[lang="en"] h1,:root[lang="en"] h2,:root[lang="en"] h3{line-height:var(--lh-tight)}
+/* buttons: primary (solid cyan, navy ink = 11:1), secondary (brand-gradient hairline), ghost */
+.btn{border-radius:var(--r-pill);transition:transform var(--dur-2) var(--ease),box-shadow var(--dur-2),background var(--dur-2),border-color var(--dur-2),color var(--dur-2)}
+.btn.secondary{background:linear-gradient(var(--surface),var(--surface)) padding-box,var(--grad-brand) border-box;border:1.5px solid transparent;color:var(--ink)}
+.btn.secondary:hover{box-shadow:0 12px 30px -14px rgba(37,139,255,.55)}
+.btn:focus-visible{outline:2px solid var(--c-cyan);outline-offset:3px;box-shadow:var(--focus-ring)}
+/* cards: one radius/shadow/hover language */
+.box,.tst,.work,.formcard,.panel{border-radius:var(--r-md)}
+@media (hover:hover){.box,.tst,.cl{transition:transform var(--dur-2) var(--ease),box-shadow var(--dur-2),border-color var(--dur-2)}.box:hover,.tst:hover{transform:translateY(-3px);box-shadow:var(--sh-2)}}
+/* gradient accent rule under section eyebrows */
+.head .h2::after{content:"";display:block;width:64px;height:3px;margin-block-start:var(--sp-5);border-radius:3px;background:var(--grad-brand)}
+.contact-grid .head .h2::after{display:none}
+/* ---------- cinematic hero ---------- */
+.hero{padding-block:clamp(104px,14vw,140px) clamp(84px,10vw,120px);isolation:isolate}
+:root.is-dark .hero{background:radial-gradient(70% 55% at 75% 30%,rgba(37,139,255,.16),transparent 70%),radial-gradient(50% 50% at 15% 85%,rgba(119,57,247,.14),transparent 70%),linear-gradient(180deg,#060A20 0%,var(--c-navy) 60%,#0A1030 100%)}
+.hero .h-grid{display:grid;gap:clamp(36px,6vw,72px);align-items:center;grid-template-columns:1fr}
+.hero .h-copy{display:grid;gap:var(--sp-5);max-width:40em}
+.reel{margin:0;display:grid;gap:var(--sp-3);justify-items:center;width:min(100%,300px);margin-inline:auto}
+.reel-scr{position:relative;width:100%;aspect-ratio:9/16;border-radius:22px;overflow:hidden;background:#05081A url(../video/kev-promo-bg.jpg) center/cover;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 40px 80px -30px rgba(0,0,0,.75),0 0 0 10px #0B1027,0 0 0 11px rgba(255,255,255,.07)}
+:root:not(.is-dark) .reel-scr{box-shadow:0 0 0 1px rgba(8,13,40,.1),0 30px 70px -30px rgba(8,13,40,.45),0 0 0 10px #0E1538,0 0 0 11px rgba(8,13,40,.12)}
+.reel-po,.reel-v{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s ease}
+.reel.po-in .reel-po{opacity:1}.reel.live .reel-v{opacity:1}
+.vf-c i{position:absolute;width:22px;height:22px;border:2px solid rgba(255,255,255,.75);z-index:2}
+.vf-c i:nth-child(1){inset-block-start:12px;inset-inline-start:12px;border-inline-end:0;border-block-end:0}
+.vf-c i:nth-child(2){inset-block-start:12px;inset-inline-end:12px;border-inline-start:0;border-block-end:0}
+.vf-c i:nth-child(3){inset-block-end:12px;inset-inline-start:12px;border-inline-end:0;border-block-start:0}
+.vf-c i:nth-child(4){inset-block-end:12px;inset-inline-end:12px;border-inline-start:0;border-block-start:0}
+.rec,.tc{position:absolute;z-index:2;inset-block-start:16px;font:700 .7rem/1 var(--f-en);letter-spacing:.14em;color:#fff;background:rgba(5,8,26,.55);padding:5px 8px;border-radius:6px}
+.rec{left:44px;display:flex;gap:6px;align-items:center}.tc{right:44px}
+.rec b{width:7px;height:7px;border-radius:50%;background:#FF4D5E;animation:recb 1.6s steps(1) infinite}
+.reel.paused .rec b{animation:none;opacity:.4}
+@keyframes recb{50%{opacity:.2}}
+.reel-p{position:absolute;z-index:3;inset-block-end:18px;inset-inline-end:18px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(5,8,26,.6);color:#fff;display:grid;place-items:center;cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.reel-p:hover{background:rgba(5,8,26,.85)}
+.reel-p .i-pl{display:none}.reel.paused .reel-p .i-pa{display:none}.reel.paused .reel-p .i-pl{display:block}
+.reel figcaption{font-size:var(--fs-xs);color:var(--mute)}
+.h-wave{position:absolute;inset-inline:0;inset-block-end:0;width:100%;height:56px;color:var(--c-cyan);opacity:.12;z-index:1;pointer-events:none;-webkit-mask:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent);mask:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent)}
+:root:not(.is-dark) .h-wave{color:var(--c-cyan-d);opacity:.14}
+.hero .cue{display:none}
+@media (min-width:820px){.hero .h-grid{grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr)}.reel{width:min(100%,320px)}.hero .cue{display:grid}}
+@media (min-width:1200px){.reel{width:340px}}
+@media (max-width:819px){.reel{width:min(72vw,280px)}}
+/* soft ambient light on dark bands (cinema hall); light bands stay clean */
+:root.is-dark [data-band="dark"].band:not(.hero)::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 40% at 50% 0%,rgba(37,139,255,.07),transparent 70%)}
+/* KEV logo stays crisp: no halo/glow */
+.k-halo{display:none!important}
+:root .brand:active{filter:none}
+/* RTL: mirror directional glyphs */
+:root[dir="rtl"] .dir-i,:root[dir="rtl"] .arrow{transform:scaleX(-1)}
+.hp{position:absolute!important;inset-inline-start:-9999px;width:1px;height:1px;overflow:hidden}
+@media (prefers-reduced-motion:reduce){.reel-po,.reel-v{transition:none}.box:hover,.tst:hover{transform:none}}
+.hero{min-height:min(100svh,940px)}
+@media (min-width:820px){.hero .display{font-size:clamp(2.8rem,6vw,5.8rem)}:root[lang="en"] .hero .display{font-size:clamp(2.6rem,5.4vw,5.2rem)}}
+@media (max-width:1099px){.tc{display:none}}
