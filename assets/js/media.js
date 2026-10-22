@@ -9,7 +9,7 @@ const AUD={'voice-over':['vo-concept','موسيقى خلفية هادئة لتع
 const VF='<svg class="vf" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M3 14V3h11M86 3h11v11M97 86v11H86M14 97H3V86" vector-effect="non-scaling-stroke"/><path d="M47 50h6M50 47v6" vector-effect="non-scaling-stroke"/></svg>';
 const PLAY='<svg viewBox="0 0 24 24" class="i-play" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg><svg viewBox="0 0 24 24" class="i-pause" aria-hidden="true"><path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z" fill="currentColor"/></svg>';
 /* render a component into a .km host. data: sid, img, w, h, sizes, alt-ar, alt-en */
-function render(el){const d=el.dataset,k=KIND[d.sid];if(!k||el.dataset.kmOn)return;el.dataset.kmOn='1';
+function render(el){const d=el.dataset,k=d.kind||KIND[d.sid];if(!k||el.dataset.kmOn)return;el.dataset.kmOn='1';
  const sz=d.sizes||'(max-width:760px) 100vw, 50vw',ar=d.altAr||'',en=d.altEn||'';el.classList.add('km-'+k);
  if(k==='wp'){const[a,lar,len]=AUD[d.sid];
   el.innerHTML=pic(d.img,+d.w,+d.h,sz,ar,en,'wp-bg')+`<div class="wp" data-src="assets/audio/${a}" data-name-ar="${lar}" data-name-en="${len}">
@@ -17,14 +17,14 @@ function render(el){const d=el.dataset,k=KIND[d.sid];if(!k||el.dataset.kmOn)retu
   <div class="wp-main"><div class="wp-top"><span class="wp-lbl">${BI('عيّنة توضيحية','Concept demo')}</span><span class="wp-time" dir="ltr"><b>0:00</b> / <span class="wp-dur">0:18</span></span></div>
   <div class="wp-wave" dir="ltr" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="18" aria-valuenow="0"><svg class="wp-s0" preserveAspectRatio="none" aria-hidden="true"></svg><svg class="wp-s1" preserveAspectRatio="none" aria-hidden="true"></svg><i class="wp-head" aria-hidden="true"></i></div></div></div>`;
   wp(el.querySelector('.wp'))}
- else if(k==='ba'){el.innerHTML=`<div class="ba" style="--x:50">${pic(d.img,+d.w,+d.h,sz,ar+' — بعد التلوين',en+' — after grading')}<div class="ba-before">${pic(d.img+'_before',+d.w,+d.h,sz,ar+' — قبل التلوين',en+' — before grading')}</div>
-  <span class="ba-tag ba-b" aria-hidden="true">${BI('قبل','Before')}</span><span class="ba-tag ba-a" aria-hidden="true">${BI('بعد','After')}</span>
+ else if(k==='ba'){el.innerHTML=`<div class="ba" style="--x:50">${pic(d.img,+d.w,+d.h,sz,d.aAltAr||ar+' — بعد التلوين',d.aAltEn||en+' — after grading')}<div class="ba-before">${pic(d.before||d.img+'_before',+d.w,+d.h,sz,d.bAltAr||ar+' — قبل التلوين',d.bAltEn||en+' — before grading')}</div>
+  <span class="ba-tag ba-b" aria-hidden="true">${BI(d.bAr||'قبل',d.bEn||'Before')}</span><span class="ba-tag ba-a" aria-hidden="true">${BI(d.aAr||'بعد',d.aEn||'After')}</span>
   <div class="ba-h" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div></div>`;
-  ba(el.querySelector('.ba'))}
- else if(k==='dev'){el.innerHTML=`<div class="dev" role="img"><div class="dev-lap"><div class="dev-scr"><img src="${P}ui_laptop.webp" width="1000" height="1289" loading="lazy" decoding="async" alt=""></div><i class="dev-base"></i></div>
-  <div class="dev-ph"><div class="dev-scr"><img src="${P}ui_phone.webp" width="600" height="4003" loading="lazy" decoding="async" alt=""></div></div></div>`;
+  ba(el.querySelector('.ba'),d)}
+ else if(k==='dev'){el.innerHTML=`<div class="dev" role="img"><div class="dev-lap"><div class="dev-scr"><img src="${P}${d.lap||'ui_laptop'}.webp" width="1000" height="${d.lapH||1289}" loading="lazy" decoding="async" alt=""></div><i class="dev-base"></i></div>
+  <div class="dev-ph"><div class="dev-scr"><img src="${P}${d.ph||'ui_phone'}.webp" width="600" height="${d.phH||4003}" loading="lazy" decoding="async" alt=""></div></div></div>`;
   dev(el.querySelector('.dev'),ar,en)}
- else{el.innerHTML=pic(d.img,+d.w,+d.h,sz,ar,en)+VF}
+ else{el.innerHTML=pic(d.img,+d.w,+d.h,sz,ar,en)+(k==='vf'?VF:'')}
  if(d.tag!=='0')el.insertAdjacentHTML('beforeend',`<span class="ctag">${BI('تصوّر','Concept')}</span>`);
  labels(el)}
 /* ---------- waveform player ---------- */
@@ -57,8 +57,8 @@ function wp(w){const src=w.dataset.src,wave=w.querySelector('.wp-wave'),btn=w.qu
   wave.setAttribute('aria-label',T('موضع التشغيل','Playback position'))}
  w._lab=()=>{lab();aria(au?au.currentTime:0)};lab()}
 /* ---------- before / after ---------- */
-function ba(b){const h=b.querySelector('.ba-h');let x=50;
- const set=v=>{x=Math.min(100,Math.max(0,v));b.style.setProperty('--x',x);h.setAttribute('aria-valuenow',Math.round(x));h.setAttribute('aria-valuetext',T(`${Math.round(x)}٪ قبل`,`${Math.round(x)}% before`))};
+function ba(b,d={}){const h=b.querySelector('.ba-h');let x=50;
+ const set=v=>{x=Math.min(100,Math.max(0,v));b.style.setProperty('--x',x);h.setAttribute('aria-valuenow',Math.round(x));h.setAttribute('aria-valuetext',T(`${Math.round(x)}٪ ${d.bAr||'قبل'}`,`${Math.round(x)}% ${(d.bEn||'before').toLowerCase()}`))};
  const rtl=()=>getComputedStyle(b).direction==='rtl';
  const at=e=>{const r=b.getBoundingClientRect();let p=(e.clientX-r.left)/r.width*100;return rtl()?100-p:p};
  b.addEventListener('pointerdown',e=>{if(e.button>0)return;b.setPointerCapture(e.pointerId);b.classList.add('drag');set(at(e));
@@ -67,7 +67,7 @@ function ba(b){const h=b.querySelector('.ba-h');let x=50;
  h.addEventListener('keydown',e=>{const s=e.shiftKey?10:5,dirn=rtl()?-1:1;let v=null;
   if(e.key==='ArrowRight')v=x+s*dirn;else if(e.key==='ArrowLeft')v=x-s*dirn;else if(e.key==='ArrowUp'||e.key==='PageUp')v=x+s;else if(e.key==='ArrowDown'||e.key==='PageDown')v=x-s;else if(e.key==='Home')v=0;else if(e.key==='End')v=100;
   if(v!==null){e.preventDefault();set(v)}});
- b._lab=()=>{h.setAttribute('aria-label',T('مقارنة قبل وبعد التلوين','Before/after colour grading comparison'));set(x)};b._lab()}
+ b._lab=()=>{h.setAttribute('aria-label',T(d.cmpAr||'مقارنة قبل وبعد التلوين',d.cmpEn||'Before/after colour grading comparison'));set(x)};b._lab()}
 /* ---------- device frame ---------- */
 let devIO=null;
 function dev(d,ar,en){d._lab=()=>d.setAttribute('aria-label',T(ar,en));d._lab();
