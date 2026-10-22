@@ -16,11 +16,7 @@ window.KEV_CONFIG = {
   formEndpoint: "",
 
   payment: {
-    currency: "USDT",                    // prices are shown as USD = USDT (1:1)
-    binancePayId: "",   // intentionally empty: payment details are sent per order
-    usdtTrc20: "",  // TRON network address (starts with T)
-    usdtBep20: "",  // BNB Smart Chain address (starts with 0x)
-    qr: { binance: "assets/pay/qr-binance.png", trc20: "assets/pay/qr-trc20.png", bep20: "assets/pay/qr-bep20.png" },
+    currency: "USD",                     // prices in USD; payment details are agreed and sent per order
     depositPercent: 50                   // % paid upfront; rest on delivery | نسبة الدفعة المقدمة
   },
 
@@ -36,7 +32,7 @@ window.KEV_CONFIG = {
     { n:"24",  suf:"h", l:["أقصى مدة للرد","Max reply time"] }
   ],
 
-  /* ---------------- Services & packages (prices in USD/USDT) ---------------- */
+  /* ---------------- Services & packages (prices in USD) ---------------- */
   services: [
     { id:"voice-over", icon:"🎙", cat:"sound",
       name:["تعليق صوتي","Voice-over"],

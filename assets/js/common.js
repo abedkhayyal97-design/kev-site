@@ -5,7 +5,7 @@ const root=document.documentElement,C=window.KEV_CONFIG;
 const KEV=window.KEV={$, $$, store, C, lang:'ar'};
 const L=a=>Array.isArray(a)?a[KEV.lang==='ar'?0:1]:a;KEV.L=L;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));KEV.esc=esc;
-KEV.money=n=>'$'+Number(n).toLocaleString('en-US')+' / '+n.toLocaleString('en-US')+' USDT';
+KEV.money=n=>'$'+Number(n).toLocaleString('en-US');
 KEV.svc=id=>C.services.find(s=>s.id===id);
 KEV.pkg=(sid,pid)=>{const s=KEV.svc(sid);return s&&s.packages.find(p=>p.id===pid)};
 /* cart */
