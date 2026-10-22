@@ -3,11 +3,10 @@ const still=matchMedia('(prefers-reduced-motion:reduce)').matches;
 const K=window.KEV;
 function features(){const el=document.getElementById('features');if(!el||!K)return;const L=K.L,esc=K.esc,T=(a,e)=>K.lang==='ar'?a:e;
  el.innerHTML=K.C.services.map((s,i)=>{const p=s.packages.find(x=>x.hl)||s.packages[0],min=Math.min(...s.packages.map(x=>x.price));
- const bars=Array.from({length:24},(_,k)=>{const h=20+Math.abs(Math.sin(k*.7+i))*70;return `<rect x="${k*17+4}" y="${100-h}" width="8" height="${h}" rx="4" fill="#12D9E8" opacity="${.3+(k%3)*.2}"/>`}).join('');
- return `<div class="svc rv"><div class="box big"><span class="num">0${i+1}</span><h3>${esc(L(s.name))}</h3><p>${esc(L(s.desc))}</p>
+  return `<div class="svc rv"><div class="box big"><span class="num">0${i+1}</span><h3>${esc(L(s.name))}</h3><p>${esc(L(s.desc))}</p>
  <ul class="pills" aria-label="${T('يتضمن','Includes')}">${p.items.map(x=>`<li>${esc(L(x))}</li>`).join('')}</ul>
  <div class="row"><a class="btn sm" href="service-${s.id}.html">${T('الباقات والأسعار','Packages & prices')}<span class="sr"> — ${esc(L(s.name))}</span></a><span class="badge">${T('يبدأ من','From')} $${min}</span></div></div>
- <div class="media" aria-hidden="true"><svg viewBox="0 0 410 100" preserveAspectRatio="none" aria-hidden="true">${bars}</svg></div></div>`}).join('');observe()}
+ <div class="media"><picture class="pic"><source type="image/webp" srcset="assets/img/work/svc_${s.id}-640.webp 640w, assets/img/work/svc_${s.id}.webp 1280w" sizes="(max-width:760px) 100vw, 45vw"><img src="assets/img/work/svc_${s.id}.jpg" srcset="assets/img/work/svc_${s.id}-640.jpg 640w, assets/img/work/svc_${s.id}.jpg 1280w" sizes="(max-width:760px) 100vw, 45vw" width="1280" height="720" loading="lazy" decoding="async" alt="${esc(L(s.name))} — ${T('صورة توضيحية','illustrative image')}"></picture><span class="ctag">${T('تصوّر','Concept')}</span></div></div>`}).join('');observe()}
 let counted=false;
 function stats(){const el=document.getElementById('stats');if(!el||!K)return;const S=K.C.stats||[];el.closest('section').hidden=!S.length;
  el.innerHTML=S.map((s,i)=>{const n=String(s.n),m=n.match(/^([^0-9]*)([0-9][0-9,.]*)(.*)$/);const pre=m?m[1]:'',num=m?m[2]:n,post=(m?m[3]:'');

@@ -19,6 +19,7 @@ KEV.filled=v=>!!v&&!/FILL_ME/.test(v);
 /* language */
 function setLang(l){KEV.lang=l;root.lang=l;root.dir=l==='ar'?'rtl':'ltr';store.set('kev-lang',l);
  const b=$('#lang');if(b){b.textContent=l==='ar'?'EN':'ع';b.setAttribute('aria-label',l==='ar'?'Switch to English':'التبديل إلى العربية')}
+ document.querySelectorAll('img[data-alt-ar]').forEach(i=>i.alt=l==='ar'?i.dataset.altAr:i.dataset.altEn);
  const t=root.dataset['title'+(l==='ar'?'Ar':'En')];if(t)document.title=t;
  document.dispatchEvent(new CustomEvent('kev:lang',{detail:l}))}
 KEV.setLang=setLang;
