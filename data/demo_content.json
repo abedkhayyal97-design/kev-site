@@ -1,0 +1,28 @@
+{
+  "_comment": "DEMO CONTENT. Every item below is fictional placeholder content approved for the pre-launch staging site only. It MUST be replaced with real client testimonials and real client/partner logos before the public launch (before the domain is bought). Delete or set demo:false only for real items. محتوى تجريبي: يجب استبداله بمحتوى حقيقي قبل إطلاق الموقع.",
+  "testimonials": [
+    {"demo": true, "stars": 5,
+     "name_ar": "ريم حدّاد", "name_en": "Reem Haddad",
+     "role_ar": "مديرة التسويق، نورديا أتيليه", "role_en": "Head of Marketing, Nordeya Atelier",
+     "quote_ar": "سلّمونا الهوية والتصوير والفيديو كحزمة واحدة متماسكة. لأول مرة تبدو علامتنا بنفس المستوى على المتجر والمطبوعات ووسائل التواصل.",
+     "quote_en": "They delivered our identity, photography and video as one coherent package. For the first time our brand looks the same standard in store, in print and on social."},
+    {"demo": true, "stars": 5,
+     "name_ar": "كريم بشّور", "name_en": "Karim Bashour",
+     "role_ar": "منتج منفّذ، أوسترين بيكتشرز", "role_en": "Executive Producer, Ostrin Pictures",
+     "quote_ar": "التعليق الصوتي والمكساج وصلا جاهزين للبث من أول تسليم. مواعيد دقيقة وتعديلات واضحة، ونسختان عربية وإنجليزية بنفس الجودة.",
+     "quote_en": "The voice-over and mix arrived broadcast-ready on the first delivery. Precise deadlines, clear revisions, and Arabic and English versions at the same quality."},
+    {"demo": true, "stars": 5,
+     "name_ar": "لينا سعادة", "name_en": "Lina Saadeh",
+     "role_ar": "المؤسِّسة، مطبخ زيَاف", "role_en": "Founder, Zayaf Kitchen",
+     "quote_ar": "بنوا لنا موقعاً سريعاً ثنائي اللغة مع إعلان قصير للمطعم. الطلبات عبر الموقع تضاعفت خلال الشهر الأول.",
+     "quote_en": "They built us a fast bilingual website plus a short ad for the restaurant. Orders through the site doubled in the first month."}
+  ],
+  "clients": [
+    {"demo": true, "id": "nordeya", "name_en": "Nordeya Atelier", "name_ar": "نورديا أتيليه", "mark": "arch"},
+    {"demo": true, "id": "ostrin", "name_en": "Ostrin Pictures", "name_ar": "أوسترين بيكتشرز", "mark": "frame"},
+    {"demo": true, "id": "zayaf", "name_en": "Zayaf Kitchen", "name_ar": "مطبخ زياف", "mark": "leaf"},
+    {"demo": true, "id": "talvane", "name_en": "Talvane Audio", "name_ar": "تالفان أوديو", "mark": "wave"},
+    {"demo": true, "id": "selvara", "name_en": "Selvara Travel", "name_ar": "سيلفارا للسفر", "mark": "orbit"},
+    {"demo": true, "id": "mirvan", "name_en": "Mirvan Logistics", "name_ar": "ميرفان للخدمات اللوجستية", "mark": "chevron"}
+  ]
+}

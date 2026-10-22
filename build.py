@@ -33,10 +33,12 @@ def header(cur):
  <a class="brand" href="index.html" aria-label="KEV · Khayyal Echo Vision — {('Home')}"><img class="lk-light" src="assets/brand/kev_horizontal_light.svg" alt="KEV · Khayyal Echo Vision" width="117" height="40"><img class="lk-dark" src="assets/brand/kev_horizontal_color.svg" alt="KEV · Khayyal Echo Vision" width="117" height="40"></a>
  <nav id="nav" aria-label="Main">{nav}</nav>
  <div class="tools">
+  <a class="btn sm hdr-cta" href="contact.html">{CHAT}{B('تواصل معنا','Contact us')}</a>
   <a class="chip cartlink" href="cart.html" style="display:grid;place-items:center" aria-label="Cart / السلة"><span aria-hidden="true">🛒</span><b class="cartcount" hidden>0</b></a>
   <button class="chip" id="lang" type="button">EN</button>
   <button class="chip menu" id="menu" type="button" aria-expanded="false" aria-controls="drawer" aria-label="Menu / القائمة"><span class="burg" aria-hidden="true"><i></i><i></i><i></i></span></button>
  </div></div></header>
+<a class="fab-cta" href="contact.html">{CHAT}{B('تواصل معنا','Contact us')}</a>
 <div class="dr-back" id="drback" hidden></div>
 <aside class="drawer" id="drawer" aria-label="Menu / القائمة" hidden><div class="dr-in">
  <div class="dr-head"><img src="assets/brand/kev_horizontal_color.svg" alt="" width="117" height="40"><button class="chip dr-x" id="drclose" type="button" aria-label="Close / إغلاق"><span aria-hidden="true">✕</span></button></div>
@@ -64,6 +66,58 @@ def page(fn,tar,ten,desc,body,cur=None,js=()):
 def hero(ar,en,par,pen,crumb=True):
     c=f'<p class="crumbs"><a href="index.html">{B("الرئيسية","Home")}</a> / {B(ar,en)}</p>' if crumb else ''
     return f'<div class="band page-hero dark has-studio" data-band="dark"><div class="glow" aria-hidden="true"></div>{STUDIO("st-hero")}<div class="wrap" data-stagger>{c}<h1>{B(ar,en)}<span class="hl">.</span></h1><p>{B(par,pen)}</p></div></div>'
+import json,subprocess
+# ---------- P0: portfolio, testimonials, clients, CTA, contact form ----------
+# Demo testimonials and client logos live in data/demo_content.json (flagged "demo": true; replace before launch).
+DEMO=json.load(open('data/demo_content.json',encoding='utf-8'))
+SZ="(max-width:600px) 100vw, (max-width:900px) 50vw, 33vw"
+PLAY='<svg class="i-play" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg><svg class="i-pause" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>'
+def WAVE(src,peaks,ar,en,lab_ar,lab_en):
+    pk=json.load(open(peaks))['peaks'];n=56;st=len(pk)/n
+    bars=''.join(f'<i style="--h:{max(.08,max(pk[int(i*st):int((i+1)*st)] or [0])):.2f}"></i>' for i in range(n))
+    dur=json.load(open(peaks))['duration']
+    return (f'<div class="wf" data-src="{src}"><div class="wf-bg" aria-hidden="true"></div><span class="wf-lab">{B(lab_ar,lab_en)}</span>'
+            f'<div class="wf-row"><button class="wf-btn" type="button" aria-label="Play / تشغيل" data-l-ar="تشغيل: {ar}" data-l-en="Play: {en}">{PLAY}</button>'
+            f'<div class="wf-bars" role="slider" tabindex="0" aria-label="{en}" aria-valuemin="0" aria-valuemax="{int(dur)}" aria-valuenow="0">{bars}</div></div>'
+            f'<span class="wf-t" dir="ltr"><b>0:00</b> / {int(dur)//60}:{int(dur)%60:02d}</span></div>')
+VID=(f'<div class="pf-vid"><img class="pf-vbg" src="assets/video/kev-promo-bg.jpg" alt="" width="320" height="180" loading="lazy" decoding="async" aria-hidden="true">'
+     f'<video controls playsinline preload="none" poster="assets/video/kev-promo-poster.jpg" width="1080" height="1920" aria-label="KEV promo video / فيديو KEV الترويجي"><source src="assets/video/kev-promo.webm" type="video/webm"><source src="assets/video/kev-promo.mp4" type="video/mp4"></video></div>')
+WORKS=[
+ (KM('branding','kev_logo',1280,720,'شعار KEV بالألوان على الكحلي','KEV logo in full colour on navy','ph',SZ,False,kind='ba',before='kev_logo_mono',b_alt_ar='شعار KEV بنسخة أحادية اللون',b_alt_en='KEV logo, one-colour version',a_alt_ar='شعار KEV بالألوان الكاملة',a_alt_en='KEV logo, full colour',b_ar='أحادي',b_en='Mono',a_ar='ملوّن',a_en='Colour',cmp_ar='مقارنة الشعار الأحادي والملوّن',cmp_en='Mono vs colour logo comparison'),
+  'هوية بصرية','Brand identity','شعار KEV','The KEV logo','رمز دائري يجمع عدسة الكاميرا وموجة الصوت، بنسخ ملوّنة وأحادية وأفقية ومقاسات صغيرة.','A circular mark joining a camera lens and a sound wave, in colour, mono, horizontal and small-size versions.'),
+ (KM('branding','kev_cards',1280,720,'بطاقات عمل KEV على مكتب خشبي','KEV business cards on a wooden desk','ph',SZ,False,kind='vf'),
+  'مطبوعات','Print','بطاقات العمل','Business cards','الشعار على وجهين داكن وفاتح، بتشطيب بسيط يناسب الاستوديو.','The mark on dark and light faces, with a clean studio finish.'),
+ (KM('web-app','site_laptop',1000,2344,'موقع KEV على حاسوب وهاتف','The KEV website on a laptop and a phone','ph',SZ,False,kind='dev',lap='site_laptop',lap_h=2344,ph='site_phone',ph_h=5231),
+  'موقع إلكتروني','Website','موقع KEV','The KEV website','الموقع الذي تتصفّحه الآن: ثنائي اللغة، وضع فاتح وداكن، ومتجر باقات.','The site you are browsing: bilingual, light and dark modes, and a package store.'),
+ (VID,'فيديو وموشن جرافيك','Video & motion','فيديو KEV الترويجي','KEV promo film','فيديو عمودي للريلز والتيك توك: الشعار يتحوّل بين الخدمات الست بلا قطع.','A vertical film for Reels and TikTok: the logo morphs through all six services with no hard cuts.'),
+ (WAVE('assets/audio/kev-vo-sample','assets/audio/kev-vo-sample.json','عينة التعليق الصوتي','Voice-over sample','تعليق صوتي','Voice-over'),'تعليق صوتي','Voice-over','عينة أداء درامي','Dramatic read sample','صوت بشري معزول ونظيف، بمستوى جاهز للبث.','An isolated, clean human voice at broadcast-ready level.'),
+ (WAVE('assets/audio/kev-promo-mix','assets/audio/kev-promo-mix.json','عينة المكساج الكامل','Full mix sample','هندسة صوتية','Sound engineering'),'هندسة صوتية','Sound engineering','مكساج درامي كامل','Full dramatic mix','صوت وموسيقى ومؤثرات في مكساج متوازن واحد.','Voice, music and effects in one balanced mix.')]
+WORKS_HTML=''.join(f'<li class="work rv">{km}<div class="txt"><small>{B(sa,se)}</small><h3>{B(ta,te)}</h3><p>{B(da,de)}</p></div></li>' for km,sa,se,ta,te,da,de in WORKS)
+STAR='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z" fill="currentColor"/></svg>'
+TESTI=''.join(f'<li class="tst rv"><div class="stars" role="img" aria-label="{t["stars"]}/5">{STAR*t["stars"]}</div><blockquote>{B("«"+t["quote_ar"]+"»","“"+t["quote_en"]+"”","p")}</blockquote><div class="who"><span class="av" aria-hidden="true">{B(t["name_ar"][0],t["name_en"][0])}</span><span><b>{B(t["name_ar"],t["name_en"])}</b><small>{B(t["role_ar"],t["role_en"])}</small></span></div></li>' for t in DEMO['testimonials'])
+MARKS={'arch':'<path d="M6 30V18a10 10 0 0120 0v12M12 30V19a4 4 0 018 0v11" fill="none" stroke="currentColor" stroke-width="2.4"/>',
+ 'frame':'<rect x="5" y="9" width="22" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M14 13.5v7l6-3.5z" fill="currentColor"/>',
+ 'leaf':'<path d="M6 26C6 13 15 6 27 6c0 12-7 20-20 20zM6 26l11-11" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>',
+ 'wave':'<path d="M4 17h3l2-6 3 12 3-16 3 14 2-6 2 2h6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>',
+ 'orbit':'<circle cx="16" cy="16" r="4.5" fill="currentColor"/><ellipse cx="16" cy="16" rx="12" ry="6" transform="rotate(-25 16 16)" fill="none" stroke="currentColor" stroke-width="2.2"/>',
+ 'chevron':'<path d="M5 9l8 7-8 7M14 9l8 7-8 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 16h4" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>'}
+CLIENTS=''.join(f'<li class="cl rv"><svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true">{MARKS[c["mark"]]}</svg><span class="cl-n" lang="en">{c["name_en"].split()[0].upper()}<small>{" ".join(c["name_en"].split()[1:])}</small></span><span class="sr">{B(c["name_ar"],c["name_en"])}</span></li>' for c in DEMO['clients'])
+DEMO_NOTE=f'<p class="demo-note">{B("محتوى تجريبي للعرض قبل الإطلاق.","Demo content for the pre-launch preview.")}</p>'
+CHAT='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>'
+def CTA(ar,en,href='#contact'):
+    wa=''.join(f'<a class="chip cta-wa" href="https://wa.me/{n}" target="_blank" rel="noopener" aria-label="WhatsApp {d}">{WA}<bdi dir="ltr">{d}</bdi></a>' for n,d in PHONES)
+    return (f'<aside class="cta-strip rv" aria-label="Contact / تواصل"><div><p class="cta-t">{B(ar,en)}</p><p class="cta-s">{B("واتساب أو بريد أو نموذج التواصل. الدفع عبر Binance Pay أو USDT.","WhatsApp, email or the contact form. Pay with Binance Pay or USDT.")}</p></div>'
+            f'<div class="cta-a"><a class="btn sm" href="{href}">{CHAT}{B("تواصل معنا","Contact us")}</a>{wa}<a class="chip cta-wa" href="mailto:{EMAIL}" aria-label="Email {EMAIL}">{ML}<span>{B("البريد","Email")}</span></a></div></aside>')
+FS_ACTION=f'https://formsubmit.co/{EMAIL}'
+def FORM(title=True):
+    t=f'<h3 style="font-size:1.5rem">{B("أخبرنا عن مشروعك","Tell us about your project")}</h3>' if title else ''
+    return f'''<form id="cf" class="formcard rv" action="{FS_ACTION}" method="POST" novalidate>{t}
+<input type="hidden" name="_subject" value="KEV — رسالة جديدة من الموقع / New website message"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_template" value="table"><input type="hidden" name="_next" id="k-next" value="">
+<div class="hp" aria-hidden="true"><label>Leave empty<input type="text" name="_honey" id="k-hp" tabindex="-1" autocomplete="off"></label></div>
+<label for="kn"><span>{B('الاسم','Name')}</span><input id="kn" name="name" autocomplete="name" required aria-describedby="kn-e"><span class="err" id="kn-e"></span></label>
+<label for="ke"><span>{B('البريد الإلكتروني','Email')}</span><input id="ke" name="email" type="email" dir="ltr" autocomplete="email" required aria-describedby="ke-e"><span class="err" id="ke-e"></span></label>
+<label for="km"><span>{B('الرسالة','Message')}</span><textarea id="km" name="message" required aria-describedby="km-e"></textarea><span class="err" id="km-e"></span></label>
+<button class="btn" type="submit">{B('أرسل','Send')}</button><p id="k-st" role="status" aria-live="polite"></p></form>'''
 # ---------- home ----------
 _L=open(__import__('os').path.join(__import__('os').path.dirname(__file__) or '.','assets/img/kev-logo-vertical.svg')).read()
 _L=re.sub(r'<svg[^>]*>','<svg viewBox="0 0 760 651" class="kl" focusable="false">',_L,count=1).replace('kev-gradient','kevhg')
@@ -75,7 +129,6 @@ STUDIO=lambda v='': f'<div class="studio {v}" aria-hidden="true"><svg viewBox="0
 def H(ar,arh,en,enh):return B(f'{ar} <span class="hl">{arh}</span>',f'{en} <span class="hl">{enh}</span>')
 beliefs=[('الجودة قبل الكمية','Quality over quantity','نأخذ مشاريع أقل لنمنح كل مشروع تركيزاً كاملاً.','We take fewer projects so each one gets full focus.'),('وضوح من اليوم الأول','Clarity from day one','سعر ومدة وعدد تعديلات مكتوبة قبل أن نبدأ.','Price, timeline and revisions in writing before we start.'),('عربي وإنجليزي بالمستوى نفسه','Arabic and English, one standard','لا ترجمة سطحية؛ كل لغة تُكتب وتُصمَّم أصلاً.','No surface translation; each language is written and designed natively.'),('الأذن والعين حَكَم','Ear and eye decide','نعرض مسودات تُسمع وتُرى، لا وصفاً نظرياً.','We show drafts you can hear and see, not theory.'),('سرعة بلا استعجال','Fast, never rushed','مواعيد واقعية نلتزم بها.','Realistic deadlines we actually keep.'),('شفافية في الدفع','Transparent payment','Binance Pay أو USDT، ونتحقق من كل دفعة يدوياً.','Binance Pay or USDT, with every payment verified by hand.')]
 BEL=''.join(f'<article class="box"><span class="num">0{i+1}</span><h3>{B(a,e)}</h3><p>{B(pa,pe)}</p></article>' for i,(a,e,pa,pe) in enumerate(beliefs))
-LOGOS=''.join(f'<div class="lg">LOGO {i%6+1}</div>' for i in range(12))
 import re as _r
 _cfg=open('assets/js/config.js',encoding='utf-8').read()
 STATS=''.join(f'<div class="stat"><b>{n}<em>{suf}</em></b><span>{B(a,e)}</span></div>' for n,suf,a,e in _r.findall(r'\{\s*n:"([^"]*)",\s*suf:"([^"]*)",\s*l:\["([^"]*)","([^"]*)"\]',_cfg))
@@ -91,28 +144,27 @@ home=f'''<section class="band hero dark" data-band="dark" id="top"><div class="g
 <article class="box big"><span class="num">{B('الرؤية','VISION')}</span><h3>{H('استوديو عربي','يُحتذى.','An Arab studio','others follow.')}</h3><p>{B('أن يصبح «خيال» اسماً مرادفاً للجودة في الصوت والصورة والكود.','For Khayyal to become a name that means quality in sound, image and code.')}</p></article></div></div></section>
 <section class="band tight dark" data-band="dark"><div class="wrap"><div class="stats" id="stats">{STATS}</div></div></section>
 <section class="band has-studio edge" data-band="light">{STUDIO("st-head")}<div class="wrap"><div class="head" data-stagger><span class="eyebrow">{B('الخدمات','Services')}</span><h2 class="h2">{H('كل ما يحتاجه','مشروعك.','Everything your project','needs.')}</h2><p class="lead">{B('باقات واضحة بأسعار ومدة تسليم محددة، والدفع عبر Binance Pay أو USDT.','Clear packages with set prices and delivery times. Pay with Binance Pay or USDT.')}</p></div><div id="features"></div>
-<p style="margin-top:32px"><a class="btn" href="services.html">{B('كل الخدمات والباقات','All services & packages')}</a></p></div></section>
+<p style="margin-top:32px"><a class="btn" href="services.html">{B('كل الخدمات والباقات','All services & packages')}</a></p>{CTA('عندك مشروع؟ لنبدأ اليوم.','Have a project? Let’s start today.')}</div></section>
+<section class="band dark has-studio edge" data-band="dark" id="work">{STUDIO("st-head")}<div class="wrap"><div class="head" data-stagger><span class="eyebrow">{B('الأعمال','Portfolio')}</span><h2 class="h2">{H('أعمال','تُرى وتُسمَع.','Work you can','see and hear.')}</h2><p class="lead">{B('نبدأ بهويتنا: شعار KEV ودليله وتطبيقاته وموقعه — كلها من تصميمنا وتنفيذنا.','We start with our own identity: the KEV logo, its guide, its applications and this website — all designed and built in-house.')}</p></div>
+<ul class="works">{WORKS_HTML}</ul><p style="margin-top:32px"><a class="btn ghost" href="portfolio.html">{B('كل الأعمال','All work')}</a></p>{CTA('أعجبك ما رأيت وسمعت؟','Like what you see and hear?')}</div></section>
 <section class="band dark edge" data-band="dark"><div class="wrap"><div class="head" data-stagger><span class="eyebrow">{B('طريقة العمل','Process')}</span><h2 class="h2">{H('أربع خطوات،','بلا مفاجآت.','Four steps,','no surprises.')}</h2></div>
-<ol class="flow" data-stagger><li><h3>{B('نفهم','Understand')}</h3><p>{B('نحدد الهدف والجمهور ومعيار النجاح.','We set the goal, audience and success criteria.')}</p></li><li><h3>{B('ندفع المقدّم','Deposit')}</h3><p>{B('دفعة مقدّمة بالطريقة التي تناسبك.','A deposit by the method that suits you.')}</p></li><li><h3>{B('ننتج','Produce')}</h3><p>{B('مسودات ومعاينات ضمن تعديلات باقتك.','Drafts and previews within your revisions.')}</p></li><li><h3>{B('نسلّم','Deliver')}</h3><p>{B('ملفات نهائية وحقوق الاستخدام.','Final files and usage rights.')}</p></li></ol></div></section>
+<ol class="flow" data-stagger><li><h3>{B('نفهم','Understand')}</h3><p>{B('نحدد الهدف والجمهور ومعيار النجاح.','We set the goal, audience and success criteria.')}</p></li><li><h3>{B('ندفع المقدّم','Deposit')}</h3><p>{B('دفعة مقدّمة بالطريقة التي تناسبك.','A deposit by the method that suits you.')}</p></li><li><h3>{B('ننتج','Produce')}</h3><p>{B('مسودات ومعاينات ضمن تعديلات باقتك.','Drafts and previews within your revisions.')}</p></li><li><h3>{B('نسلّم','Deliver')}</h3><p>{B('ملفات نهائية وحقوق الاستخدام.','Final files and usage rights.')}</p></li></ol>{CTA('أربع خطوات تفصلك عن النتيجة.','Four steps from your result.')}</div></section>
 <section class="band" data-band="light"><div class="wrap"><div class="head" data-stagger><span class="eyebrow">{B('مبادئنا','Our rules')}</span><h2 class="h2">{H('ما','نلتزم به.','What we','stand by.')}</h2></div>
 <div class="grid3" id="principles" data-scrub>{BEL}</div></div></section>
+<section class="band" data-band="light" id="testimonials"><div class="wrap"><div class="head" data-stagger><span class="eyebrow">{B('آراء العملاء','Testimonials')}</span><h2 class="h2">{H('ماذا يقول','عملاؤنا.','What our clients','say.')}</h2></div>
+<ul class="tsts">{TESTI}</ul>{DEMO_NOTE}{CTA('انضم إليهم.','Join them.')}</div></section>
 <section class="band tight dark" data-band="dark"><div class="wrap"><div class="head" data-stagger><span class="eyebrow">{B('عملاء وشركاء','Clients & partners')}</span><h2 class="h2">{H('بثقة','شركائنا.','Trusted by','partners.')}</h2></div>
-<div class="logos" aria-hidden="true"><div class="track">{LOGOS}</div></div>
+<ul class="clients" aria-label="Clients / العملاء">{CLIENTS}</ul>{DEMO_NOTE}
 <p style="margin-top:32px"><a class="btn ghost" href="portfolio.html">{B('شاهد الأعمال','See the work')}</a></p></div></section>
 <section class="band has-studio edge" data-band="light" id="contact">{STUDIO("st-cta")}<div class="wrap contact-grid"><div class="head" data-stagger style="margin:0"><span class="eyebrow">{B('تواصل','Contact')}</span><h2 class="h2">{H('لنصنع شيئاً','لا يُنسى.','Let’s make something','unforgettable.')}</h2><p class="lead">{B('أخبرنا بما تريد إنجازه. نرد خلال يوم عمل واحد.','Tell us what you want to achieve. We reply within one working day.')}</p>
 <div class="direct"><span class="eyebrow">{B('تواصل مباشر','Direct line')}</span>{CONTACTS()}</div></div>
-<form id="cf" class="formcard rv" novalidate><h3 style="font-size:1.5rem">{B('أخبرنا عن مشروعك','Tell us about your project')}</h3>
-<label><span>{B('الاسم','Name')}</span><input id="kn" autocomplete="name" required><span class="err" id="kn-e"></span></label>
-<label><span>{B('البريد الإلكتروني','Email')}</span><input id="ke" type="email" dir="ltr" autocomplete="email" required><span class="err" id="ke-e"></span></label>
-<label><span>{B('الرسالة','Message')}</span><textarea id="km" required></textarea><span class="err" id="km-e"></span></label>
-<button class="btn" type="submit">{B('أرسل','Send')}</button><p id="k-st" role="status" aria-live="polite"></p></form></div></section>'''
-page('index.html','الرئيسية','Home','KEV (خيال) استوديو للصوت والصورة والفن والبرمجة. KEV studio for sound, video, art and software.',home,js=('contact',))
+{FORM()}</div></section>'''
+page('index.html','الرئيسية','Home','KEV (خيال) استوديو للصوت والصورة والفن والبرمجة. KEV studio for sound, video, art and software.',home,js=('contact','p0'))
 
 # ---------- services ----------
 page('services.html','الخدمات والمتجر','Services & store','Services and packages: voice-over, mixing, photography, video, branding, web & apps.',
  hero('الخدمات والمتجر','Services & store','اختر الخدمة ثم الباقة المناسبة. الأسعار بالدولار، وطرق دفع متعددة.','Pick a service, then the package that fits. Prices in USD, with several payment options.')+
  f'<section><div class="wrap"><ul class="cards" id="catalogue"></ul><div class="paybox"><h2 class="h3">{B("طرق الدفع","Payment methods")}</h2><p class="note">{B("اختر الطريقة المناسبة عند الطلب، ونرسل لك التفاصيل.","Pick the method that suits you when ordering, and we’ll send you the details.")}</p>{PAYM()}</div></div></section>',js=('store',))
-import json,subprocess
 cfg=open('assets/js/config.js').read()
 ids=re.findall(r'\{ id:"([^"]+)"',cfg)
 for sid in ids:
@@ -150,22 +202,9 @@ co=f'''{hero('إتمام الطلب','Checkout','ثلاث خطوات: بيانا
 </div></section>'''
 page('checkout.html','إتمام الطلب','Checkout','Checkout.',co,cur='services.html',js=('checkout',))
 # ---------- portfolio ----------
-SZ="(max-width:600px) 100vw, (max-width:900px) 50vw, 33vw"
-WORKS=[
- (KM('branding','kev_logo',1280,720,'شعار KEV بالألوان على الكحلي','KEV logo in full colour on navy','ph',SZ,False,kind='ba',before='kev_logo_mono',b_alt_ar='شعار KEV بنسخة أحادية اللون',b_alt_en='KEV logo, one-colour version',a_alt_ar='شعار KEV بالألوان الكاملة',a_alt_en='KEV logo, full colour',b_ar='أحادي',b_en='Mono',a_ar='ملوّن',a_en='Colour',cmp_ar='مقارنة الشعار الأحادي والملوّن',cmp_en='Mono vs colour logo comparison'),
-  'هوية بصرية','Brand identity','شعار KEV','The KEV logo','رمز دائري يجمع عدسة الكاميرا وموجة الصوت، بنسخ ملوّنة وأحادية وأفقية ومقاسات صغيرة.','A circular mark joining a camera lens and a sound wave, in colour, mono, horizontal and small-size versions.'),
- (KM('branding','kev_guide',1280,720,'صفحة الألوان والخطوط من دليل هوية KEV','Colour and typography page from the KEV brand guide','ph',SZ,False,kind='img'),
-  'دليل الهوية','Brand guide','دليل استخدام الشعار','Logo usage guide','الألوان والخطوط والمساحة الآمنة والمقاسات الدنيا وما يجوز وما لا يجوز.','Colours, type, clear space, minimum sizes and do’s and don’ts.'),
- (KM('branding','kev_cards',1280,720,'بطاقات عمل KEV على مكتب خشبي','KEV business cards on a wooden desk','ph',SZ,False,kind='vf'),
-  'مطبوعات','Print','بطاقات العمل','Business cards','الشعار على وجهين داكن وفاتح، بتشطيب بسيط يناسب الاستوديو.','The mark on dark and light faces, with a clean studio finish.'),
- (KM('branding','kev_sign',1280,720,'لافتة KEV دائرية على جدار استوديو صوتي','Round KEV sign on a sound-studio wall','ph',SZ,False,kind='img'),
-  'تطبيق الهوية','Environment','لافتة الاستوديو','Studio sign','الرمز كلافتة دائرية على جدار العزل الصوتي.','The mark as a round sign on the acoustic wall.'),
- (KM('branding','kev_hoodie',1280,720,'هودي كحلي يحمل شعار KEV','Navy hoodie with the KEV logo','ph',SZ,False,kind='img'),
-  'منتجات','Merch','هودي الفريق','Team hoodie','الشعار الأبيض على الكحلي لملابس الفريق والهدايا.','The white mark on navy for team wear and gifts.'),
- (KM('web-app','site_laptop',1000,2344,'موقع KEV على حاسوب وهاتف','The KEV website on a laptop and a phone','ph',SZ,False,kind='dev',lap='site_laptop',lap_h=2344,ph='site_phone',ph_h=5231),
-  'موقع إلكتروني','Website','موقع KEV','The KEV website','الموقع الذي تتصفّحه الآن: ثنائي اللغة، وضع فاتح وداكن، ومتجر باقات.','The site you are browsing: bilingual, light and dark modes, and a package store.')]
-ph=''.join(f'<li class="work">{km}<div class="txt"><small>{B(sa,se)}</small><h3>{B(ta,te)}</h3><p>{B(da,de)}</p></div></li>' for km,sa,se,ta,te,da,de in WORKS)
-page('portfolio.html','الأعمال','Portfolio','KEV portfolio.',hero('الأعمال','Portfolio','نبدأ بهويتنا: شعار KEV ودليله وتطبيقاته وموقعه — كلها من تصميمنا وتنفيذنا.','We start with our own identity: the KEV logo, its guide, its applications and this website — all designed and built in-house.')+f'<section><div class="wrap"><ul class="works">{ph}</ul></div></section>')
+page('portfolio.html','الأعمال','Portfolio','KEV portfolio: brand identity, website, promo film, voice-over and sound engineering samples.',hero('الأعمال','Portfolio','نبدأ بهويتنا: شعار KEV ودليله وتطبيقاته وموقعه — كلها من تصميمنا وتنفيذنا.','We start with our own identity: the KEV logo, its guide, its applications and this website — all designed and built in-house.')+f'<section><div class="wrap"><ul class="works">{WORKS_HTML}</ul>{CTA("مشروعك التالي يبدأ هنا.","Your next project starts here.","contact.html")}</div></section>',js=('p0',))
+# ---------- thanks ----------
+page('thanks.html','شكراً','Thank you','Message received.',hero('شكراً','Thank you','وصلتنا رسالتك. نرد خلال يوم عمل واحد.','Your message reached us. We reply within one working day.',crumb=False)+f'<section><div class="wrap thanks"><div class="row"><a class="btn" href="index.html">{B("العودة للرئيسية","Back to home")}</a><a class="btn ghost" href="portfolio.html">{B("شاهد الأعمال","See the work")}</a></div><h2 class="h3" style="margin-top:40px">{B("تحتاج رداً أسرع؟","Need a faster reply?")}</h2>{CONTACTS()}</div></section>',cur='')
 # ---------- about ----------
 page('about.html','من نحن','About','About KEV.',hero('من نحن','About','KEV — خيال: صوت (Echo) وصورة (Vision) باسم مؤسسها.','KEV — Khayyal: sound (Echo) and sight (Vision), under its founder’s name.')+
  f'''<section><div class="wrap prose">{B('<p>KEV اختصار Khayyal Echo Vision. «خيال» اسم المؤسس، و«Echo» هو الصوت، و«Vision» هي الصورة. نجمع التعليق الصوتي وهندسة الصوت والتصوير والفيديو والتصميم والبرمجة تحت سقف واحد، لنسلّم منتجاً متماسكاً بدل ملفات متفرقة من جهات مختلفة.</p><h2>ما نؤمن به</h2><ul><li>الجودة قبل الكمية.</li><li>مواعيد ومراجعات واضحة منذ البداية.</li><li>عربي وإنجليزي بالمستوى نفسه.</li></ul>','<p>KEV stands for Khayyal Echo Vision. Khayyal is the founder’s name, Echo is sound, and Vision is sight. We bring voice-over, sound engineering, photography, video, design and code under one roof, so you get one coherent product instead of scattered files from different vendors.</p><h2>What we believe</h2><ul><li>Quality over quantity.</li><li>Clear timelines and revisions from day one.</li><li>Arabic and English at the same standard.</li></ul>','div')}<h2>{B('تواصل مع المؤسس','Contact the founder')}</h2>{CONTACTS()}</div></section>''')
@@ -184,17 +223,14 @@ fq=''.join(f'<details><summary>{B(q,qe)}</summary><p>{B(a,ae)}</p></details>' fo
 page('faq.html','أسئلة شائعة','FAQ','KEV FAQ.',hero('أسئلة شائعة','FAQ','أجوبة سريعة عن الطلب والدفع والتسليم.','Quick answers on ordering, payment and delivery.')+f'<section><div class="wrap" style="max-width:820px">{fq}</div></section>')
 # ---------- contact ----------
 ct=f'''{hero('تواصل','Contact','أخبرنا بما تريد إنجازه. نرد خلال يوم عمل واحد.','Tell us what you want to achieve. We reply within one working day.')}
-<section><div class="wrap two"><form id="cf" class="formcard" novalidate>
-<label><span>{B('الاسم','Name')}</span><input id="kn" autocomplete="name" required><span class="err" id="kn-e"></span></label>
-<label><span>{B('البريد الإلكتروني','Email')}</span><input id="ke" type="email" dir="ltr" autocomplete="email" required><span class="err" id="ke-e"></span></label>
-<label><span>{B('الرسالة','Message')}</span><textarea id="km" required></textarea><span class="err" id="km-e"></span></label>
-<button class="btn" type="submit">{B('أرسل','Send')}</button><p id="k-st" role="status" aria-live="polite"></p></form>
+<section><div class="wrap two">{FORM(False)}
 <div class="panel"><h2>{B('تواصل مباشرة','Reach us directly')}</h2><p class="note">{B('اتصال أو واتساب، أو راسل المؤسس مباشرة.','Call or WhatsApp, or email the founder directly.')}</p>{CONTACTS()}</div></div></section>'''
-page('contact.html','تواصل','Contact','Contact KEV.',ct,js=('contact',))
+page('contact.html','تواصل','Contact','Contact KEV.',ct,js=('contact','p0'))
 # ---------- legal ----------
 LEG=''
 page('terms.html','الشروط والأحكام','Terms','Terms of service.',hero('الشروط والأحكام','Terms of service','تنطبق على كل الطلبات عبر هذا الموقع.','Apply to every order placed on this site.')+f'''<section><div class="wrap prose">{LEG}{B('<h2>الطلب</h2><p>يبدأ العمل بعد تأكيد استلام الدفعة المقدّمة يدوياً. مدة التسليم تُحسب من تاريخ التأكيد.</p><h2>الدفع</h2><p>يتم الدفع بإحدى الطرق المتاحة: Binance Pay، USDT (TRC20/BEP20)، تحويل بنكي، Wise، PayPal، Western Union أو حوالة مالية، أو بطاقة Visa/Mastercard عبر رابط دفع. نرسل تفاصيل الدفع بعد استلام الطلب، والعميل مسؤول عن رسوم التحويل وعن استخدام التفاصيل الصحيحة.</p><h2>التعديلات</h2><p>عدد التعديلات محدد في كل باقة. التغييرات خارج النطاق تُسعّر منفصلة.</p><h2>الملكية والحقوق</h2><p>تنتقل حقوق الاستخدام للعميل بعد سداد كامل المبلغ، ضمن ما تنص عليه الباقة.</p><h2>التواصل</h2><p>أي إشعار يتم عبر البريد المسجّل في الطلب.</p>','<h2>Orders</h2><p>Work starts once the deposit has been manually confirmed. Delivery time counts from the confirmation date.</p><h2>Payment</h2><p>Payment is made by one of the available methods: Binance Pay, USDT (TRC20/BEP20), bank transfer, Wise, PayPal, Western Union or money transfer, or Visa/Mastercard via a payment link. We send payment details after receiving the order; the client is responsible for transfer fees and for using the correct details.</p><h2>Revisions</h2><p>Each package states its number of revisions. Out-of-scope changes are quoted separately.</p><h2>Ownership and rights</h2><p>Usage rights pass to the client after full payment, as described in the package.</p><h2>Communication</h2><p>All notices are sent to the email given in the order.</p>','div')}</div></section>''')
 page('refund.html','سياسة الاسترجاع','Refund policy','Refund policy.',hero('سياسة الاسترجاع','Refund policy','متى وكيف تُسترد المبالغ.','When and how money is refunded.')+f'''<section><div class="wrap prose">{LEG}{B('<ul><li>قبل بدء العمل: استرداد كامل الدفعة المقدّمة ناقص رسوم الشبكة.</li><li>بعد تسليم المسودة الأولى: لا تُسترد الدفعة المقدّمة.</li><li>إذا تأخرنا عن موعد التسليم أكثر من 7 أيام دون اتفاق: يحق لك استرداد 50% من المدفوع.</li><li>تُرد المبالغ بنفس الطريقة (USDT أو Binance Pay) خلال 7 أيام عمل.</li></ul>','<ul><li>Before work starts: full refund of the deposit minus network fees.</li><li>After the first draft is delivered: the deposit is non-refundable.</li><li>If we miss the delivery date by more than 7 days without agreement: you may claim 50% of what you paid.</li><li>Refunds are made the same way (USDT or Binance Pay) within 7 working days.</li></ul>','div')}</div></section>''')
 page('privacy.html','الخصوصية','Privacy','Privacy policy.',hero('سياسة الخصوصية','Privacy policy','نجمع أقل قدر ممكن من البيانات.','We collect as little data as possible.')+f'''<section><div class="wrap prose">{LEG}{B('<h2>بلا تتبّع، بلا ملفات تعريف ارتباط</h2><p>لا نستخدم أي أدوات تتبّع أو تحليلات أو إعلانات، ولا نضع ملفات تعريف ارتباط (Cookies) على جهازك.</p><h2>ما الذي نحفظه وأين</h2><ul><li>السلة واللغة والمظهر تُحفظ في متصفحك فقط (localStorage).</li><li>بيانات الطلب (الاسم، البريد، رقم المعاملة) تصلنا عبر البريد أو خدمة النماذج المحددة، وتُستخدم فقط لتنفيذ الطلب.</li><li>الخطوط مستضافة على الموقع نفسه، بلا طلبات لجهات خارجية.</li><li>لحذف بياناتك راسلنا على البريد في صفحة التواصل.</li></ul>','<h2>No tracking, no cookies</h2><p>We use no trackers, analytics or advertising tools, and we place no cookies on your device.</p><h2>What we store and where</h2><ul><li>Cart, language and theme are stored only in your browser (localStorage).</li><li>Order data (name, email, transaction ID) reaches us by email or the configured form service and is used only to fulfil the order.</li><li>Fonts are self-hosted, with no third-party requests.</li><li>To delete your data, email us via the contact page.</li></ul>','div')}</div></section>''')
 page('404.html','الصفحة غير موجودة','Not found','Not found.',hero('الصفحة غير موجودة','Page not found','الرابط غير صحيح.','This link is not valid.',crumb=False)+f'<section><div class="wrap"><a class="btn" href="index.html">{B("العودة للرئيسية","Back to home")}</a></div></section>',cur='')
+t=open('thanks.html').read().replace('<meta charset="utf-8">','<meta charset="utf-8"><meta name="robots" content="noindex">',1);open('thanks.html','w').write(t)
 print('built')
