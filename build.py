@@ -1,5 +1,6 @@
 # Static page builder for the KEV site. Run: python3 build.py
 import re
+ASSET_V="20261023b"  # bump to bust browser/CDN caches
 def B(ar,en,tag='span',cls=''):
     c=(' '+cls) if cls else ''
     return f'<{tag} class="ar{c}" lang="ar">{ar}</{tag}><{tag} class="en{c}" lang="en">{en}</{tag}>'
@@ -52,13 +53,13 @@ def header(cur):
  </div></div></aside>'''
 FOOT=f'''<footer><div class="wrap"><div class="ft"><img src="assets/brand/kev_horizontal_color.svg" alt="KEV · Khayyal Echo Vision" width="152" height="52"><span class="links">{''.join(f'<a href="{h}">{B(x,y)}</a>' for h,x,y in NAV[1:])}</span></div><div class="ft-ct">{CONTACTS("sm")}</div><div class="fb"><span><bdi dir="ltr">© <span id="yr">2026</span> KEV — Khayyal Echo Vision.</bdi> {B('جميع الحقوق محفوظة.','All rights reserved.')}</span><span class="links"><a href="terms.html">{B('الشروط','Terms')}</a><a href="refund.html">{B('الاسترجاع','Refunds')}</a><a href="privacy.html">{B('الخصوصية','Privacy')}</a></span></div></div></footer>'''
 def page(fn,tar,ten,desc,body,cur=None,js=()):
-    scripts=''.join(f'<script defer src="assets/js/{j}.js"></script>' for j in ('config','common')+tuple(js)+('media','fx'))
+    scripts=''.join(f'<script defer src="assets/js/{j}.js?v={ASSET_V}"></script>' for j in ('config','common')+tuple(js)+('media','fx'))
     html=f'''<!DOCTYPE html>
 <html lang="ar" dir="rtl" class="no-js" data-title-ar="{tar} · KEV خيال" data-title-en="{ten} · KEV Khayyal">
 <head><script>(function(){{var d=document.documentElement,t,l;try{{t=localStorage.getItem('kev-theme');l=localStorage.getItem('kev-lang')}}catch(e){{}}if(t==='dark'||t==='light')d.setAttribute('data-theme',t);if(t?t==='dark':!!(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches))d.classList.add('is-dark');if(l!=='ar'&&l!=='en')l=navigator.language&&!/^ar/i.test(navigator.language)?'en':'ar';d.lang=l;d.dir=l==='ar'?'rtl':'ltr';try{{if('scrollRestoration' in history)history.scrollRestoration='manual'}}catch(e){{}}var h=location.hash,p=location.pathname,r=document.referrer;if(h&&/([/]|index[.]html)$/.test(p)&&(!r||r.indexOf(location.origin)!==0)){{try{{history.replaceState(history.state,'',p+location.search)}}catch(e){{}}h=''}}window.__kevHash=h}})()</script><meta charset="utf-8"><meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{tar} · KEV خيال</title><meta name="description" content="{desc}">
 <meta name="theme-color" content="#080D28"><link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" href="assets/brand/kev_icon-tile.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="assets/brand/apple-touch-icon-180.png"><link rel="manifest" href="site.webmanifest">
-<link rel="preload" href="assets/fonts/cairo.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="assets/css/site.css">{scripts}</head>
+<link rel="preload" href="assets/fonts/cairo.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="assets/css/site.css?v={ASSET_V}">{scripts}</head>
 <body>{header(cur or fn)}
 <main id="main" tabindex="-1">{body.replace('<section>','<section class="band" data-band="light">')}</main>
 {FOOT}</body></html>'''
@@ -109,10 +110,11 @@ def CTA(ar,en,href='#contact'):
     return (f'<aside class="cta-strip rv" aria-label="Contact / تواصل"><div><p class="cta-t">{B(ar,en)}</p><p class="cta-s">{B("واتساب أو بريد أو نموذج التواصل. الدفع عبر Binance Pay أو USDT.","WhatsApp, email or the contact form. Pay with Binance Pay or USDT.")}</p></div>'
             f'<div class="cta-a"><a class="btn sm" href="{href}">{CHAT}{B("تواصل معنا","Contact us")}</a>{wa}<a class="chip cta-wa" href="mailto:{EMAIL}" aria-label="Email {EMAIL}">{ML}<span>{B("البريد","Email")}</span></a></div></aside>')
 FS_ACTION=f'https://formsubmit.co/{EMAIL}'
+FS_AJAX=f'https://formsubmit.co/ajax/{EMAIL}'
 def FORM(title=True):
     t=f'<h3 style="font-size:1.5rem">{B("أخبرنا عن مشروعك","Tell us about your project")}</h3>' if title else ''
-    return f'''<form id="cf" class="formcard rv" action="{FS_ACTION}" method="POST" novalidate>{t}
-<input type="hidden" name="_subject" value="KEV — رسالة جديدة من الموقع / New website message"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_template" value="table"><input type="hidden" name="_next" id="k-next" value="">
+    return f'''<form id="cf" class="formcard rv" action="{FS_ACTION}" data-ajax="{FS_AJAX}" method="POST" novalidate>{t}
+<input type="hidden" name="_subject" value="KEV — new message"><input type="hidden" name="_captcha" value="false"><input type="hidden" name="_template" value="table"><input type="hidden" name="_next" id="k-next" value="">
 <div class="hp" aria-hidden="true"><label>Leave empty<input type="text" name="_honey" id="k-hp" tabindex="-1" autocomplete="off"></label></div>
 <label for="kn"><span>{B('الاسم','Name')}</span><input id="kn" name="name" autocomplete="name" required aria-describedby="kn-e"><span class="err" id="kn-e"></span></label>
 <label for="ke"><span>{B('البريد الإلكتروني','Email')}</span><input id="ke" name="email" type="email" dir="ltr" autocomplete="email" required aria-describedby="ke-e"><span class="err" id="ke-e"></span></label>
