@@ -168,7 +168,7 @@ main:focus{outline:none}
 .sl-txt .hl{color:var(--hl)}
 .sl-card.in .w{opacity:1;transform:none}
 .sl-shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);mix-blend-mode:soft-light;transform:translateX(-120%);will-change:transform}
-.sl-card.in .sl-shine{animation:slShine 6s ease-in-out 1.4s infinite}
+
 @keyframes slShine{0%{transform:translateX(-120%)}35%,100%{transform:translateX(120%)}}
 .sl-boxi{position:absolute;top:-22px;inset-inline-end:-18px;width:44px;height:44px;color:var(--hl);background:var(--surface);border-radius:12px;padding:4px;box-shadow:0 4px 14px rgba(8,13,40,.12)}
 .sl-boxi .spark{transform-box:fill-box;transform-origin:center;animation:slPop 3.2s cubic-bezier(.34,1.56,.64,1) infinite}
@@ -489,7 +489,7 @@ html.is-dark{background:#070B20;color-scheme:dark}
 @keyframes mtr{0%{transform:scaleY(.85)}35%{transform:scaleY(.3)}60%{transform:scaleY(.55)}100%{transform:scaleY(.08)}}
 /* idle shimmer on waveform */
 .wp-wave::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(18,217,232,.55),transparent);width:22%;mix-blend-mode:screen;opacity:0}
-.km.live .wp:not(.on) .wp-wave::after{opacity:1;animation:shim 2.6s ease-in-out infinite}
+
 @keyframes shim{0%{transform:translateX(-30%)}100%{transform:translateX(480%)}}
 .km.live .wp:not(.on) .wp-btn{animation:pulse 2.2s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(18,217,232,.45)}60%{box-shadow:0 0 0 10px rgba(18,217,232,0)}}
@@ -510,7 +510,7 @@ html.is-dark{background:#070B20;color-scheme:dark}
 .cd-ui{position:absolute;inset:0;opacity:0;transform:scale(1.04);transition:opacity .45s ease,transform .6s var(--ease);pointer-events:none;background:#070B20}
 .cd-ui img{width:100%;height:auto;display:block}
 .cd.show .cd-ui{opacity:1;transform:none}
-.cd.show .cd-ui::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);animation:flash .9s ease forwards}
+
 @keyframes flash{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
 /* brand board */
 .km-brand{background:#080D28}
@@ -679,10 +679,9 @@ body{font-size:var(--fs-md);line-height:var(--lh-body)}
 .k-br{animation:kBreath 9s ease-in-out 2.6s infinite;transform-origin:50% 45%;will-change:transform}
 @keyframes kBreath{0%,100%{transform:scale(1) translate3d(0,0,0)}50%{transform:scale(1.035) translate3d(0,-6px,0)}}
 .k-br{position:relative}.k-br>.kl{display:block}
-.motif .h-ap{position:absolute;width:84%;height:auto;aspect-ratio:1;left:52.76%;top:49.72%;margin:-42% 0 0 -42%;transform-origin:50% 50%;color:var(--c-cyan);opacity:.5;animation:apSpin 60s linear infinite;will-change:transform}
+.motif .h-ap{transform-box:view-box;transform-origin:0 0;color:var(--c-cyan);opacity:.5;animation:apSpin 60s linear infinite;will-change:transform}
 @keyframes apSpin{to{transform:rotate(360deg)}}
-.h-sweep{position:absolute;inset:-20% auto -20% 0;width:38%;z-index:0;pointer-events:none;background:linear-gradient(100deg,transparent,rgba(120,200,255,.07) 45%,rgba(18,217,232,.09) 50%,transparent);transform:translate3d(-120%,0,0) skewX(-12deg);animation:hSweep 11s ease-in-out 1.5s infinite;will-change:transform}
-:root:not(.is-dark) .h-sweep{background:linear-gradient(100deg,transparent,rgba(255,255,255,.55) 50%,transparent)}
+
 @keyframes hSweep{0%{transform:translate3d(-120%,0,0) skewX(-12deg)}55%,100%{transform:translate3d(330%,0,0) skewX(-12deg)}}
 .hero .h-wave .wb{transform-box:fill-box;transform-origin:center;animation:wbB 1.6s ease-in-out infinite alternate}
 .wb1{animation-delay:-.3s!important;animation-duration:1.3s!important}.wb2{animation-delay:-.7s!important}.wb3{animation-delay:-1.1s!important;animation-duration:1.9s!important}.wb4{animation-delay:-.5s!important;animation-duration:1.45s!important}
@@ -749,3 +748,6 @@ body{font-size:var(--fs-md);line-height:var(--lh-body)}
 .ab-av{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--hl);color:var(--surface);font:800 1.2rem var(--f-en)}
 .hp{position:absolute!important;inset:auto!important;left:0!important;top:0!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);opacity:0;pointer-events:none}
 html{overflow-x:clip}
+
+/* passing glow/shine sweeps removed (v23j) */
+.h-sweep,.sl-shine{display:none!important}

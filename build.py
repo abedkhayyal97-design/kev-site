@@ -1,6 +1,6 @@
 # Static page builder for the KEV site. Run: python3 build.py
 import re
-ASSET_V="20261023i"  # bump to bust browser/CDN caches
+ASSET_V="20261023j"  # bump to bust browser/CDN caches
 def B(ar,en,tag='span',cls=''):
     c=(' '+cls) if cls else ''
     return f'<{tag} class="ar{c}" lang="ar">{ar}</{tag}><{tag} class="en{c}" lang="en">{en}</{tag}>'
@@ -155,8 +155,11 @@ import math as _m
 _bars=[(i*12+6,int(4+22*abs(_m.sin(i*.37)*_m.cos(i*.11)))) for i in range(100)]
 WAVEBAR='<svg class="h-wave" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" focusable="false">'+''.join('<path class="wb wb%d" d="%s" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>'%(g,' '.join(f'M{x} {30-h} V{30+h}' for k,(x,h) in enumerate(_bars) if k%5==g)) for g in range(5))+'</svg>'
 AP='<svg class="h-ap" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" stroke-width=".8" stroke-dasharray="2 6"/><g fill="none" stroke="currentColor" stroke-width="1.2">'+''.join(f'<path d="M100 100 L{100+88*_m.cos(_m.radians(a)):.1f} {100+88*_m.sin(_m.radians(a)):.1f}" transform="rotate(28 100 100)" opacity=".5"/>' for a in range(0,360,60))+'<circle cx="100" cy="100" r="88"/></g></svg>'
-MOTIF_H='<div class="motif" aria-hidden="true"><div class="k-tilt"><div class="k-br">'+AP+_L+'</div></div></div>'
-home=f'''<section class="band hero dark" data-band="dark" id="top" data-anim><div class="glow" aria-hidden="true"></div><span class="h-sweep" aria-hidden="true"></span>{MOTIF_H}<div class="wrap h-copy">
+# ring lives INSIDE the logo SVG, centred on the aperture circle (256,256 + translate 128,20 = 384,276 in viewBox units)
+AP_G='<g transform="translate(384 276)"><g class="h-ap"><g class="h-ap-in" transform="scale(2.75) translate(-100 -100)">'+AP[AP.index('>')+1:AP.rindex('</svg>')]+'</g></g></g>'
+assert '<g transform="translate(128.0,20)">' in _L
+MOTIF_H='<div class="motif" aria-hidden="true"><div class="k-tilt"><div class="k-br">'+_L.replace('<g transform="translate(128.0,20)">',AP_G+'<g transform="translate(128.0,20)">',1)+'</div></div></div>'
+home=f'''<section class="band hero dark" data-band="dark" id="top" data-anim><div class="glow" aria-hidden="true"></div>{MOTIF_H}<div class="wrap h-copy">
 <span class="eyebrow h-in">{B('KEV · خيال — استوديو إنتاج','KEV · Khayyal — production studio')}</span>
 <h1 class="display h-words"><span class="ar" lang="ar"><span class="w" style="--i:0">صوت.</span> <span class="w" style="--i:1">صورة.</span> <span class="w hl" style="--i:2">خيال.</span></span><span class="en" lang="en"><span class="w" style="--i:0">Sound.</span> <span class="w" style="--i:1">Vision.</span> <span class="w hl" style="--i:2">Imagination.</span></span></h1>
 <p class="lead h-in">{B('استوديو واحد للتعليق الصوتي وهندسة الصوت والتصوير والفيديو والهوية والبرمجة. نصنع أعمالاً تُسمَع وتُرى وتُتذكَّر.','One studio for voice-over, sound engineering, photography, video, identity and code. We make work that is heard, seen and remembered.')}</p>
