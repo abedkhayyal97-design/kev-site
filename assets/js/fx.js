@@ -3,7 +3,7 @@ const still=matchMedia('(prefers-reduced-motion:reduce)').matches;
 const K=window.KEV;
 function features(){const el=document.getElementById('features');if(!el||!K)return;const L=K.L,esc=K.esc,T=(a,e)=>K.lang==='ar'?a:e;
  el.innerHTML=K.C.services.map((s,i)=>{const p=s.packages.find(x=>x.hl)||s.packages[0],min=Math.min(...s.packages.map(x=>x.price));
-  return `<div class="svc rv"><div class="box big">${ICO[s.id]||''}<span class="num">0${i+1}</span><h3>${esc(L(s.name))}</h3><p>${esc(L(s.desc))}</p>
+  return `<div class="svc rv"><div class="box big">${ICO[s.id]||''}<span class="num">0${i+1}</span><h3>${esc(L(s.name))}</h3><p>${K.rich(L(s.desc))}</p>
  <ul class="pills" aria-label="${T('يتضمن','Includes')}">${p.items.map(x=>`<li>${esc(L(x))}</li>`).join('')}</ul>
  <div class="row"><a class="btn sm" href="service-${s.id}.html">${T('الباقات والأسعار','Packages & prices')}<span class="sr"> — ${esc(L(s.name))}</span></a><span class="badge">${T('يبدأ من','From')} $${min}</span></div></div>
  <div class="media km" data-sid="${s.id}" data-img="svc_${s.id}" data-w="1280" data-h="720" data-sizes="(max-width:860px) 100vw, 45vw" data-alt-ar="${esc(s.name[0])} — صورة توضيحية" data-alt-en="${esc(s.name[1])} — illustrative image"></div></div>`}).join('');if(K.kmInit)K.kmInit(el);observe()}
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('[da
 (()=>{const still=matchMedia('(prefers-reduced-motion: reduce)').matches,fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 function init(){
  addEventListener('load',()=>setTimeout(()=>{const h=document.querySelector('.hero');h&&h.classList.add('ld')},2500));
- document.querySelectorAll('.work.rv').forEach((e,i)=>{if(i%2)e.classList.add('rv-l')});
+ /* .work keeps a vertical-only reveal so grid cards never shift sideways */
  document.querySelectorAll('.tst.rv,.stat.rv').forEach(e=>e.classList.add('rv-s'));
  document.querySelectorAll('.flow li').forEach((e,i)=>{e.classList.add('rv','rv-l');e.style.setProperty('--i',i)});
  document.querySelectorAll('.studio').forEach(e=>e.setAttribute('data-px','.12'));

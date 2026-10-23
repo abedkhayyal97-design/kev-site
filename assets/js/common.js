@@ -4,7 +4,7 @@ const store={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},s
 const root=document.documentElement,C=window.KEV_CONFIG;
 const KEV=window.KEV={$, $$, store, C, lang:'ar'};
 const L=a=>Array.isArray(a)?a[KEV.lang==='ar'?0:1]:a;KEV.L=L;
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));KEV.esc=esc;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));KEV.esc=esc;const rich=s=>esc(s).replace(/\(([−-]\d+ LUFS)\)/g,'(<bdi dir="ltr">$1</bdi>)');KEV.rich=rich;
 KEV.money=n=>'$'+Number(n).toLocaleString('en-US');
 KEV.svc=id=>C.services.find(s=>s.id===id);
 KEV.pkg=(sid,pid)=>{const s=KEV.svc(sid);return s&&s.packages.find(p=>p.id===pid)};
@@ -20,7 +20,7 @@ KEV.filled=v=>!!v&&!/FILL_ME/.test(v);
 function setLang(l){KEV.lang=l;root.lang=l;root.dir=l==='ar'?'rtl':'ltr';store.set('kev-lang',l);
  const b=$('#lang');if(b){b.textContent=l==='ar'?'EN':'ع';b.setAttribute('aria-label',l==='ar'?'Switch to English':'التبديل إلى العربية')}
  document.querySelectorAll('img[data-alt-ar]').forEach(i=>i.alt=l==='ar'?i.dataset.altAr:i.dataset.altEn);
- const t=root.dataset['title'+(l==='ar'?'Ar':'En')];if(t)document.title=t;
+ const t=root.dataset['title'+(l==='ar'?'Ar':'En')];if(t)document.title=t;const dd=root.dataset['desc'+(l==='ar'?'Ar':'En')],md=document.querySelector('meta[name=description]');if(dd&&md)md.setAttribute('content',dd);
  document.dispatchEvent(new CustomEvent('kev:lang',{detail:l}))}
 KEV.setLang=setLang;
 /* start at the top: no browser scroll restoration; honour a deliberate #anchor; smooth scrolling only after load */

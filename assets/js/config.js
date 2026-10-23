@@ -43,7 +43,7 @@ window.KEV_CONFIG = {
         {id:"premium",name:["مميّز","Premium"],price:180,days:5,rev:3,items:[["حتى 1500 كلمة","Up to 1,500 words"],["مزامنة مع الفيديو","Synced to your video"],["موسيقى خلفية مرخّصة","Licensed background music"],["حقوق استخدام تجاري","Commercial usage rights"]]}]},
     { id:"sound-engineering", icon:"🎚", cat:"sound",
       name:["هندسة صوت ومكساج","Sound engineering & mixing"],
-      desc:["مزج وماسترينغ لأغانٍ، بودكاست ومحتوى فيديو بمعايير المنصات (‎-14 LUFS).","Mixing and mastering for songs, podcasts and video content to platform standards (-14 LUFS)."],
+      desc:["مزج وماسترينغ لأغانٍ وبودكاست ومحتوى فيديو بمعايير المنصات (−14 LUFS).","Mixing and mastering for songs, podcasts and video content to platform standards (−14 LUFS)."],
       packages:[
         {id:"basic",name:["أساسي","Basic"],price:60,days:3,rev:1,items:[["ماسترينغ لمقطع واحد","Mastering for one track"],["حتى 8 دقائق","Up to 8 minutes"]]},
         {id:"pro",name:["احترافي","Pro"],price:150,days:5,rev:2,hl:true,items:[["مزج حتى 24 مسار","Mix up to 24 stems"],["ماسترينغ","Mastering"],["نسخة للبث ونسخة للمنصات","Broadcast and streaming versions"]]},

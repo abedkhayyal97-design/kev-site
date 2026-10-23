@@ -1,6 +1,6 @@
 # Static page builder for the KEV site. Run: python3 build.py
 import re
-ASSET_V="20261023h"  # bump to bust browser/CDN caches
+ASSET_V="20261023i"  # bump to bust browser/CDN caches
 def B(ar,en,tag='span',cls=''):
     c=(' '+cls) if cls else ''
     return f'<{tag} class="ar{c}" lang="ar">{ar}</{tag}><{tag} class="en{c}" lang="en">{en}</{tag}>'
@@ -52,12 +52,29 @@ def header(cur):
    <span class="tsw-st" aria-hidden="true">{B("فاتح","Light","span","st-l")}{B("داكن","Dark","span","st-d")}</span></div>
  </div></div></aside>'''
 FOOT=f'''<footer><div class="wrap"><div class="ft"><img src="assets/brand/kev_horizontal_color.svg" alt="KEV · Khayyal Echo Vision" width="152" height="52"><span class="links">{''.join(f'<a href="{h}">{B(x,y)}</a>' for h,x,y in NAV[1:])}</span></div><div class="ft-ct">{CONTACTS("sm")}</div><div class="fb"><span><bdi dir="ltr">© <span id="yr">2026</span> KEV — Khayyal Echo Vision.</bdi> {B('جميع الحقوق محفوظة.','All rights reserved.')}</span><span class="links"><a href="terms.html">{B('الشروط','Terms')}</a><a href="refund.html">{B('الاسترجاع','Refunds')}</a><a href="privacy.html">{B('الخصوصية','Privacy')}</a></span></div></div></footer>'''
+DESC={
+'index.html':('KEV خيال استوديو إنتاج يجمع التعليق الصوتي وهندسة الصوت والتصوير والفيديو والهوية البصرية وتطوير المواقع تحت سقف واحد.','KEV Khayyal is a production studio for voice-over, sound engineering, photography, video, brand identity and web development under one roof.'),
+'services.html':('خدمات KEV وباقاتها بأسعار واضحة بالدولار: تعليق صوتي، هندسة صوت ومكساج، تصوير، فيديو وموشن غرافيك، هوية بصرية، ومواقع وتطبيقات.','KEV services and packages with clear USD prices: voice-over, sound engineering and mixing, photography, video and motion graphics, branding, and web and apps.'),
+'portfolio.html':('أعمال KEV: الشعار والهوية البصرية، بطاقات العمل، موقع KEV، الفيديو الترويجي، وعينات التعليق الصوتي والمكساج.','KEV portfolio: the logo and brand identity, business cards, the KEV website, the promo film, and voice-over and mixing samples.'),
+'about.html':('تعرّف على KEV خيال: صوت (Echo) وصورة (Vision) باسم مؤسسها، وقيمنا وطريقة عملنا كاستوديو واحد.','Meet KEV Khayyal: sound (Echo) and sight (Vision) under its founder’s name, our values and how we work as one studio.'),
+'process.html':('طريقة العمل في KEV من الطلب إلى التسليم: نفهم، ندفع المقدّم، ننتج، ثم نسلّم الملفات النهائية.','How KEV works from order to delivery: understand, deposit, produce, then deliver the final files.'),
+'faq.html':('أسئلة شائعة عن الطلب والدفع والتعديلات والتسليم في KEV.','Frequently asked questions about ordering, payment, revisions and delivery at KEV.'),
+'contact.html':('تواصل مع KEV عبر واتساب أو البريد أو نموذج التواصل. نرد خلال يوم عمل واحد.','Contact KEV by WhatsApp, email or the contact form. We reply within one working day.'),
+'thanks.html':('وصلتنا رسالتك. فريق KEV يرد خلال يوم عمل واحد.','Your message reached KEV. We reply within one working day.'),
+'cart.html':('سلة الطلب في KEV: راجع الخدمات والباقات قبل إتمام الطلب.','Your KEV cart: review your services and packages before checkout.'),
+'checkout.html':('إتمام الطلب في KEV بثلاث خطوات: بياناتك، المراجعة والإرسال، ثم تفاصيل الدفع.','KEV checkout in three steps: your details, review and submit, then payment details.'),
+'terms.html':('الشروط والأحكام التي تنطبق على كل الطلبات عبر موقع KEV.','The terms of service that apply to every order placed through the KEV website.'),
+'refund.html':('سياسة الاسترجاع في KEV: متى وكيف تُسترد المبالغ.','KEV refund policy: when and how money is refunded.'),
+'privacy.html':('سياسة الخصوصية في KEV: نجمع أقل قدر ممكن من البيانات.','KEV privacy policy: we collect as little data as possible.'),
+'404.html':('الصفحة المطلوبة غير موجودة على موقع KEV.','The page you requested does not exist on the KEV website.'),
+}
 def page(fn,tar,ten,desc,body,cur=None,js=()):
+    da,de=DESC[fn] if fn in DESC else desc
     scripts=''.join(f'<script defer src="assets/js/{j}.js?v={ASSET_V}"></script>' for j in ('config','common')+tuple(js)+('media','fx'))
     html=f'''<!DOCTYPE html>
-<html lang="ar" dir="rtl" class="no-js" data-title-ar="{tar} · KEV خيال" data-title-en="{ten} · KEV Khayyal">
+<html lang="ar" dir="rtl" class="no-js" data-title-ar="{tar} · KEV خيال" data-title-en="{ten} · KEV Khayyal" data-desc-ar="{da}" data-desc-en="{de}">
 <head><script>(function(){{var d=document.documentElement,t,l;try{{t=localStorage.getItem('kev-theme');l=localStorage.getItem('kev-lang')}}catch(e){{}}if(t==='dark'||t==='light')d.setAttribute('data-theme',t);if(t?t==='dark':!!(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches))d.classList.add('is-dark');if(l!=='ar'&&l!=='en')l=navigator.language&&!/^ar/i.test(navigator.language)?'en':'ar';d.lang=l;d.dir=l==='ar'?'rtl':'ltr';try{{if('scrollRestoration' in history)history.scrollRestoration='manual'}}catch(e){{}}var h=location.hash,p=location.pathname,r=document.referrer;if(h&&/([/]|index[.]html)$/.test(p)&&(!r||r.indexOf(location.origin)!==0)){{try{{history.replaceState(history.state,'',p+location.search)}}catch(e){{}}h=''}}window.__kevHash=h}})()</script><meta charset="utf-8"><meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>{tar} · KEV خيال</title><meta name="description" content="{desc}">
+<title>{tar} · KEV خيال</title><meta name="description" content="{da}">
 <meta name="theme-color" content="#080D28"><link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" href="assets/brand/kev_icon-tile.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="assets/brand/apple-touch-icon-180.png"><link rel="manifest" href="site.webmanifest">
 <link rel="preload" href="assets/fonts/cairo.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="assets/css/site.css?v={ASSET_V}">{scripts}</head>
 <body>{header(cur or fn)}
@@ -90,7 +107,7 @@ WORKS=[
   'مطبوعات','Print','بطاقات العمل','Business cards','الشعار على وجهين داكن وفاتح، بتشطيب بسيط يناسب الاستوديو.','The mark on dark and light faces, with a clean studio finish.'),
  (KM('web-app','site_laptop',1000,2344,'موقع KEV على حاسوب وهاتف','The KEV website on a laptop and a phone','ph',SZ,False,kind='dev',lap='site_laptop',lap_h=2344,ph='site_phone',ph_h=5231),
   'موقع إلكتروني','Website','موقع KEV','The KEV website','الموقع الذي تتصفّحه الآن: ثنائي اللغة، وضع فاتح وداكن، ومتجر باقات.','The site you are browsing: bilingual, light and dark modes, and a package store.'),
- (VID,'فيديو وموشن جرافيك','Video & motion','فيديو KEV الترويجي','KEV promo film','فيديو عمودي للريلز والتيك توك: الشعار يتحوّل بين الخدمات الست بلا قطع.','A vertical film for Reels and TikTok: the logo morphs through all six services with no hard cuts.'),
+ (VID,'فيديو وموشن غرافيك','Video & motion graphics','فيديو KEV الترويجي','KEV promo film','فيديو عمودي للريلز والتيك توك: الشعار يتحوّل بين الخدمات الست بلا قطع.','A vertical film for Reels and TikTok: the logo morphs through all six services with no hard cuts.'),
  (WAVE('assets/audio/kev-vo-sample','assets/audio/kev-vo-sample.json','عينة التعليق الصوتي','Voice-over sample','تعليق صوتي','Voice-over'),'تعليق صوتي','Voice-over','عينة أداء درامي','Dramatic read sample','صوت بشري معزول ونظيف، بمستوى جاهز للبث.','An isolated, clean human voice at broadcast-ready level.'),
  (WAVE('assets/audio/kev-promo-mix','assets/audio/kev-promo-mix.json','عينة المكساج الكامل','Full mix sample','هندسة صوتية','Sound engineering'),'هندسة صوتية','Sound engineering','مكساج درامي كامل','Full dramatic mix','صوت وموسيقى ومؤثرات في مكساج متوازن واحد.','Voice, music and effects in one balanced mix.')]
 WORKS_HTML=''.join(f'<li class="work rv">{km}<div class="txt"><small>{B(sa,se)}</small><h3>{B(ta,te)}</h3><p>{B(da,de)}</p></div></li>' for km,sa,se,ta,te,da,de in WORKS)
@@ -138,7 +155,7 @@ import math as _m
 _bars=[(i*12+6,int(4+22*abs(_m.sin(i*.37)*_m.cos(i*.11)))) for i in range(100)]
 WAVEBAR='<svg class="h-wave" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true" focusable="false">'+''.join('<path class="wb wb%d" d="%s" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>'%(g,' '.join(f'M{x} {30-h} V{30+h}' for k,(x,h) in enumerate(_bars) if k%5==g)) for g in range(5))+'</svg>'
 AP='<svg class="h-ap" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" stroke-width=".8" stroke-dasharray="2 6"/><g fill="none" stroke="currentColor" stroke-width="1.2">'+''.join(f'<path d="M100 100 L{100+88*_m.cos(_m.radians(a)):.1f} {100+88*_m.sin(_m.radians(a)):.1f}" transform="rotate(28 100 100)" opacity=".5"/>' for a in range(0,360,60))+'<circle cx="100" cy="100" r="88"/></g></svg>'
-MOTIF_H='<div class="motif" aria-hidden="true"><div class="k-tilt">'+AP+'<div class="k-br">'+_L+'</div></div></div>'
+MOTIF_H='<div class="motif" aria-hidden="true"><div class="k-tilt"><div class="k-br">'+AP+_L+'</div></div></div>'
 home=f'''<section class="band hero dark" data-band="dark" id="top" data-anim><div class="glow" aria-hidden="true"></div><span class="h-sweep" aria-hidden="true"></span>{MOTIF_H}<div class="wrap h-copy">
 <span class="eyebrow h-in">{B('KEV · خيال — استوديو إنتاج','KEV · Khayyal — production studio')}</span>
 <h1 class="display h-words"><span class="ar" lang="ar"><span class="w" style="--i:0">صوت.</span> <span class="w" style="--i:1">صورة.</span> <span class="w hl" style="--i:2">خيال.</span></span><span class="en" lang="en"><span class="w" style="--i:0">Sound.</span> <span class="w" style="--i:1">Vision.</span> <span class="w hl" style="--i:2">Imagination.</span></span></h1>
@@ -173,8 +190,10 @@ page('services.html','الخدمات والمتجر','Services & store','Service
  f'<section><div class="wrap"><ul class="cards" id="catalogue"></ul><div class="paybox"><h2 class="h3">{B("طرق الدفع","Payment methods")}</h2><p class="note">{B("اختر الطريقة المناسبة عند الطلب، ونرسل لك التفاصيل.","Pick the method that suits you when ordering, and we’ll send you the details.")}</p>{PAYM()}</div></div></section>',js=('store',))
 cfg=open('assets/js/config.js').read()
 ids=re.findall(r'\{ id:"([^"]+)"',cfg)
+SVCN={m[0]:(m[1],m[2],m[3],m[4]) for m in re.findall(r'\{ id:"([^"]+)".*?name:\["([^"]+)","([^"]+)"\],\s*desc:\["([^"]+)","([^"]+)"\]',cfg,re.S)}
 for sid in ids:
-    page(f'service-{sid}.html','خدمة','Service','KEV service packages.',
+    na,ne,dar,den=SVCN[sid]
+    page(f'service-{sid}.html',na,ne,(f'{na} من KEV: {dar} باقات بأسعار واضحة بالدولار.',f'{ne} by KEV: {den} Packages with clear USD prices.'),
      f'<div class="band page-hero dark has-studio" data-band="dark"><div class="glow" aria-hidden="true"></div>{STUDIO("st-hero")}<div class="wrap"><p class="crumbs"><a href="index.html">{B("الرئيسية","Home")}</a> / <a href="services.html">{B("الخدمات","Services")}</a> / <span id="svc-crumb"></span></p><h1 id="svc-title"></h1><p id="svc-desc"></p></div></div>'
      f'<section><div class="wrap">{KM(sid,"svc_"+sid,1280,720,"صورة توضيحية للخدمة","Illustrative image for this service","svc-hero",sizes="(max-width:1200px) 100vw, 1200px")}<div class="pkgs" id="detail" data-service="{sid}"></div><p id="store-status" role="status" aria-live="polite" style="margin-top:18px"></p>'
      f'<div class="prose" style="margin-top:32px"><h2>{B("كيف يتم الطلب","How ordering works")}</h2><ol><li>{B("أضف الباقة للسلة وأكمل بياناتك.","Add the package to your cart and fill in your details.")}</li><li>{B("اختر طريقة الدفع المفضّلة وأرسل الطلب.","Choose your preferred payment method and submit the order.")}</li><li>{B("نرسل لك تفاصيل الدفع خلال يوم عمل، وبعد استلام الدفعة المقدّمة نبدأ.","We send you payment details within one working day and start once the deposit arrives.")}</li></ol></div></div></section>',cur='services.html',js=('store',))
@@ -212,8 +231,15 @@ page('portfolio.html','الأعمال','Portfolio','KEV portfolio: brand identit
 # ---------- thanks ----------
 page('thanks.html','شكراً','Thank you','Message received.',hero('شكراً','Thank you','وصلتنا رسالتك. نرد خلال يوم عمل واحد.','Your message reached us. We reply within one working day.',crumb=False)+f'<section><div class="wrap thanks"><div class="row"><a class="btn" href="index.html">{B("العودة للرئيسية","Back to home")}</a><a class="btn ghost" href="portfolio.html">{B("شاهد الأعمال","See the work")}</a></div><h2 class="h3" style="margin-top:40px">{B("تحتاج رداً أسرع؟","Need a faster reply?")}</h2>{CONTACTS()}</div></section>',cur='')
 # ---------- about ----------
+_A=DEMO['about']
+def _cards(items,tk,dk):
+    return '<ul class="ab-grid">'+''.join(f'<li class="box rv" style="--i:{i}"><h3>{B(x[tk+"_ar"],x[tk+"_en"])}</h3><p>{B(x[dk+"_ar"],x[dk+"_en"])}</p></li>' for i,x in enumerate(items))+'</ul>'
+ABOUT_X=(f'<section class="band tight"><div class="wrap"><h2 class="h3">{B("قيمنا","Our values")}</h2>'+_cards(_A['values'],'t','d')+'</div></section>'
+ +f'<section class="band tight"><div class="wrap"><h2 class="h3">{B("لماذا KEV؟","Why KEV?")}</h2>'+_cards(_A['why'],'t','d')+'</div></section>'
+ +f'<section class="band tight"><div class="wrap"><h2 class="h3">{B("الفريق","The team")}</h2><p class="ab-note">{B("أسماء تجريبية مؤقتة — يُستبدل بها الفريق الحقيقي قبل الإطلاق.","Placeholder names — to be replaced with the real team before launch.")}</p>'
+ +'<ul class="ab-grid">'+''.join(f'<li class="box rv ab-tm" style="--i:{i}" data-demo="true"><span class="ab-av" aria-hidden="true">K</span><h3>{B(x["n_ar"],x["n_en"])}</h3><p>{B(x["r_ar"],x["r_en"])}</p></li>' for i,x in enumerate(_A['team']))+'</ul></div></section>')
 page('about.html','من نحن','About','About KEV.',hero('من نحن','About','KEV — خيال: صوت (Echo) وصورة (Vision) باسم مؤسسها.','KEV — Khayyal: sound (Echo) and sight (Vision), under its founder’s name.')+
- f'''<section><div class="wrap prose">{B('<p>KEV اختصار Khayyal Echo Vision. «خيال» اسم المؤسس، و«Echo» هو الصوت، و«Vision» هي الصورة. نجمع التعليق الصوتي وهندسة الصوت والتصوير والفيديو والتصميم والبرمجة تحت سقف واحد، لنسلّم منتجاً متماسكاً بدل ملفات متفرقة من جهات مختلفة.</p><h2>ما نؤمن به</h2><ul><li>الجودة قبل الكمية.</li><li>مواعيد ومراجعات واضحة منذ البداية.</li><li>عربي وإنجليزي بالمستوى نفسه.</li></ul>','<p>KEV stands for Khayyal Echo Vision. Khayyal is the founder’s name, Echo is sound, and Vision is sight. We bring voice-over, sound engineering, photography, video, design and code under one roof, so you get one coherent product instead of scattered files from different vendors.</p><h2>What we believe</h2><ul><li>Quality over quantity.</li><li>Clear timelines and revisions from day one.</li><li>Arabic and English at the same standard.</li></ul>','div')}<h2>{B('تواصل مع المؤسس','Contact the founder')}</h2>{CONTACTS()}</div></section>''')
+ f'''<section><div class="wrap prose">{B('<p>KEV اختصار Khayyal Echo Vision. «خيال» اسم المؤسس، و«Echo» هو الصوت، و«Vision» هي الصورة. نجمع التعليق الصوتي وهندسة الصوت والتصوير والفيديو والتصميم والبرمجة تحت سقف واحد، لنسلّم منتجاً متماسكاً بدل ملفات متفرقة من جهات مختلفة.</p><h2>ما نؤمن به</h2><ul><li>الجودة قبل الكمية.</li><li>مواعيد ومراجعات واضحة منذ البداية.</li><li>عربي وإنجليزي بالمستوى نفسه.</li></ul>','<p>KEV stands for Khayyal Echo Vision. Khayyal is the founder’s name, Echo is sound, and Vision is sight. We bring voice-over, sound engineering, photography, video, design and code under one roof, so you get one coherent product instead of scattered files from different vendors.</p><h2>What we believe</h2><ul><li>Quality over quantity.</li><li>Clear timelines and revisions from day one.</li><li>Arabic and English at the same standard.</li></ul>','div')}</div></section>'''+ABOUT_X+f'''<section><div class="wrap prose"><h2>{B('تواصل مع المؤسس','Contact the founder')}</h2>{CONTACTS()}</div></section>''')
 # ---------- process ----------
 steps=[('نفهم','Understand','جلسة قصيرة نحدد فيها الهدف والجمهور ومعيار النجاح.','A short session to set the goal, audience and success criteria.'),('ندفع المقدّم','Deposit','تدفع الدفعة المقدّمة بالطريقة التي تختارها ونؤكد استلامها.','You pay the deposit by your chosen method; we confirm receipt.'),('ننتج','Produce','مسودات ومعاينات ضمن عدد التعديلات في باقتك.','Drafts and previews within your package’s revisions.'),('نسلّم','Deliver','بعد الدفعة المتبقية نسلّم الملفات النهائية والحقوق.','After the final payment we deliver final files and rights.')]
 fl=''.join(f'<li><h3>{B(a,e)}</h3><p>{B(pa,pe)}</p></li>' for a,e,pa,pe in steps)

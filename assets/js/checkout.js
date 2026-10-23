@@ -15,15 +15,16 @@ function render(){const items=order&&order.stage>1?order.items:K.cart.get();
 function fillPay(){$('#p-ref').textContent=order.ref;$('#p-amt').textContent=K.money(order.dep);$('#p-method').textContent=T(order.methodAr,order.methodEn);$('#f2btn').hidden=!C.formEndpoint&&!filled(C.email)}
 function err(el,ok,msg){el.setAttribute('aria-invalid',!ok);$('#'+el.id+'-e').textContent=ok?'':msg;return ok}
 document.addEventListener('DOMContentLoaded',()=>{
+ if(!$('#f1'))return; // empty cart: render() replaced the form, nothing to wire
  $('#f1').addEventListener('submit',e=>{e.preventDefault();const n=$('#cn'),em=$('#ce'),ag=$('#cag');
   const ok=[err(n,n.value.trim().length>1,T('اكتب اسمك.','Enter your name.')),err(em,/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em.value.trim()),T('اكتب بريداً صحيحاً.','Enter a valid email.')),err(ag,ag.checked,T('يجب الموافقة على الشروط.','You must accept the terms.'))];
   if(ok.includes(false)){$$('#f1 [aria-invalid="true"]')[0].focus();return}
   const items=K.cart.get(),s=summary(items);
   order={ref:ref(),stage:2,items,total:s.t,dep:s.dep,method:$('#pm').value,methodAr:$('#pm').selectedOptions[0].dataset.ar,methodEn:$('#pm').selectedOptions[0].dataset.en,name:n.value.trim(),email:em.value.trim(),contact:$('#cc').value.trim(),notes:$('#cnotes').value.trim(),lang:K.lang,date:new Date().toISOString()};
   store.set('kev-order',JSON.stringify(order));fillPay();step(2);$('#s2 h2').focus()});
- $('#back').addEventListener('click',()=>{order.stage=1;store.set('kev-order',JSON.stringify(order));order=null;store.set('kev-order','null');step(1)});
+ $('#back')?.addEventListener('click',()=>{order.stage=1;store.set('kev-order',JSON.stringify(order));order=null;store.set('kev-order','null');step(1)});
  $$('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{const t=$(b.dataset.copy).textContent;try{await navigator.clipboard.writeText(t);$('#copy-st').textContent=T('تم النسخ.','Copied.')}catch(e){$('#copy-st').textContent=T('انسخ يدوياً.','Copy manually.')}}));
- $('#f2').addEventListener('submit',async e=>{e.preventDefault();order.stage=3;const it=lines(order);
+ $('#f2')?.addEventListener('submit',async e=>{e.preventDefault();order.stage=3;const it=lines(order);
   const body=[`Order: ${order.ref}`,`Date: ${order.date}`,`Name: ${order.name}`,`Email: ${order.email}`,`Contact: ${order.contact||'-'}`,'',...it.map(i=>`- ${i.name} x${i.q}: $${i.price}`),'',`Total: $${order.total}`,`Deposit (${P.depositPercent}%): $${order.dep}`,`Preferred payment method: ${order.methodEn}`,'',`Notes: ${order.notes||'-'}`].join('\n');
   const st=$('#send-st');st.textContent=T('جارٍ الإرسال…','Sending…');let sent=false;
   if(C.formEndpoint){try{const r=await fetch(C.formEndpoint,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({_subject:`New order ${order.ref}`,email:order.email,ref:order.ref,message:body})});sent=r.ok}catch(x){}}
@@ -31,7 +32,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(!sent&&filled(C.email)){location.href=`mailto:${C.email}?subject=${encodeURIComponent('KEV order '+order.ref)}&body=${encodeURIComponent(body)}`}
   store.set('kev-order',JSON.stringify(order));K.cart.set([]);$('#d-ref').textContent=order.ref;$('#d-mode').textContent=sent?T('أُرسل طلبك إلينا.','Your order was sent to us.'):filled(C.email)?T('فُتح تطبيق البريد برسالة جاهزة، اضغط «إرسال» هناك لإكمال الطلب.','Your mail app opened with the order ready. Press send there to complete it.'):'';
   st.textContent='';step(3);$('#s3 h2').focus()});
- $('#neworder').addEventListener('click',()=>{store.set('kev-order','null');order=null;location.href='services.html'});
+ $('#neworder')?.addEventListener('click',()=>{store.set('kev-order','null');order=null;location.href='services.html'});
 });
 document.addEventListener('kev:lang',()=>{$$('#pm option').forEach(o=>o.textContent=K.lang==='ar'?o.dataset.ar:o.dataset.en);render()});
 })();

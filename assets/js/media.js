@@ -100,7 +100,7 @@ function vid(host,ctl){const w=host.querySelector('.kv'),v=w.querySelector('vide
  const go=()=>{if(!ok||(RM.matches&&v.muted))return;load();v.play().then(()=>w.classList.add('on')).catch(()=>{})};
  w._in=false;w._go=go;w._stop=()=>{v.pause();w.classList.remove('on')};vids.add(w);
  const sync=()=>{w.classList.toggle('sound',!v.muted);w._lab&&w._lab()};
- w._lab=()=>{v.setAttribute('aria-label',T('فيديو موشن جرافيك لهوية KEV','KEV motion-graphics promo video'));const sb=w.querySelector('.kv-snd');if(sb){sb.setAttribute('aria-label',v.muted?T('تشغيل الصوت','Turn sound on'):T('كتم الصوت','Mute'));sb.setAttribute('aria-pressed',!v.muted)}};
+ w._lab=()=>{v.setAttribute('aria-label',T('فيديو موشن غرافيك لهوية KEV','KEV motion-graphics promo video'));const sb=w.querySelector('.kv-snd');if(sb){sb.setAttribute('aria-label',v.muted?T('تشغيل الصوت','Turn sound on'):T('كتم الصوت','Mute'));sb.setAttribute('aria-pressed',!v.muted)}};
  if(ctl){const unmute=full=>{vids.forEach(o=>{if(o!==w){const ov=o.querySelector('video');ov.muted=true;o.classList.remove('sound')}});if(cur)cur.pause();ok=true;if(full){v.currentTime=0}v.muted=false;load();v.play().then(()=>w.classList.add('on')).catch(()=>{});sync()};
   w.querySelector('.kv-snd').addEventListener('click',e=>{e.stopPropagation();if(v.muted)unmute(false);else{v.muted=true;sync()}});
   w.querySelector('.kv-full').addEventListener('click',e=>{e.stopPropagation();unmute(true)});
