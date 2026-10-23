@@ -84,3 +84,34 @@ function upd(){tk=false;const vh=innerHeight,small=mob.matches;
   for(const ch of c.children){ch.style.opacity=o;ch.style.filter=b>.05?`blur(${b.toFixed(2)}px)`:'none'}}}
 addEventListener('scroll',()=>{if(!tk){tk=true;requestAnimationFrame(upd)}},{passive:true});addEventListener('resize',upd);upd();
 })();
+
+/* P1d homepage scroll motion: stronger staggered reveals, scroll-linked lift, hero parallax, safety net */
+(()=>{const hero=document.querySelector('.hero');if(!hero)return;const root=document.documentElement;
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function init(){
+ if(still){document.querySelectorAll('.rv').forEach(e=>e.classList.add('in'));return}
+ root.classList.add('sm-on');
+ /* reveal variety (vertical/scale only; never sideways) */
+ const cardSel='#features .svc .box,#features .svc .media,.work,.tst,.cta-strip,.formcard,.sl-card,.grid2>.box,.stat,.cl,.flow li';
+ document.querySelectorAll('main section:not(.hero)').forEach(sec=>{
+  sec.querySelectorAll(cardSel).forEach(el=>{if(el.closest('[data-scrub]'))return;el.classList.add('rv','rv-z');
+   const sib=[...el.parentElement.children].filter(x=>x.matches(cardSel));if(!el.style.getPropertyValue('--i'))el.style.setProperty('--i',Math.min(5,sib.indexOf(el)))});
+  sec.querySelectorAll('.head .eyebrow,.head .lead,.head p').forEach(el=>el.classList.add('rv'))});
+ document.querySelectorAll('.rv.rv-l').forEach(e=>e.classList.remove('rv-l'));
+ /* re-observe new .rv */
+ if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.rv:not(.in)').forEach(e=>io.observe(e))}
+ /* safety net: anything at/above the viewport is revealed */
+ const net=()=>{const vh=innerHeight;document.querySelectorAll('.rv:not(.in)').forEach(e=>{if(e.getBoundingClientRect().top<vh)e.classList.add('in')})};
+ addEventListener('load',()=>setTimeout(net,1500));setInterval(net,2000);
+ /* scroll-linked: hero copy parallax+fade, glow drift, card lift */
+ const cp=hero.querySelector('.h-copy'),gl=hero.querySelector('.glow');
+ const lift=[...document.querySelectorAll('#features .svc .media,.work,.tst,.grid2>.box,.cta-strip')].filter(e=>!e.closest('[data-scrub]'));
+ const rate=lift.map((e,i)=>[.05,.08,.065][i%3]);let tk=false;
+ function upd(){tk=false;const vh=innerHeight,y=scrollY,hh=hero.offsetHeight;
+  if(y<hh*1.2){const k=Math.min(1,y/hh);if(cp){cp.style.translate=`0 ${(y*.22).toFixed(1)}px`;cp.style.opacity=(1-k*.85).toFixed(3)}if(gl)gl.style.translate=`0 ${(y*.4).toFixed(1)}px`}
+  for(let i=0;i<lift.length;i++){const e=lift[i],r=e.getBoundingClientRect();if(r.bottom<-50||r.top>vh+50)continue;
+   const d=(r.top+r.height/2-vh/2);e.style.translate=`0 ${Math.max(-28,Math.min(28,d*rate[i])).toFixed(1)}px`}}
+ addEventListener('scroll',()=>{if(!tk){tk=true;requestAnimationFrame(upd)}},{passive:true});addEventListener('resize',upd);upd();
+}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init):init()})();
