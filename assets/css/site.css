@@ -318,7 +318,7 @@ a,button,summary,.chip,.btn,.card,.pkg,.svc .box,.seg,.tsw{transition:box-shadow
 :root:not(.is-dark) .media,:root:not(.is-dark) .ph{background:radial-gradient(70% 60% at 30% 30%,rgba(18,217,232,.18),transparent 70%),#E6F2F4;color:#3F4766}
 :root:not(.is-dark) .sl-card{box-shadow:0 10px 40px rgba(10,115,129,.12),0 2px 10px rgba(8,13,40,.06)}
 :root:not(.is-dark) footer .ft img{content:url(../brand/kev_horizontal_light.svg)}
-.scrub-on>*{will-change:transform;transition:box-shadow .25s,border-color .25s!important}.scrub-on>*>*{will-change:opacity,filter}
+.scrub-on>*{transition:box-shadow .25s,border-color .25s!important}
 /* ===== contacts + payment methods ===== */
 .contacts{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px}
 .ct-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
@@ -758,5 +758,7 @@ html{overflow-x:clip}
 .sm-on .rv.rv-z.in{transform:none}
 .sm-on .rv.rv-l{transform:translate3d(0,32px,0)}
 .sm-on .tilt.tilting{transition:transform .12s linear!important}
-.sm-on .h-copy{will-change:translate,opacity}
+
 @media (prefers-reduced-motion:reduce){.rv,.sm-on .rv{opacity:1!important;transform:none!important}}
+
+.ks-mv .scrub-on>*,.ks-mv [data-parallax]{will-change:transform}.ks-mv [data-px],.ks-mv .hero .motif,.ks-mv .hero .glow{will-change:translate}.ks-mv.sm-on .h-copy{will-change:translate,opacity}
