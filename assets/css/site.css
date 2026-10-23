@@ -761,4 +761,3 @@ html{overflow-x:clip}
 
 @media (prefers-reduced-motion:reduce){.rv,.sm-on .rv{opacity:1!important;transform:none!important}}
 
-.ks-mv .scrub-on>*,.ks-mv [data-parallax]{will-change:transform}.ks-mv [data-px],.ks-mv .hero .motif,.ks-mv .hero .glow{will-change:translate}.ks-mv.sm-on .h-copy{will-change:translate,opacity}
