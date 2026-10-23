@@ -752,4 +752,4 @@ html{overflow-x:clip}
 .pf-vh video{width:100%;height:100%;max-width:none;aspect-ratio:16/9;object-fit:contain;background:#060515}
 .kv-fr,.kv .kv-fr{width:100%;height:100%;aspect-ratio:auto;border-radius:0;box-shadow:none}
 .kv-v{object-fit:contain}
-.km:has(>.kv),.svc-hero.km-vid{aspect-ratio:16/9!important;height:auto!important;min-height:0!important}
+.km:has(>.kv),.svc-hero.km-vid{aspect-ratio:16/9!important;height:auto!important;min-height:0!important;width:100%;max-width:100%;align-self:center}
