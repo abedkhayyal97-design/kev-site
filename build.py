@@ -1,6 +1,6 @@
 # Static page builder for the KEV site. Run: python3 build.py
 import re
-ASSET_V="20261023k"  # bump to bust browser/CDN caches
+ASSET_V="20261023l"  # bump to bust browser/CDN caches
 def B(ar,en,tag='span',cls=''):
     c=(' '+cls) if cls else ''
     return f'<{tag} class="ar{c}" lang="ar">{ar}</{tag}><{tag} class="en{c}" lang="en">{en}</{tag}>'
@@ -106,7 +106,7 @@ WORKS=[
   'مطبوعات','Print','بطاقات العمل','Business cards','الشعار على وجهين داكن وفاتح، بتشطيب بسيط يناسب الاستوديو.','The mark on dark and light faces, with a clean studio finish.'),
  (KM('web-app','site_laptop',1000,2344,'موقع KEV على حاسوب وهاتف','The KEV website on a laptop and a phone','ph',SZ,False,kind='dev',lap='site_laptop',lap_h=2344,ph='site_phone',ph_h=5231),
   'موقع إلكتروني','Website','موقع KEV','The KEV website','الموقع الذي تتصفّحه الآن: ثنائي اللغة، وضع فاتح وداكن، ومتجر باقات.','The site you are browsing: bilingual, light and dark modes, and a package store.'),
- (VID,'فيديو وموشن غرافيك','Video & motion graphics','فيديو KEV الترويجي','KEV promo film','فيديو عمودي للريلز والتيك توك: الشعار يتحوّل بين الخدمات الست بلا قطع.','A vertical film for Reels and TikTok: the logo morphs through all six services with no hard cuts.'),
+ (VID,'فيديو وموشن غرافيك','Video & motion graphics','فيديو KEV الترويجي','KEV promo film','فيديو تعريفي متحرك لهوية KEV، يعرض خدماتنا الست بموشن غرافيك وصوت متقن.','An animated brand film for KEV, showcasing our six services with motion graphics and crafted sound.'),
  (WAVE('assets/audio/kev-vo-sample','assets/audio/kev-vo-sample.json','عينة التعليق الصوتي','Voice-over sample','تعليق صوتي','Voice-over'),'تعليق صوتي','Voice-over','عينة أداء درامي','Dramatic read sample','صوت بشري معزول ونظيف، بمستوى جاهز للبث.','An isolated, clean human voice at broadcast-ready level.'),
  (WAVE('assets/audio/kev-promo-mix','assets/audio/kev-promo-mix.json','عينة المكساج الكامل','Full mix sample','هندسة صوتية','Sound engineering'),'هندسة صوتية','Sound engineering','مكساج درامي كامل','Full dramatic mix','صوت وموسيقى ومؤثرات في مكساج متوازن واحد.','Voice, music and effects in one balanced mix.')]
 WORKS_HTML=''.join(f'<li class="work rv">{km}<div class="txt"><small>{B(sa,se)}</small><h3>{B(ta,te)}</h3><p>{B(da,de)}</p></div></li>' for km,sa,se,ta,te,da,de in WORKS)
