@@ -538,7 +538,6 @@ html.is-dark{background:#070B20;color-scheme:dark}
 @media (prefers-reduced-motion:reduce){.eqz i,.mtr i::after,.bb-ring,.bb-mk picture,.bb-sw i,.wp-wave::after,.wp-btn,.cd-cur{animation:none!important}.eqz i{transform:scaleY(.7)}.mtr i::after{transform:scaleY(.4)}.bb-mk picture:first-child{opacity:1}}
 /* promo video (video & motion) */
 .svc-hero.km-vid{aspect-ratio:16/9;background:#060515}
-@media (max-width:760px){.svc-hero.km-vid{aspect-ratio:4/5}}
 .kv{position:absolute;inset:0;display:grid;place-items:center;overflow:hidden;background:#060515}
 .kv-fr{position:relative;height:92%;aspect-ratio:9/16;border-radius:16px;overflow:hidden;background:#060515;box-shadow:0 22px 50px -14px rgba(0,0,0,.75),0 0 0 1px rgba(18,217,232,.28),0 0 34px -6px rgba(122,40,255,.45)}
 .kv-v{display:block;width:100%;height:100%;object-fit:contain;background:#060515;cursor:pointer}
@@ -753,3 +752,4 @@ html{overflow-x:clip}
 .pf-vh video{width:100%;height:100%;max-width:none;aspect-ratio:16/9;object-fit:contain;background:#060515}
 .kv-fr,.kv .kv-fr{width:100%;height:100%;aspect-ratio:auto;border-radius:0;box-shadow:none}
 .kv-v{object-fit:contain}
+.km:has(>.kv),.svc-hero.km-vid{aspect-ratio:16/9!important;height:auto!important;min-height:0!important}
