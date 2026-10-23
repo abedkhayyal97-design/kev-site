@@ -751,3 +751,5 @@ html{overflow-x:clip}
 
 /* passing glow/shine sweeps removed (v23j) */
 .h-sweep,.sl-shine{display:none!important}
+
+.pf-vh video{width:100%;height:100%;max-width:none;aspect-ratio:16/9;object-fit:contain;background:#060515}

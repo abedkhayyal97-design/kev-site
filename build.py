@@ -1,6 +1,6 @@
 # Static page builder for the KEV site. Run: python3 build.py
 import re
-ASSET_V="20261023j"  # bump to bust browser/CDN caches
+ASSET_V="20261023k"  # bump to bust browser/CDN caches
 def B(ar,en,tag='span',cls=''):
     c=(' '+cls) if cls else ''
     return f'<{tag} class="ar{c}" lang="ar">{ar}</{tag}><{tag} class="en{c}" lang="en">{en}</{tag}>'
@@ -98,8 +98,7 @@ def WAVE(src,peaks,ar,en,lab_ar,lab_en):
             f'<div class="wf-row"><button class="wf-btn" type="button" aria-label="Play / تشغيل" data-l-ar="تشغيل: {ar}" data-l-en="Play: {en}">{PLAY}</button>'
             f'<div class="wf-bars" role="slider" tabindex="0" aria-label="{en}" aria-valuemin="0" aria-valuemax="{int(dur)}" aria-valuenow="0">{bars}</div></div>'
             f'<span class="wf-t" dir="ltr"><b>0:00</b> / {int(dur)//60}:{int(dur)%60:02d}</span></div>')
-VID=(f'<div class="pf-vid"><img class="pf-vbg" src="assets/video/kev-promo-bg.jpg" alt="" width="320" height="180" loading="lazy" decoding="async" aria-hidden="true">'
-     f'<video controls playsinline preload="none" poster="assets/video/kev-promo-poster.webp" width="1080" height="1920" aria-label="KEV promo video / فيديو KEV الترويجي"><source src="assets/video/kev-promo.webm" type="video/webm"><source src="assets/video/kev-promo.mp4" type="video/mp4"></video></div>')
+VID=(f'<div class="pf-vid pf-vh"><video controls playsinline preload="none" poster="assets/video/kev-promo-h-poster.webp" width="1280" height="720" aria-label="KEV promo video / فيديو KEV الترويجي"><source src="assets/video/kev-promo-h.mp4" type="video/mp4"></video></div>')
 WORKS=[
  (KM('branding','kev_logo',1280,720,'شعار KEV بالألوان على الكحلي','KEV logo in full colour on navy','ph',SZ,False,kind='ba',before='kev_logo_mono',b_alt_ar='شعار KEV بنسخة أحادية اللون',b_alt_en='KEV logo, one-colour version',a_alt_ar='شعار KEV بالألوان الكاملة',a_alt_en='KEV logo, full colour',b_ar='أحادي',b_en='Mono',a_ar='ملوّن',a_en='Colour',cmp_ar='مقارنة الشعار الأحادي والملوّن',cmp_en='Mono vs colour logo comparison'),
   'هوية بصرية','Brand identity','شعار KEV','The KEV logo','رمز دائري يجمع عدسة الكاميرا وموجة الصوت، بنسخ ملوّنة وأحادية وأفقية ومقاسات صغيرة.','A circular mark joining a camera lens and a sound wave, in colour, mono, horizontal and small-size versions.'),
