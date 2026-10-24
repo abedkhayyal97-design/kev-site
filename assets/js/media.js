@@ -5,7 +5,7 @@ const RM=matchMedia('(prefers-reduced-motion: reduce)'),COARSE=matchMedia('(hove
 const P='assets/img/work/';
 const pic=(n,w,h,sizes,ar,en,cls='')=>`<picture class="pic ${cls}"><source type="image/webp" srcset="${P}${n}-640.webp 640w, ${P}${n}.webp ${w}w" sizes="${sizes}"><img src="${P}${n}.jpg" srcset="${P}${n}-640.jpg 640w, ${P}${n}.jpg ${w}w" sizes="${sizes}" width="${w}" height="${h}" loading="lazy" decoding="async" alt="${T(ar,en)}" data-alt-ar="${ar}" data-alt-en="${en}"></picture>`;
 const KIND={'voice-over':'wp','sound-engineering':'wp',photography:'ba','video-motion':'vid','web-app':'code',branding:'brand'};
-const AUD={'voice-over':['kev-vo-sample','نموذج تعليق صوتي — درامي','Voice-over Sample — Dramatic'],'sound-engineering':['kev-promo-mix','نموذج موسيقى ومؤثرات — درامي','Sound Design & Mix Sample — Dramatic']};
+const AUD={'voice-over':['kev-vo-sample-2','نموذج تعليق صوتي — درامي','Voice-over Sample — Dramatic'],'sound-engineering':['kev-promo-mix','نموذج موسيقى ومؤثرات — درامي','Sound Design & Mix Sample — Dramatic']};
 const VF='<svg class="vf" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M3 14V3h11M86 3h11v11M97 86v11H86M14 97H3V86" vector-effect="non-scaling-stroke"/><path d="M47 50h6M50 47v6" vector-effect="non-scaling-stroke"/></svg>';
 const PLAY='<svg viewBox="0 0 24 24" class="i-play" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg><svg viewBox="0 0 24 24" class="i-pause" aria-hidden="true"><path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z" fill="currentColor"/></svg>';
 /* render a component into a .km host. data: sid, img, w, h, sizes, alt-ar, alt-en */
