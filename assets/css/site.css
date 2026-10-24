@@ -762,4 +762,4 @@ html{overflow-x:clip}
 @media (prefers-reduced-motion:reduce){.rv,.sm-on .rv{opacity:1!important;transform:none!important}}
 
 
-@media (min-width:1024px){.hero .h-copy{width:100%;max-width:var(--w);padding-inline-end:max(40px,calc(28vw + 60px - max(0px,50vw - 600px)))}}
+@media (min-width:1024px){.hero .h-copy{width:100%;max-width:var(--w);padding-inline-end:calc(.49*min(54vw,740px) + 104px)}.hero .motif{inset-inline-end:calc(max(40px,50vw - 560px) - .222*min(54vw,740px))}[dir=ltr] .hero .motif{inset-inline-end:calc(max(40px,50vw - 560px) - .206*min(54vw,740px))}}
